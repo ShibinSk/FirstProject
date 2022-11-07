@@ -1,0 +1,37 @@
+<div class="log">
+
+  <form action="/User/login" method="post" enctype="multipart/form-data">
+
+    <div class="box d-flex justify-content-center">
+      <div class="form">
+        <h2>Login</h2>
+        <div class="inputBox">
+          <input name="username" type="text" required />
+          <span>Username</span>
+          <i></i>
+
+        </div>
+
+        {{#if loginErr}}
+          <p class="error" style="color:red ;">Invalid Username or Password</p>
+        {{/if}}
+
+        <div class="inputBox">
+          <input name="password" type="password" required />
+          <span>Password</span>
+          <i></i>
+        </div>
+
+        {{#if loginErr}}
+          <p class="error" style="color:red ;">Invalid Username or Password</p>
+        {{/if}}
+        
+        <div class="links">
+          <a href="/User/otp">Forgot Password login with OTP ?</a>
+          <a href="/User/signup">SignUp</a>
+        </div>
+        <button type="submit" class="button"><span>LOGIN</span></button>
+      </div>
+    </div>
+  </form>
+</div>

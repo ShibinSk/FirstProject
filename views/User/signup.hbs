@@ -1,0 +1,40 @@
+<div class="log">
+
+
+<form action="/User/signup"  method="post" enctype="multipart/form-data">
+    <div class="box d-flex justify-content-center">
+        <div class="form " >
+            <h2>SignUp</h2>
+            <div class="inputBox">
+                <input name="username" type="text" required>
+                <span>Username</span>
+                <i></i>
+                
+            </div>
+            
+               <div class="inputBox">
+                <input name="Email" type="Email" required>
+                <span>Email</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input name="Phone" type="" required>
+                <span>Phone</span>
+                <i></i>
+            </div>
+             <div class="inputBox">
+                <input name="password" type="password" required>
+                <span>Password</span>
+                <i></i>
+            </div>
+            
+            
+            <div class="links">
+                <a href="/User/login">You don't have account ?</a>
+                {{!-- <a href="/user/signup">Log In</a> --}}
+            </div>
+              <button type="submit" class="button"><span>LOGIN</span></button>
+        </div>
+    </div>
+    </form>
+    </div>

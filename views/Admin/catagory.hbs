@@ -1,0 +1,43 @@
+
+<div class="addprocat">
+<div class="containeer">
+    <h1>ADD CATEGORY</h1>
+    <form class="form-inline" method="post" action="/admin/category" enctype="multipart/form-data">
+  
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="inputPassword2" class="sr-only">Catagory</label>
+    <input type="text" name="Category" class="form-control" id="inputPassword2" placeholder="Catagory">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">add</button>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Category</th>
+    </tr>
+  </thead>
+  <tbody>
+     {{#each category}}
+    
+    <tr>
+      <th scope="row"></th>
+      <td>{{this.category}}</td>
+       <td>
+        <a class="bn624" href="/admin/edit-category?id={{this._id}}">Edit</a> 
+        
+        <td>
+        <a class="bn623" href="/admin/delete-category?id={{this._id}}"  onclick=" return confirm('Are You sure delete it {{this.category}}')">Delete</a>
+        </td> 
+       </td>
+    </tr>
+    {{/each}}
+  </tbody>
+  
+</table>
+
+</div>
+</div>
+
+

@@ -1,0 +1,14 @@
+<div class="addprocat">
+<div class="containeer">
+    <h1>EDIT CATEGORY</h1>
+   
+    <form class="form-inline" method="post" action="/admin/edit-category?id={{newcategory._id}}" enctype="multipart/form-data">
+   {{#each newcategory}}
+  <div class="form-group mx-sm-3 mb-2">
+    <label for="inputPassword2" class="sr-only"></label>
+    {{/each}}
+    <input type="text" name="Category" class="form-control" id="inputPassword2" placeholder="{{newcategory.category}}">
+  </div>
+  
+  <button type="submit" class="btn btn-primary mb-2">add</button>
+</form>
