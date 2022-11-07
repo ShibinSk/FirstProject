@@ -9,6 +9,7 @@ var db=require('./config/connection')
 var session=require('express-session')
 var Handlebars=require('handlebars')
 var helpers = require('handlebars-helpers')();
+const config = require('dotenv').config();
 
 
 
@@ -23,6 +24,7 @@ var loginRoutes=require('./routes/UserRoutes/loginRoutes')
 var usersRoutes=require('./routes/AdminRoutes/usersRoutes')
 var productdetailsRoutes=require('.//routes/UserRoutes/productdetailsRoutes')
 var catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
+
 
 
 
@@ -94,6 +96,7 @@ app.use('/', indexRouter);
 app.use('/User',menRouter)
 app.use('/User',loginRoutes)
 app.use('/User',productdetailsRoutes)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
