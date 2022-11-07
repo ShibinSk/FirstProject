@@ -15,10 +15,8 @@
             {{/if}}
             
             <form action="/User/otp" method="post" class="mt-5">
-              <input class="otp" type="text" name="mobile" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1 >
-              <input class="otp" type="text" name="mobile" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1 >
-              <input class="otp" type="text" name="mobile" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1 >
-              <input class="otp" type="text" name="mobile" oninput='digitValidate(this)'onkeyup='tabChange(4)' maxlength=1 >
+              <input type="number" id="form2Example17" class="form-control form-control-lg" name="code" placeholder="Enter Otp"  />
+              <label class="form-label" for="form2Example17">Mobile Number</label>
            
             <hr class="mt-4">
             <button class='btn btn-primary btn-block mt-4 mb-4 customBtn'>Verify</button>

@@ -14,8 +14,7 @@ exports.loginpost=async(req,res)=>{
         const Email = "admin@gmail.com";
         const Password = "123";
        
-        req.session.user=Email
-        req.session.user=Password
+        
         req.session.loggedIn=true
         console.log(req.session.user);
     if (req.body.Email == Email && req.body.Password ==Password) {

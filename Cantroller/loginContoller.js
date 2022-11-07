@@ -2,6 +2,7 @@ var db = require("../config/connection");
 var collection = require("../config/collection");
 var bcrypt = require("bcrypt");
 const session = require("express-session");
+const { get } = require("../app");
 
 
 var accountSid = process.env.TWILIO_ACCOUNT_SID; 
@@ -10,10 +11,16 @@ console.log(authToken);
 const client = require('twilio')(accountSid, authToken);
 
 exports.loginget = (req, res) => {
-   
+   if (req.session.loggedIn) {
+    res.redirect('/')
+    
+   } else {
+    res.render("User/login", { navside: true,"loginErr":req.session.loginErr });
+    req.session.loginErr=false
+    
+   }
   
-  res.render("User/login", { navside: true,"loginErr":req.session.loginErr });
-  req.session.loginErr=false
+ 
 };
 
 exports.loginpost = async (req, res) => {
@@ -77,13 +84,22 @@ exports.loginpost = async (req, res) => {
 // ==========================================================================================
 
 exports.signinget = (req, res) => {
-  res.render("User/signup", { navside: true });
+  if (req.session.loggedIn) {
+    res.redirect('/signup')
+    
+  } else {
+    res.render("User/signup", { navside: true });
+    
+  }
+  
 };
 
 exports.signuppost = async (req, res) => {
   console.log(req.body);
  
   try {
+
+
     const userDetails = {
       Name: req.body.username,
       Email: req.body.Email,
@@ -100,6 +116,7 @@ exports.signuppost = async (req, res) => {
 
     res.render("User/login", { navside: true });
   } catch (err) {
+    
     console.log(err);
   }
 };
@@ -121,6 +138,7 @@ exports.otploginget = (req, res) => {
   } else {
     
   }
+
   res.render("User/otp-login", { navside: true,message:msg,div,style:"style" });
   req.session.msg=null
   console.log(req.session.msg);
@@ -132,6 +150,8 @@ exports.otploginget = (req, res) => {
 
 exports.otppost= async(req,res)=>{
   console.log(req.body);
+  console.log(process.env.TWILIO_SERVICE_SID);
+
 
   try {
  
@@ -139,14 +159,18 @@ exports.otppost= async(req,res)=>{
       .get()
       .collection(collection.USER_COLLECTION)
       .findOne({ Phone: req.body.mobile });
+      console.log(userExist);
     if (userExist) {
       client.verify
-        .services(process.env.TWILIO_SERVICE_ID)
+        .services(process.env.TWILIO_SERVICE_SID)
         .verifications.create({
           to: `+91${req.body.mobile}`,
           channel: "sms",
         })
-        .then((data) => {});
+        .then((data) => {})
+        .catch((err)=>{
+          console.log(err);
+        })
 
       req.session.Phone = req.body.mobile;
       // res.redirect("/User/otp");
@@ -170,9 +194,12 @@ exports.getsubmit= async(req,res)=>{
 };
 
 exports.postsubmit= async(req,res)=>{
-  console.log(req.body);
-
   try {
+  console.log(req.body);
+  let mobile = req.session.Phone
+  console.log(mobile);
+  console.log(req.body.code);
+
     if (!req.body.code) {
       console.log(req.body.code);
       req.session.message = "Please enter valid OTP";
@@ -180,25 +207,34 @@ exports.postsubmit= async(req,res)=>{
     }
 
     const data = await client.verify
-      .services(process.env.TWILIO_SERVICE_ID)
+      .services(process.env.TWILIO_SERVICE_SID)
       .verificationChecks.create({
-        to: `+91${req.body.mobile}`,
+        to: `+91${req.session.Phone}`,
         code: req.body.code,
       });
+      
 
     if (!data) {
       req.session.message = "Invalid OTP";
-      res.redirect("/otp");
+      res.redirect("/user/otp-login");
     } else if (data.status === "approved") {
+       
+      const user = await db
+      .get()
+      .collection(collection.USER_COLLECTION)
+      .findOne({Phone:req.session.Phone})
+      console.log(user);
+      req.session.user=user;
       req.session.loggedIn = true;
       res.redirect("/");
     } else if (data.status === "pending") {
       req.session.message = "Invalid OTP";
-      res.redirect("/otp");
+      res.redirect("/user/otp-login");
     } else {
       req.session.message = "Invalid OTP";
-      res.redirect("/otp");
+      res.redirect("/user/otp-login");
     }
+    req.session.phone=null;
   } catch (err) {
     console.log(err);
   }
@@ -210,89 +246,4 @@ exports.postsubmit= async(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-// exports.otppost= async(req,res)=>{
-
-   
-//   try {
-
-//     const user=await db
-//     .get()
-//     .collection(collection.USER_COLLECTION)
-//     .findOne({Phone:req.body.mobile});
-
-//     if (user) {
-//       client.verify
-//         .services(process.env.TWILIO_SERVICE_ID)
-//         .verifications.create({
-//           to: `+91${req.body.mobile}`,
-//           channel: "sms",
-//         })
-//         .then((data) => {});
-
-//       req.session.mobile = req.body.mobile;
-//       res.redirect("/otp-submit");
-      
-//     } else {
-//       req.session.msg = "This number is not register";
-//       res.redirect("/login-otp");
-      
-//     }
-
-//   //   console.log(user);
-
-//   // res.render("User/otp",{ navside: true })
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-  
-// }
-// exports.getOtp=(req,res)=>{
-//   const msg = req.session.message;
-//   const mobile = req.session.mobile;
-
-//   res.render("User/otp", { phoneNumber: mobile, message: msg, style: "style" });
-//   req.session.message = null;
-
-// }
-
-// exports.submitOtp=async(req,res)=>{
-//   try {
-//     if (!req.body.code) {
-//       req.session.message = "Please enter valid OTP";
-//       res.redirect("/otp-submit");
-//     }
-
-//     const data = await client.verify
-//       .services(process.env.TWILIO_SERVICE_ID)
-//       .verificationChecks.create({
-//         to: `+91${req.body.mobile}`,
-//         code: req.body.code,
-//       });
-
-//     if (!data) {
-//       req.session.message = "Invalid OTP";
-//       res.redirect("/otp-submit");
-//     } else if (data.status === "approved") {
-//       req.session.loggedIn = true;
-//       res.redirect("/");
-//     } else if (data.status === "pending") {
-//       req.session.message = "Invalid OTP";
-//       res.redirect("/otp-submit");
-//     } else {
-//       req.session.message = "Invalid OTP";
-//       res.redirect("/otp-submit");
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-  
 
