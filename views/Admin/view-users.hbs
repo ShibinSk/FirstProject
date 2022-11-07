@@ -255,11 +255,12 @@
                                 <td>{{this.Email}}</td>
                                 <td>{{this.Phone}}</td>
                                 <td><span class="status text-success">&bull;</span> Active</td>
-                                {{#eq this.status "Active"}}
+                                
+                                {{#eq this.status "active"}}
 
                                 <td>
-                                    
-                                    <a href="/admin/block-user?id={{this._id}}">Block</a>
+                           
+                                    <a href="/admin/block-user/{{this._id}}">Block</a>
 
                                 </td>
                                 {{else}}
@@ -267,7 +268,7 @@
                                         href="/admin/unblock-user?id={{this._id}}">Unblock</a>
                                 </td>
                                 {{/eq}}
-
+                            </tr>
                             {{/each}}
 
                         </tbody>
