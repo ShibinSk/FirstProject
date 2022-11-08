@@ -10,6 +10,7 @@ var session=require('express-session')
 var Handlebars=require('handlebars')
 var helpers = require('handlebars-helpers')();
 const config = require('dotenv').config();
+const swal=require('sweetalert2')
 
 
 

@@ -5,20 +5,28 @@
     <div class="box d-flex justify-content-center">
       <div class="form">
         <h2>Login</h2>
+        {{#if userBlock}}
+          <p class="error" style="color:red ;"> User Blocked Temproraly</p>
+        {{/if}}
+
+         {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}}
+        
         
         <div class="inputBox">
-          <input name="username" type="text" required />
+          <input name="username" type="text"  />
           <span>Username</span>
           <i></i>
 
         </div>
 
         {{#if loginErr}}
-          <p class="error" style="color:red ;">Invalid Username or Password or User Blocked</p>
+          <p class="error" style="color:red ;">Invalid Username or Password </p>
         {{/if}}
         
         <div class="inputBox">
-          <input name="password" type="password" required />
+          <input name="password" type="password" />
           <span>Password</span>
           <i></i>
         </div>

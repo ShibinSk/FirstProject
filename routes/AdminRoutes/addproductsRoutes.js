@@ -4,7 +4,7 @@ const router=express.Router();
 
 const addproductsCantroller=require('../../Cantroller/addproductsCantroller')
 
-
+//===============================Product View,Add===============================================================================================================
 router.get('/view-products',addproductsCantroller.viewproductsget)
 
 
@@ -14,7 +14,7 @@ router.get('/add-products',addproductsCantroller.addproductsget)
 router.post('/add-products',addproductsCantroller.addproductspost)
 
 
-// ==========================================================================================================================
+// ==============================Product Delete ,Edit ============================================================================================
 
 
 

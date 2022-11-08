@@ -3,6 +3,7 @@ var collection = require("../config/collection");
 var bcrypt = require("bcrypt");
 const session = require("express-session");
 const { get } = require("../app");
+const swal=require('sweetalert2')
 
 
 var accountSid = process.env.TWILIO_ACCOUNT_SID; 
@@ -15,7 +16,12 @@ exports.loginget = (req, res) => {
     res.redirect('/')
     
    } else {
-    res.render("User/login", { navside: true,"loginErr":req.session.loginErr });
+    if(req.session.userBlock) {
+      req.session.userBlock = false
+      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: true});
+    } else {
+      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: false });
+    }
     req.session.loginErr=false
     
    }
@@ -33,19 +39,13 @@ exports.loginpost = async (req, res) => {
       .findOne({ Name: req.body.username });
       console.log(userDetails);
 
-
-
     if (userDetails) {
-    
-
-
+      console.log(userDetails);
       if(userDetails.status == 'block'){
-        req.session.loginErr=true
+        req.session.userBlock=true,
         res.redirect('/User/login')
        
       }
-
-
       const status = await bcrypt.compare(
         req.body.password,
         userDetails.Password
@@ -56,8 +56,10 @@ exports.loginpost = async (req, res) => {
         req.session.user=userDetails;
         req.session.loggedIn=true
         console.log(req.session.use);
-        res.redirect('/')
        
+       
+        res.redirect('/')
+        
     
         console.log("done");
       } else {
@@ -65,8 +67,6 @@ exports.loginpost = async (req, res) => {
 
         res.redirect('/User/login')
         console.log("fail");
-       
-        
       }
     } else {
         req.session.loginErr=true
@@ -74,8 +74,6 @@ exports.loginpost = async (req, res) => {
       console.log("faill");
       res.redirect('/User/login')
     }
-
-    
   } catch (err) {
     console.log(err);
   }
@@ -84,11 +82,14 @@ exports.loginpost = async (req, res) => {
 // ==========================================================================================
 
 exports.signinget = (req, res) => {
+
+  const msg =req.session.err
   if (req.session.loggedIn) {
     res.redirect('/signup')
     
   } else {
-    res.render("User/signup", { navside: true });
+    res.render("User/signup", { navside: true,message:msg });
+    req.session.err=null
     
   }
   
@@ -96,6 +97,16 @@ exports.signinget = (req, res) => {
 
 exports.signuppost = async (req, res) => {
   console.log(req.body);
+  if(
+    !req.body.username ||
+    !req.body.Email ||
+    !req.body.Phone ||
+    !req.body.password
+  ){
+    req.session.err='All fields required'
+    res.redirect('/User/signup')
+  }else
+
  
   try {
 

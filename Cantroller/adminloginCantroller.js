@@ -18,14 +18,16 @@ exports.loginpost=async(req,res)=>{
         req.session.loggedIn=true
         console.log(req.session.user);
     if (req.body.Email == Email && req.body.Password ==Password) {
+        req.session.admin
+
        
-        res.render('Admin/dashbord',{admin:true})
+       res.render('Admin/dashbord',{admin:true})
 
 
     }else{
-        const loginErr=('invalid useremail or passwo')
-        res.render('Admin/adminLogin',{navside:true})
-
+        const loginErr=('invalid Email or passwoword')
+        res.render('Admin/adminLogin',{navside:true, loginErr})
+        
     }
         
     } catch (err) {

@@ -12,8 +12,11 @@ exports.viewproductsget = async (req, res) => {
       .collection(collection.PRODUCT_COLLECTION)
       .find()
       .toArray();
+
+
+     
     
-    res.render("Admin/view-products", { admin: true, products });
+    res.render("Admin/view-products", { admin: true, products, });
   } catch (err) {
     console.log(err);
   }
@@ -83,9 +86,14 @@ exports.editget = async (req, res) => {
       .get()
       .collection(collection.PRODUCT_COLLECTION)
       .findOne({ _id: ObjectId(id) });
-    
+     
+      const category = await db
+      .get()
+      .collection(collection.CATEGORY_COLLECTION)
+      .find()
+      .toArray()
     // res.render('Admin/add-products.hbs',{admin:true})
-    res.render("Admin/edit-products", { admin: true, product });
+    res.render("Admin/edit-products", { admin: true, product,category });
     // res.render()
   } catch (err) {
     console.log(err);
