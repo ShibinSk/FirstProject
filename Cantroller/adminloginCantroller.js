@@ -19,7 +19,7 @@ exports.loginpost=async(req,res)=>{
         console.log(req.session.user);
     if (req.body.Email == Email && req.body.Password ==Password) {
         req.session.admin
-
+        
        
        res.render('Admin/dashbord',{admin:true})
 
@@ -27,7 +27,7 @@ exports.loginpost=async(req,res)=>{
     }else{
         const loginErr=('invalid Email or passwoword')
         res.render('Admin/adminLogin',{navside:true, loginErr})
-        
+
     }
         
     } catch (err) {
