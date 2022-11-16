@@ -1,0 +1,60 @@
+<div class="background pb-3" style="margin-left: 7%;
+    width: 90%;">
+    <div class="" style=" vh-100">
+        <a class="navbar-brand mt-4" style="font-family: none; font-weight: 900; color: black;">
+            <h1 class="text-center pt-5">Orders</h1>
+        </a>
+        <div class="d-flex justify-content-center">
+            <div class="row mb-3 mt-4 ms-3">
+                <table class="table table-hover table-bordered ms-2 mt-2" id="orders">
+                    <thead>
+                        <tr>
+                            <th>No:</th>
+                            <th>Image</th>
+                            <th>Product</th>
+                            <th>category</th>
+                            <th>Price</th>
+                            <th>Date</th>
+                            <th>Payment</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>address</th>
+                             {{!-- <th>address</th> --}}
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each orders}}
+                            {{#each products}}
+                      
+                        <tr>
+                            <td class="align-middle fw-b">{{inc @index}}</td>
+                            <td>
+                                <img style="width:70px; height: 70px;" src="" alt="">
+                            </td>
+                            <td class="align-middle fw-b">
+                               <p>{{this.productName}}</p> 
+                                </td>
+                            <td class="align-middle fw-b">{{this.category}}</td>
+                            <td class="align-middle fw-b">₹ {{this.price}}</td>
+                            <td class="align-middle fw-b">{{../this.date}}</td>
+                            <td class="align-middle fw-b">{{../this.payment}}</td>
+                            <td class="align-middle fw-b">{{this.quantity}}</td>
+                            <td class="align-middle fw-b">{{../this.status}}</td>
+                            <td class="align-middle fw-b">{{../this.deliveryDetails.address}}</td>
+                           
+                            
+                        </tr>
+
+                            {{/each}}
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $('#orders').DataTable();
+            });
+        </script>

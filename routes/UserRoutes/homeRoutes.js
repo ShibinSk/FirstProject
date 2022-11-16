@@ -10,4 +10,6 @@ const homeCantoller=require('../../Cantroller/homeCantoller')
 
 router.get('/',homeCantoller.homeget)
 
+
+
 module.exports=router;

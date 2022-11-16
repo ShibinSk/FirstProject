@@ -25,6 +25,7 @@ var loginRoutes=require('./routes/UserRoutes/loginRoutes')
 var usersRoutes=require('./routes/AdminRoutes/usersRoutes')
 var productdetailsRoutes=require('.//routes/UserRoutes/productdetailsRoutes')
 var catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
+var cartRoutes=require('./routes/UserRoutes/cartRoutes')
 
 
 
@@ -97,6 +98,8 @@ app.use('/', indexRouter);
 app.use('/User',menRouter)
 app.use('/User',loginRoutes)
 app.use('/User',productdetailsRoutes)
+app.use('/User',cartRoutes)
+
 
 
 // catch 404 and forward to error handler

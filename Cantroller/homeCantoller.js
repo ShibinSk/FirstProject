@@ -1,22 +1,40 @@
-const db=require('../config/connection')
-const collection=require('../config/collection')
-exports.homeget=async(req,res)=>{
-    let user=req.session.user
+const db = require("../config/connection");
+const collection = require("../config/collection");
+const ObjectId = require("mongodb").ObjectId;
+exports.homeget = async (req, res) => {
+  try {
+    let user = req.session.user;
     console.log(user);
+    
 
-    try{
+    let count = 0;
+    if (req.session.loggedIn) {
+      const userId = req.session.user._id;
 
-        const products=await db
-        .get().collection(collection.PRODUCT_COLLECTION)
-        .find()
-        .toArray()
-        console.log(products);
-        res.render('index',{admin:false,products,user})
-    }catch(err){
-        console.log(err);
+      let cart = await db
+        .get()
+        .collection(collection.CART_COLLECTION)
+        .findOne({ user: ObjectId(userId) });
 
+      if (cart) {
+        count = cart.products.length;
+      }
+    
+      
     }
 
+    const products = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .find()
+      .toArray();
 
-    
-}
+    res.render("index", { admin: false, products, user, count });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
+
+

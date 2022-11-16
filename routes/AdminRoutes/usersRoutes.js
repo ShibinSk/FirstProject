@@ -18,3 +18,9 @@ router.get('/block-user/:id',usersCantroller.blockuser)
 //  unblockuseruser ===========================
  
 router.get('/unblock-user',usersCantroller.unblockuser)
+
+
+
+// ==================orders====================
+ 
+router.get('/orders',usersCantroller.orders)

@@ -5,7 +5,10 @@
     <div class="container mt-4">
         <h2 class="text-center">ADD Procuct</h2>
      <div class="row">
+       
         <form action="/Admin/add-products" method="post" enctype="multipart/form-data">
+       
+
             <label for="">name</label>
             <input type="text" name="name" class="form-control">
             <br>
@@ -19,6 +22,8 @@
 
             <label for="">price</label>
             <input type="text" name="price" class="form-control">
+             <label for="">quantity</label>
+            <input type="number" name="quantity" class="form-control">
 
             <label for="">Description</label>
             <input type="text" name="Description" class="form-control">
@@ -34,3 +39,23 @@
     </div>
      </div>
   </section>
+{{!-- 
+  <script>
+    $('#addpro').submit((e)=>{
+	console.log('hey');
+	e.preventDefault();
+	$.ajax({
+		url:'/Admin/add-products',
+		type:'post',
+		data:$('#addpro').serialize(),
+		success:(response)=>{
+			console.log(response);
+			if(response.status){
+				swal("Hello world!");
+			}
+		}
+
+	})
+})
+  </script> --}}
+  

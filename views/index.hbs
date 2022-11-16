@@ -156,7 +156,7 @@
 					   					<h1 class="head-1">New</h1>
 					   					<h2 class="head-2">Arrival</h2>
 					   					<h2 class="head-3">up to <strong class="font-weight-bold">30%</strong> off</h2>
-					   					<p class="category"><span>New stylish shoes for men</span></p>
+					   					<p class="category"><span>New stylish shoes for men {{count}}</span></p>
 					   					<p><a href="#" class="btn btn-primary">Shop Collection</a></p>
 				   					</div>
 				   				</div>
@@ -172,7 +172,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12 text-center">
-						<h2 class="intro">It started with a simple idea: Create quality, well-designed products that I wanted myself.</h2>
+						<h2 class="intro">{{count}}It started with a simple idea: Create quality, well-designed products that I wanted myself.</h2>
 					</div>
 				</div>
 			</div>
@@ -187,9 +187,11 @@
           <a href="/User/product-details?id={{this._id}}"><img src="/product-images/{{this._id}}.jpg" alt="Product" class="img-responsive" /></a>  
           </div>
           <div class="wsk-cp-text">
-            <div class="category">
+          <a href="">
+			<div class="category">
               <span>BUY</span>
             </div>
+		  </a>  
             <div class="title-product">
               <h3>{{this.product}}</h3>
 			  
@@ -200,7 +202,7 @@
             </div>
             <div class="card-footer">
               <div class="wcf-left"><span class="price">${{this.price}}</span></div>
-              <div class="wcf-right"><a href="#" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i></a></div>
+              <div class="wcf-right"><a href="/User/add-to-cart?_id={{this._id}}" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i></a></div>
             </div>
           </div>
         </div>
@@ -244,9 +246,9 @@
 						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life</p>
 						<p>
 							<ul class="colorlib-social-icons">
-								<li><a href="#"><i class="icon-twitter"></i></a></li>
-								<li><a href="#"><i class="icon-facebook"></i></a></li>
-								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+								<li><a href="https://twitter.com/ShibinSkombanalhttps://twitter.com/ShibinSkombanal" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="https://twitter.com/ShibinSkombanalhttps://twitter.com/ShibinSkombanal" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="https://www.linkedin.com/in/shibin-sunny-51268b246/" target="_blank"><i class="icon-linkedin" ></i></a></li>
 								<li><a href="#"><i class="icon-dribbble"></i></a></li>
 							</ul>
 						</p>

@@ -27,15 +27,19 @@ exports.addproductsget = (req, res) => {
 };
 
 exports.addproductspost = async (req, res) => {
+  const price=parseInt(req.body.price)
+  const quantity=parseInt(req.body.quantity)
+  console.log(price,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
   try {
-   
+      
     // console.log(req.files.Image);
 
     const product = {
       product: req.body.name,
       description: req.body.Description,
       category: req.body.category,
-      price: req.body.price,
+      price:Number (req.body.price),
+      quantity: Number (req.body.quantity)
     };
 
     const newProduct = await db
@@ -49,6 +53,7 @@ exports.addproductspost = async (req, res) => {
     image.mv("./public/product-images/" + id + ".jpg", (err) => {
       if (!err) {
         res.redirect("/Admin/add-products");
+      
       } else {
         console.log(err);
       }
@@ -123,6 +128,7 @@ exports.editpost= async(req,res)=>{
     })
    
     res.redirect('/Admin/view-products')
+   
     if(req.files.Image){
       const id=req.query.id;
      let image=req.files.Image
