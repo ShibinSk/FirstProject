@@ -48,7 +48,7 @@ exports.addproductspost = async (req, res) => {
       .insertOne(product);
     console.log(newProduct.insertedId.toString());
     const id = newProduct.insertedId.toString();
-
+    let imagearr=[]
     let image = req.files.Image;
     image.mv("./public/product-images/" + id + ".jpg", (err) => {
       if (!err) {

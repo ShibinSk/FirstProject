@@ -8,6 +8,8 @@ exports.cartget = async (req, res) => {
     if (req.session.loggedIn) {
       const productId = req.query._id;
       const userId = req.session.user._id;
+      
+      
 
       console.log(userId);
 
