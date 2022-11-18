@@ -9,6 +9,7 @@
 		</div>
 
 
+
 		<div class="colorlib-product">
 			<div class="container">
 				<div class="row row-pb-lg">
@@ -127,6 +128,8 @@
 		            
 					</div>
 
+					
+
 					<div class="col-lg-4">
 						<div class="row">
 							<div class="col-md-12">
@@ -195,7 +198,34 @@
 				</div>
 			</div>
 		</div>
+		
 </form>
+{{#each address}}
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+	<div class="mb-5 pb-5">
+  <label for="exampleFormControlTextarea1" style="font-weight: 400;" class="form-label">ADDRESS  </label>
+
+  <textarea class="form-control" id="exampleFormControlTextarea1" style="height: 156px;
+  
+    width: 50%; font-size:larger; font-weight: 700;"  rows="3">{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}</textarea>
+	<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+  <label class="form-check-label" for="flexCheckDefault">
+    This Address
+  </label>
+</div>
+</div>
+		</div>
+	
+
+</div>
+
+	</div>
+	
+{{/each}}
+
 		<footer id="colorlib-footer" role="contentinfo">
 			<div class="container">
 				<div class="row row-pb-md">

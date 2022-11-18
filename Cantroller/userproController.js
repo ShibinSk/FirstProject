@@ -12,9 +12,15 @@ exports.userproget= async(req,res)=>{
         
         console.log(users);
 
+        const address = await db
+        .get()
+        .collection(collection.ADDRESS_COLLETION)
+        .find()
+        .toArray()
 
 
-        res.render('user/userPro',{navside:true,users,navside:true,user:req.session.user})
+
+        res.render('user/userPro',{navside:true,users,navside:true,user:req.session.user,address:address})
     } catch (err) {
         console.log(err);
         

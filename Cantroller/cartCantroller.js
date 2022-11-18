@@ -1,6 +1,7 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
 const { CallPage } = require("twilio/lib/rest/insights/v1/call");
+const { get } = require("../app");
 const ObjectId = require("mongodb").ObjectId;
 
 exports.cartget = async (req, res) => {
@@ -285,11 +286,19 @@ exports.placeorder = async (req, res) => {
     console.log(total[0].total);
 
     // =======================================================================================================
+  
+
+    const address = await db
+    .get()
+    .collection(collection.ADDRESS_COLLETION)
+    .find()
+    .toArray()
 
     res.render("User/place-order", {
       navside: true,
       total: total[0].total,
       user: req.session.user,
+      address:address,
     });
   } catch (err) {
     console.log(err);
@@ -426,6 +435,13 @@ exports.placeorderpost = async (req, res) => {
       date:new Date()
     };
 
+
+    const address = await db
+    .get()
+    .collection(collection.ADDRESS_COLLETION)
+    .insertOne(orderObj.deliveryDetails)
+
+    console.log(orderObj);
     const result = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
