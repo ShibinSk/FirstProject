@@ -184,7 +184,7 @@
 		<div class="col-md-3">
 			        <div class="wsk-cp-product">
           <div class="wsk-cp-img">
-          <a href="/User/product-details?id={{this._id}}"><img src="/product-images/{{this._id}}.jpg" alt="Product" class="img-responsive" /></a>  
+          <a href="/User/product-details?id={{this._id}}"><img src="/product-images/{{image.[0]}}" alt="Product" class="img-responsive" /></a>  
           </div>
           <div class="wsk-cp-text">
           <a href="">
@@ -201,7 +201,7 @@
               <p>{{this.description}}</p>
             </div>
             <div class="card-footer">
-              <div class="wcf-left"><span class="price">${{this.price}}</span></div>
+              <div class="wcf-left"><span class="price">₹ {{this.price}}</span></div>
               <div class="wcf-right"><a href="/User/add-to-cart?_id={{this._id}}" class="buy-btn"><i class="fa-solid fa-cart-shopping"></i></a></div>
             </div>
           </div>

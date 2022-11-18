@@ -1,29 +1,40 @@
   <section>
     <div class="addpro">
 
-   
-    <div class="container mt-4">
+       <div class="container mt-4">
         <h2 class="text-center">EDIT Procuct</h2>
      <div class="row">
-        <form action="/admin/edit-products?id={{product._id}}" method="post" enctype="multipart/form-data">
+      {{#with product}}
+        <form action="/Admin/edit-products?id={{this._id}}" method="post" enctype="multipart/form-data">
             <label for="">name</label>
-            <input type="text" name="name" class="form-control " value=" {{product.product}}">
+            <input type="text" name="name" class="form-control " value=" {{this.product}} ">
             
             <label for="">Category</label>
-            <input type="text" name="category" class="form-control" value="{{product.category}}">
+            <input type="text" name="category" class="form-control" value="{{this.category}}">
 
             <label for="">price</label>
-            <input type="text" name="price" class="form-control" value="{{product.price}}">
+            <input type="text" name="price" class="form-control" value="{{this.price}}">
 
             <label for="">Description</label>
-            <input type="text" name="Description" class="form-control" value="{{product.description}}">
-
+            <input type="text" name="Description" class="form-control" value="{{this.description}}">
+               
             <label for="">Image</label>
-            <img src="/product-images/{{product._id}}.jpg" alt="" style="width:100px ;" height="auto" id="imgView">
-            <input type="file" name="Image" class="form-control" onchange="viewImage(event)">
+            <img src="/product-images/{{image.[0]}}" alt="" style="width:100px ;" height="auto" id="imgView">
+            <input type="file" name="image1" class="form-control" onchange="viewImage(event)">
+            <label for="">Image</label>
+            <img src="/product-images/{{image.[1]}}" alt="" style="width:100px ;" height="auto" id="imgView">
+            <input type="file" name="image2" class="form-control" onchange="viewImage(event)">
+            <label for="">Image</label>
+           
+            <img src="/product-images/{{image.[2]}}" alt="" style="width:100px ;" height="auto" id="imgView">
+            <input type="file" name="image3" class="form-control" onchange="viewImage(event)">
+            <label for="">Image</label>
+            <img src="/product-images/{{image.[3]}}" alt="" style="width:100px ;" height="auto" id="imgView">
+            <input type="file" name="image4" class="form-control" onchange="viewImage(event)">
             <button type="submit" class="btn btn-success mt-4" >SUBMIT</button>
 
         </form>
+        {{/with}}
 
      </div>   
 

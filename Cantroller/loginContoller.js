@@ -97,6 +97,7 @@ exports.signinget = (req, res) => {
 
 exports.signuppost = async (req, res) => {
   console.log(req.body);
+  console.log("hhhhhhhhhhhhhhh");
   if(
     !req.body.username ||
     !req.body.Email ||

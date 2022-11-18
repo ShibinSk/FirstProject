@@ -1,7 +1,13 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
-// const { router } = require("../app");
-// const { Collection } = require("mongodb");
+const fs = require("fs");
+const cloudinary = require("../utils/cloudinary");
+const path = require("path");
+const multer=require('multer')
+
+
+const { router } = require("../app");
+const { Collection } = require("mongodb");
 
 var ObjectId = require("mongodb").ObjectId;
 
@@ -27,20 +33,65 @@ exports.addproductsget = (req, res) => {
 };
 
 exports.addproductspost = async (req, res) => {
-  const price=parseInt(req.body.price)
-  const quantity=parseInt(req.body.quantity)
-  console.log(price,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+  console.log(req.body,req.files)
+  
   try {
+    const price=parseInt(req.body.price)
+    const quantity=parseInt(req.body.quantity)
+   
+// =========================================================================================================================
+    // const cloudinaryImageUploadMethod = (file) => {
+    //   return new Promise((resolve) => {
+    //     console.log(file)
+    //     cloudinary.uploader.upload(file, (err) => {
+    //       if (err){ return res.send("upload image error"+err);}
+    //       resolve(res.secure_url);
+    //     });
+    //   });
+    // };
+  
+    // const files = req.files;
+    // let arr1 = Object.values(files);
+    // let arr2 = arr1.flat();
+
+    // const urls = await Promise.all(
+    //   arr2.map(async (file) => {
+    //     const { path } = file;
+    //     const result = await cloudinaryImageUploadMethod(path);
+    //     return result;
+    //   })
+    // );
+    // console.log(urls);
+
+
       
-    // console.log(req.files.Image);
+    console.log(req.files);
+    
+   const {
+    image1,
+    image2,
+    image3,
+    image4}= req.files
+  
+   let urls =[]
+   urls.push(image1[0].filename)
+   urls.push(image2[0].filename)
+   urls.push(image3[0].filename)
+   urls.push(image4[0].filename)
+   console.log(urls)
 
     const product = {
       product: req.body.name,
       description: req.body.Description,
       category: req.body.category,
       price:Number (req.body.price),
-      quantity: Number (req.body.quantity)
+      quantity: Number (req.body.quantity),
+      image:urls
     };
+    console.log(price);
+    console.log('hy');
+
+    res.redirect("/Admin/view-products");
 
     const newProduct = await db
       .get()
@@ -48,16 +99,17 @@ exports.addproductspost = async (req, res) => {
       .insertOne(product);
     console.log(newProduct.insertedId.toString());
     const id = newProduct.insertedId.toString();
-    let imagearr=[]
-    let image = req.files.Image;
-    image.mv("./public/product-images/" + id + ".jpg", (err) => {
-      if (!err) {
-        res.redirect("/Admin/add-products");
-      
-      } else {
-        console.log(err);
-      }
-    });
+    // let imagearr=[]
+    // let image = req.files.Image;
+    // image.mv("./public/product-images/" + id + ".jpg", (err) => {
+    //   if (!err) {
+    //     res.redirect("/Admin/add-products");
+       
+    //   } else {
+    //     console.log(err);  
+    //   }
+    // });
+    res.redirect("/Admin/view-products");
   } catch (err) {
     console.log(err);
   }
@@ -91,6 +143,7 @@ exports.editget = async (req, res) => {
       .get()
       .collection(collection.PRODUCT_COLLECTION)
       .findOne({ _id: ObjectId(id) });
+      console.log(product);
      
       const category = await db
       .get()
@@ -111,11 +164,20 @@ exports.editpost= async(req,res)=>{
   
   
     const prodetails=req.body
-    console.log(req.body);
-    console.log(req.query.id);
    const id=req.query.id;
+   console.log(req.body);
+   console.log(id);
+   console.log('kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
 
-
+ console.log(req.files);
+   const {image1,image2,image3,image4}= req.files
+  
+   let urls =[]
+   urls.push(image1[0].filename)
+   urls.push(image2[0].filename)
+   urls.push(image3[0].filename)
+   urls.push(image4[0].filename)
+   console.log(urls)
   
     const  newproduct= await db
     .get()
@@ -124,17 +186,20 @@ exports.editpost= async(req,res)=>{
       $set:{product: req.body.name,
         description: req.body.Description,
         category: req.body.category,
-        price: req.body.price,}
+        price: req.body.price,
+        image:urls
+      }
+       
     })
    
     res.redirect('/Admin/view-products')
    
-    if(req.files.Image){
-      const id=req.query.id;
-     let image=req.files.Image
-      image.mv("./public/product-images/" + id + ".jpg",)
+    // if(req.files.Image){
+    //   const id=req.query.id;
+    //  let image=req.files.Image
+    //   image.mv("./public/product-images/" + id + ".jpg",)
       
-    }
+    // }
       
     
   } catch (err) {

@@ -4,13 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs=require('express-handlebars')
-var fileUpload=require('express-fileupload')
+// var fileUpload=require('express-fileupload')
 var db=require('./config/connection')
 var session=require('express-session')
 var Handlebars=require('handlebars')
 var helpers = require('handlebars-helpers')();
 const config = require('dotenv').config();
 const swal=require('sweetalert2')
+const multer=require('multer')
 
 
 
@@ -26,6 +27,8 @@ var usersRoutes=require('./routes/AdminRoutes/usersRoutes')
 var productdetailsRoutes=require('.//routes/UserRoutes/productdetailsRoutes')
 var catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
 var cartRoutes=require('./routes/UserRoutes/cartRoutes')
+var userprofileRoutes=require('./routes/UserRoutes/userprofileRoutes')
+
 
 
 
@@ -76,7 +79,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -107,6 +110,7 @@ app.use('/User',menRouter)
 app.use('/User',loginRoutes)
 app.use('/User',productdetailsRoutes)
 app.use('/User',cartRoutes)
+app.use('/User',userprofileRoutes)
 
 
 

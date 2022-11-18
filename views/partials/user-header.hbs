@@ -42,7 +42,7 @@
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                  {{#if user}}
                        <a class="dropdown-item" href="/user/logout">LogOut</a>
-                       <a class="dropdown-item" href="/user/logout">Profile</a>
+                       <a class="dropdown-item" href="/user/userPro">Profile</a>
 
               {{else}}
                        <a class="dropdown-item" href="/user/login">LogIn</a>
@@ -68,7 +68,9 @@
             <li><a href="women.html">Women</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
+            {{#if user}}
             <li><a href="/user/orders">Orders</a></li>
+            {{/if}}
             
             <li class="cart"><a href="/user/cart"><i
                   class="icon-shopping-cart"

@@ -7,49 +7,81 @@
 				</div>
 			</div>
 		</div>
-
+{{#with products}}
        
 		<div class="colorlib-product">
 			<div class="container">
 				<div class="row row-pb-lg product-detail-wrap">
 					<div class="col-sm-8">
-						<div class="owl-carousel">
+
+
+						<div class="col-lg-6">
+        <!-- PRODUCT SLIDER-->
+        <div class="row m-sm-0">
+          <div class="col-sm-12 order-1 order-sm-2">
+            <div class="swiper product-slider">
+              <div class="swiper-wrapper">
+                <div class="col-md-12 px-0 lens mt-5" id="img-container" style="width:100%">
+                  <img class="block__pic img-fluid" style="max-width:200%;" src="/product-images/{{image.[0]}}" alt="" id="ProductImg" />
+                </div>
+                <div class="col-md-12 p-sm-1 p-0">
+                  <div class="swiper product-slider-thumbs">
+                    <div class="swiper-wrapper d-flex">
+                      <div class="small-img-col  m-1">
+                        <img src="/product-images/{{image.[0]}}" alt="" width="100%" class="small-img" />
+                      </div>
+                      <div class="small-img-co1  m-1">
+                        <img src="/product-images/{{image.[1]}}" alt="" width="100%" class=" small-img" />
+                      </div>
+
+                      <div class="small-img-col  m-1">
+                        <img src="/product-images/{{image.[2]}}" alt="" width="100%" class=" small-img" />
+                      </div>
+                      <div class="small-img-col  m-1">
+                        <img src="/product-images/{{image.[3]}}" alt="" width="100%" class=" small-img" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+						{{!-- <div class="owl-carousel">
 							<div class="item">
 								<div class="product-entry border">
 									<a href="#" class="prod-img">
-										<div class="col-md-4 w-100 px-0 lens-5" id="img-container" style="" > 
 									
-										<img src="/product-images/{{products._id}}.jpg" class="" alt="Free html5 bootstrap 4 template">
-										</div>
+										<img src="/product-images/{{image.[0]}}" class="block__pic img-fluid"  alt="Free html5 bootstrap 4 template">
+								
 									</a>
 								</div>
 							</div>
 							<div class="item">
 								<div class="product-entry border">
 									<a href="#" class="prod-img">
-										<div class="col-md-4 w-100 px-0 lens-5" id="img-container" style="" > 
-										<img src="/product-images/{{products._id}}.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-										</div>
+										<img src="/product-images/{{image.[1]}}"   class="block__pic img-fluid" alt="Free html5 bootstrap 4 template">
+									</a>
+								</div>
+							</div>
+							<div class="item">
+								<div class="product-entry border">
+									<a href="#" class="prod-img"> 
+										<img src="/product-images/{{image.[2]}}"   class="block__pic img-fluid" alt="Free html5 bootstrap 4 template">
 									</a>
 								</div>
 							</div>
 							<div class="item">
 								<div class="product-entry border">
 									<a href="#" class="prod-img">
-										<img src="/product-images/{{products._id}}.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+										<img src="/product-images/{{image.[3]}}"   class="block__pic img-fluid" alt="Free html5 bootstrap 4 template">
 									</a>
 								</div>
 							</div>
-							<div class="item">
-								<div class="product-entry border">
-									<a href="#" class="prod-img">
-										<img src="/product-images/{{products._id}}.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-									</a>
-								</div>
-							</div>
-						</div>
+						</div> --}}
 					</div>
-						
+				{{/with}}		
 					<div class="col-sm-4">
 						<div class="product-desc">
 							<h3>{{products.product}}</h3>
@@ -374,14 +406,32 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
 	</div>
-	<script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
-	<script>
-		var options = {
-    width: 730,
-    zoomWidth: 50,
-    offset: { vertical: 50, horizontal: 0 },
-    scale: 0.5,
-};
+	
 
-new ImageZoom(document.getElementById("img-container"), options);	</script>
+<script>
 
+
+  var ProductImg = document.getElementById('ProductImg');
+  var SmallImg = document.getElementsByClassName('small-img');
+  SmallImg[0].onclick = function () {
+    ProductImg.src = SmallImg[0].src;
+  };
+  SmallImg[1].onclick = function () {
+    ProductImg.src = SmallImg[1].src;
+  };
+  SmallImg[2].onclick = function () {
+    ProductImg.src = SmallImg[2].src;
+  };
+  SmallImg[3].onclick = function () {
+    ProductImg.src = SmallImg[3].src;
+  };
+
+
+
+$(document).ready(function () {
+  $(".block__pic").imagezoomsl({
+      zoomrange: [1,-1]
+    });
+});
+
+</script>

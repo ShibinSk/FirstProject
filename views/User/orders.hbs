@@ -25,12 +25,13 @@
                     </thead>
                     <tbody>
                         {{#each orders}}
-                            {{#each products}}
+                            {{#with products}}
+
                       
                         <tr>
                             <td class="align-middle fw-b">{{inc @index}}</td>
                             <td>
-                                <img style="width:70px; height: 70px;" src="/product-images/{{this._id}}.jpg"" alt="">
+                                <img style="width:70px; height: 70px;" src="/product-images/{{image.[0]}}alt="">
                             </td>
                             <td class="align-middle fw-b">
                                <p>{{this.productName}}</p> 
@@ -46,8 +47,9 @@
                             
                         </tr>
 
-                            {{/each}}
+                            {{/with}}
                         {{/each}}
+                        
                     </tbody>
                 </table>
             </div>

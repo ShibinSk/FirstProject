@@ -26,7 +26,7 @@
                     <tbody>
                         {{#each orders}}
                             {{#each products}}
-                      
+                             
                         <tr>
                             <td class="align-middle fw-b">{{inc @index}}</td>
                             <td>
@@ -37,7 +37,7 @@
                                 </td>
                             <td class="align-middle fw-b">{{this.category}}</td>
                             <td class="align-middle fw-b">{{this.price}}</td>
-                            <td class="align-middle fw-b">{{this.date}}</td>
+                            <td class="align-middle fw-b">{{../this.date}}</td>
                             <td class="align-middle fw-b">{{../this.payment}}</td>
                             <td class="align-middle fw-b">{{this.quantity}}</td>
                             <td class="align-middle fw-b">{{../this.status}}</td>
@@ -45,7 +45,7 @@
                            
                             
                         </tr>
-
+                     
                             {{/each}}
                         {{/each}}
                     </tbody>

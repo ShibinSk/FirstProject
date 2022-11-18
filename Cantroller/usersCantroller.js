@@ -92,6 +92,18 @@ exports.orders= async(req,res)=>{
     .find()
     .toArray()
 
-    res.render('admin/orders',{navside:true,orders:orders})
+
+    const products  = await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .find()
+    .toArray()
+    console.log('fffffffffffffffffffffff');
+    console.log(products);
+   
+
+    
+
+    res.render('admin/orders',{navside:true,orders:orders, products: products})
   
   }

@@ -320,3 +320,15 @@ let tabChange = function (val) {
   }
 };
 
+
+
+// =================================
+
+// zoom in product details
+
+$(document).ready(function () {
+  $(".block__pic").imagezoomsl({
+      zoomrange: [6, 6]
+    });
+});
+

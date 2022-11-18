@@ -51,10 +51,10 @@
 
 						{{#each cartItems}}
 						  
-						  
+						  {{#with products}}
 						<div class="product-cart d-flex">
 							<div class="one-forth">
-								<div class="product-img" style="background-image: url(/product-images/{{this.products._id}}.jpg);">
+								<div class="product-img" style="background-image: url(/product-images/{{image.[0]}});">
 								</div>
 								<div class="display-tc">
 									<h3>{{this.products.product}}</h3>
@@ -63,7 +63,7 @@
 							
 							<div class="one-eight text-center">
 								<div class="display-tc">
-									<span class="price">₹ {{this.products.price}}</span>
+									<span class="price">₹ {{this.price}}</span>
 								</div>
 							</div>
 							<div class="one-eight text-center">
@@ -80,11 +80,11 @@
 							</div>
 							<div class="one-eight text-center">
 								<div class="display-tc">
-									<a href="/user/remove-cart?id={{this.products._id}}" class="closed"></a>
+									<a href="/user/remove-cart?id={{this._id}}" class="closed"></a>
 								</div>
 							</div>
 						</div>
-						
+						{{/with}}
 						{{/each}}
 						
 				<div class="row row-pb-lg">

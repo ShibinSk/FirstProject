@@ -1,58 +1,74 @@
 <div class="log">
 
-
-<form action="/User/signup"  method="post" enctype="multipart/form-data">
+  <form action="/User/signup" method="post" >
     <div class="box d-flex justify-content-center">
-        <div class="form " >
-            <h2>SignUp</h2>
-             {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-            <div class="inputBox">
-                <input name="username" type="text" >
-                <span>Username</span>
-                <i></i>
-                  {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-                
-            </div>
-            
-               <div class="inputBox">
-                <input name="Email" type="Email" >
-                <span>Email</span>
-                <i></i>
-                  {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-            </div>
-            <div class="inputBox">
-                <input name="Phone" type="">
-                <span>Phone</span>
-                <i></i>
-                  {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-            </div>
-             <div class="inputBox">
-                <input name="password" type="password" >
-                <span>Password</span>
-                <i></i>
-                  {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-            </div>
-            
-            
-            <div class="links">
-                <a href="/User/login">You alrady have accound? ?</a>
-                {{!-- <a href="/user/signup">Log In</a> --}}
-            </div>
-              <button type="submit" class="button"><span>LOGIN</span></button>
-                {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
+      <div class="form">
+        <h2>SignUp</h2>
+        {{#if message}}
+          <span
+            class="text-danger"
+            style="padding-left: 29%;"
+          >{{message}}</span>
+        {{/if}}
+        <div class="inputBox">
+          <input name="username" type="text" />
+          <span>Username</span>
+          <i></i>
+          {{#if message}}
+            <span
+              class="text-danger"
+              style="padding-left: 29%;"
+            >{{message}}</span>
+          {{/if}}
+
         </div>
+
+        <div class="inputBox">
+          <input name="Email" type="Email" />
+          <span>Email</span>
+          <i></i>
+          {{#if message}}
+            <span
+              class="text-danger"
+              style="padding-left: 29%;"
+            >{{message}}</span>
+          {{/if}}
+        </div>
+        <div class="inputBox">
+          <input name="Phone" type="" />
+          <span>Phone</span>
+          <i></i>
+          {{#if message}}
+            <span
+              class="text-danger"
+              style="padding-left: 29%;"
+            >{{message}}</span>
+          {{/if}}
+        </div>
+        <div class="inputBox">
+          <input name="password" type="password" />
+          <span>Password</span>
+          <i></i>
+          {{#if message}}
+            <span
+              class="text-danger"
+              style="padding-left: 29%;"
+            >{{message}}</span>
+          {{/if}}
+        </div>
+
+        <div class="links">
+          <a href="/User/login">You alrady have accound? ?</a>
+          {{! <a href="/user/signup">Log In</a> }}
+        </div>
+        <button type="submit" class="button"><span>LOGIN</span></button>
+        {{#if message}}
+          <span
+            class="text-danger"
+            style="padding-left: 29%;"
+          >{{message}}</span>
+        {{/if}}
+      </div>
     </div>
-    </form>
-    </div>
+  </form>
+</div>

@@ -49,7 +49,7 @@ exports.cartget = async (req, res) => {
         ])
         .toArray();
       console.log(cartItems);
-      console.log("---------------");
+     
       // =======================================================================
 
       const total = await db
@@ -93,13 +93,13 @@ exports.cartget = async (req, res) => {
           },
         ])
         .toArray();
-
-      res.render("User/cart", {
+      
+        res.render("User/cart", {
         user: req.session.user,
         navside: true,
         cartItems: cartItems,
-        total: total[0].total,
         user: req.session.user,
+        total: total[0].total,
       });
     } else {
       res.redirect("/User/login");
@@ -179,8 +179,9 @@ exports.removeget = async (req, res) => {
   try {
     const productId = req.query.id;
     console.log("hi");
-    console.log(productId);
+    
     console.log(req.session.user);
+    console.log(productId,'hhhhhhhhhhhhhhhhhhhhhhhhhh');
 
     const result = await db
       .get()
@@ -190,9 +191,8 @@ exports.removeget = async (req, res) => {
         {
           $pull: { products: { item: ObjectId(productId) } },
         }
-      );
-    console.log(result);
-    res.redirect("/user/cart");
+        );
+        res.redirect("/user/cart")
   } catch (err) {
     console.log(err);
   }
@@ -459,7 +459,7 @@ exports.ordersget= async(req,res)=>{
   .find()
   .toArray()
 
-  console.log(orders,"rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+ 
   
 
   res.render('user/orders',{navside:true,orders:orders})
