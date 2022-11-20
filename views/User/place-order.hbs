@@ -1,337 +1,420 @@
 <div class="breadcrumbs">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<p class="bread"><span><a href="/">Home</a></span> / <span>Checkout</span></p>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<p class="bread"><span><a href="/">Home</a></span> / <span>Checkout</span></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="colorlib-product">
+	<div class="container">
+		<div class="row row-pb-lg">
+			<div class="col-sm-10 offset-md-1">
+				<div class="process-wrap">
+					<div class="process text-center active">
+						<p><span>01</span></p>
+						<h3>Shopping Cart</h3>
+					</div>
+					<div class="process text-center active">
+						<p><span>02</span></p>
+						<h3>Checkout</h3>
+					</div>
+					<div class="process text-center">
+						<p><span>03</span></p>
+						<h3>Order Complete</h3>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
-
-		<div class="colorlib-product">
-			<div class="container">
-				<div class="row row-pb-lg">
-					<div class="col-sm-10 offset-md-1">
-						<div class="process-wrap">
-							<div class="process text-center active">
-								<p><span>01</span></p>
-								<h3>Shopping Cart</h3>
+		<div class="row">
+			<div class="col-lg-8">
+				<form action="" method="post" class="colorlib-form" id="checkout-form">
+					<h2>Billing Details</h2>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="country">Select Country</label>
+								<div class="form-field">
+									<i class="icon icon-arrow-down3"></i>
+									<select name="people" id="people" class="form-control">
+										<option value="#">Select country</option>
+										<option value="#">Alaska</option>
+										<option value="#">China</option>
+										<option value="#">Japan</option>
+										<option value="#">india</option>
+										<option value="#">Philippines</option>
+									</select>
+								</div>
 							</div>
-							<div class="process text-center active">
-								<p><span>02</span></p>
-								<h3>Checkout</h3>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="fname">First Name</label>
+								<input type="text" id="fname" name="name" class="form-control"
+									placeholder="Your firstname">
 							</div>
-							<div class="process text-center">
-								<p><span>03</span></p>
-								<h3>Order Complete</h3>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="lname">Last Name</label>
+								<input type="text" id="lname" name="lname" class="form-control"
+									placeholder="Your lastname">
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							{{!-- <div class="form-group">
+								<label for="companyname">Company Name</label>
+								<input type="text" id="companyname" name="company" class="form-control"
+									placeholder="Company Name">
+							</div> --}}
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="fname">Address</label>
+								<input type="text" id="address" name="address" class="form-control"
+									placeholder="Enter Your Address">
+							</div>
+							<div class="form-group">
+								<input type="text" id="address2" class="form-control" placeholder="Second Address">
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="companyname">Town/City</label>
+								<input type="text" id="towncity" name="town" class="form-control"
+									placeholder="Town or City">
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="stateprovince">State/Province</label>
+								<input type="text" id="fname" name="state" class="form-control"
+									placeholder="State Province">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="lname">Zip/Postal Code</label>
+								<input type="text" id="zippostalcode" name="zip" class="form-control"
+									placeholder="Zip / Postal">
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="email">E-mail Address</label>
+								<input type="text" id="email" name="email" class="form-control"
+									placeholder="State Province">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="Phone">Phone Number</label>
+								<input type="text" id="zippostalcode" name="phone" class="form-control" placeholder="">
+								<input type="text" name="userId" value="{{user._id}}" hidden>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								{{!-- <div class="radio">
+									<label><input type="radio" name="optradio"> Create an Account? </label>
+									<label><input type="radio" name="optradio"> Ship to different address</label>
+								</div> --}}
+							</div>
+						</div>
+					</div>
+
+			</div>
+
+
+
+			<div class="col-lg-4">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="cart-detail">
+							<h2>Cart Total</h2>
+							<ul>
+								<li>
+									<span>Subtotal</span> <span>₹00</span>
+									{{!-- <ul>
+										<li><span>1 x Product Name</span> <span>$99.00</span></li>
+										<li><span>1 x Product Name</span> <span>$78.00</span></li>
+									</ul> --}}
+								</li>
+								<li><span>Shipping</span> <span>₹0.00</span></li>
+								<li><span>Order Total</span> <span>₹ {{total}}</span></li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="w-100"></div>
+
+					<div class="col-md-12">
+						<div class="cart-detail">
+							<h2>Payment Method</h2>
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="radio">
+										<label><input type="radio" name="payment" value="COD"> COD</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="radio">
+										<label><input type="radio" name="payment" value="Razorpay"> Razorpay</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="radio">
+										<label><input type="radio" name="payment"> Paypal</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="checkbox">
+										{{!-- <label><input type="checkbox" value=""> I have read and accept the terms
+											and conditions</label> --}}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-lg-8">
-						<form action="" method="post" class="colorlib-form" id="checkout-form">
-							<h2>Billing Details</h2>
-		              	<div class="row">
-			               <div class="col-md-12">
-			                  <div class="form-group">
-			                  	<label for="country">Select Country</label>
-			                     <div class="form-field">
-			                     	<i class="icon icon-arrow-down3"></i>
-			                        <select name="people" id="people" class="form-control">
-				                      	<option value="#">Select country</option>
-				                        <option value="#">Alaska</option>
-				                        <option value="#">China</option>
-				                        <option value="#">Japan</option>
-				                        <option value="#">india</option>
-				                        <option value="#">Philippines</option>
-			                        </select>
-			                     </div>
-			                  </div>
-			               </div>
-
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="fname">First Name</label>
-										<input type="text" id="fname" name="name" class="form-control" placeholder="Your firstname">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="lname">Last Name</label>
-										<input type="text" id="lname" name="lname" class="form-control" placeholder="Your lastname">
-									</div>  
-								</div>
-
-								<div class="col-md-12">
-									{{!-- <div class="form-group">
-										<label for="companyname">Company Name</label>
-			                    	<input type="text" id="companyname" name="company" class="form-control" placeholder="Company Name">
-			                  </div> --}}
-			               </div>
-
-			               <div class="col-md-12">
-									<div class="form-group">
-										<label for="fname">Address</label>
-			                    	<input type="text" id="address" name="address" class="form-control" placeholder="Enter Your Address">
-			                  </div>
-			                  <div class="form-group">
-			                    	<input type="text" id="address2" class="form-control" placeholder="Second Address">
-			                  </div>
-			               </div>
-			            
-			               <div class="col-md-12">
-									<div class="form-group">
-										<label for="companyname">Town/City</label>
-			                    	<input type="text" id="towncity" name="town" class="form-control" placeholder="Town or City">
-			                  </div>
-			               </div>
-			            
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="stateprovince">State/Province</label>
-										<input type="text" id="fname" name="state" class="form-control" placeholder="State Province">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="lname">Zip/Postal Code</label>
-										<input type="text" id="zippostalcode" name="zip" class="form-control" placeholder="Zip / Postal">
-									</div>
-								</div>
-							
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="email">E-mail Address</label>
-										<input type="text" id="email" name="email" class="form-control" placeholder="State Province">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label for="Phone">Phone Number</label>
-										<input type="text" id="zippostalcode" name="phone" class="form-control" placeholder="">
-										<input type="text" name="userId" value="{{user._id}}" hidden>
-									</div>
-								</div>
-
-								<div class="col-md-12">
-									<div class="form-group">
-										{{!-- <div class="radio">
-										  <label><input type="radio" name="optradio"> Create an Account? </label>
-										  <label><input type="radio" name="optradio"> Ship to different address</label>
-										</div> --}}
-									</div>
-								</div>
-		               </div>
-		            
+					<div class="col-md-12 text-center">
+						{{!-- <p><a type="submit" class="btn btn-primary">Place an order</a></p> --}}
+						<button type="submit" class="btn btn-primary">Place an order</button>
 					</div>
 
-					
 
-					<div class="col-lg-4">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="cart-detail">
-									<h2>Cart Total</h2>
-									<ul>
-										<li>
-											<span>Subtotal</span> <span>₹00</span>
-											{{!-- <ul>
-												<li><span>1 x Product Name</span> <span>$99.00</span></li>
-												<li><span>1 x Product Name</span> <span>$78.00</span></li>
-											</ul> --}}
-										</li>
-										<li><span>Shipping</span> <span>₹0.00</span></li>
-										<li><span>Order Total</span> <span>₹ {{total}}</span></li>
-									</ul>
-								</div>
-						   </div>
-
-						   <div class="w-100"></div>
-
-						   <div class="col-md-12">
-								<div class="cart-detail">
-									<h2>Payment Method</h2>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="payment" value="COD"> COD</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="payment" value="Gpay"> G pay</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-											   <label><input type="radio" name="payment"> Paypal</label>
-											</div>
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="checkbox">
-											   {{!-- <label><input type="checkbox" value=""> I have read and accept the terms and conditions</label> --}}
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 text-center">
-								{{!-- <p><a type="submit" class="btn btn-primary">Place an order</a></p> --}}
-								<button type="submit" class="btn btn-primary">Place an order</button>
-							</div>
-
-
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
-		
+	</div>
+</div>
+
 </form>
 {{#each address}}
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-	<div class="mb-5 pb-5">
-  <label for="exampleFormControlTextarea1" style="font-weight: 400;" class="form-label">ADDRESS  </label>
+			<div class="mb-5 pb-5">
+				<label for="exampleFormControlTextarea1" style="font-weight: 400;" class="form-label">ADDRESS </label>
 
-  <textarea class="form-control" id="exampleFormControlTextarea1" style="height: 156px;
+				<textarea class="form-control" id="exampleFormControlTextarea1" style="height: 156px;
   
-    width: 50%; font-size:larger; font-weight: 700;"  rows="3">{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}</textarea>
-	<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-  <label class="form-check-label" for="flexCheckDefault">
-    This Address
-  </label>
-</div>
-</div>
+    width: 50%; font-size:larger; font-weight: 700;"
+					rows="3">{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}</textarea>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+					<label class="form-check-label" for="flexCheckDefault">
+						This Address
+					</label>
+				</div>
+			</div>
 		</div>
-	
 
-</div>
 
 	</div>
-	
+
+</div>
+
 {{/each}}
 
-		<footer id="colorlib-footer" role="contentinfo">
-			<div class="container">
-				<div class="row row-pb-md">
-					<div class="col footer-col colorlib-widget">
-						<h4>About Footwear</h4>
-						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life</p>
-						<p>
-							<ul class="colorlib-social-icons">
-								<li><a href="#"><i class="icon-twitter"></i></a></li>
-								<li><a href="#"><i class="icon-facebook"></i></a></li>
-								<li><a href="#"><i class="icon-linkedin"></i></a></li>
-								<li><a href="#"><i class="icon-dribbble"></i></a></li>
-							</ul>
-						</p>
-					</div>
-					<div class="col footer-col colorlib-widget">
-						<h4>Customer Care</h4>
-						<p>
-							<ul class="colorlib-footer-links">
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">Returns/Exchange</a></li>
-								<li><a href="#">Gift Voucher</a></li>
-								<li><a href="#">Wishlist</a></li>
-								<li><a href="#">Special</a></li>
-								<li><a href="#">Customer Services</a></li>
-								<li><a href="#">Site maps</a></li>
-							</ul>
-						</p>
-					</div>
-					<div class="col footer-col colorlib-widget">
-						<h4>Information</h4>
-						<p>
-							<ul class="colorlib-footer-links">
-								<li><a href="#">About us</a></li>
-								<li><a href="#">Delivery Information</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-								<li><a href="#">Support</a></li>
-								<li><a href="#">Order Tracking</a></li>
-							</ul>
-						</p>
-					</div>
-
-					<div class="col footer-col">
-						<h4>News</h4>
-						<ul class="colorlib-footer-links">
-							<li><a href="blog.html">Blog</a></li>
-							<li><a href="#">Press</a></li>
-							<li><a href="#">Exhibitions</a></li>
-						</ul>
-					</div>
-
-					<div class="col footer-col">
-						<h4>Contact Information</h4>
-						<ul class="colorlib-footer-links">
-							<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-							<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-							<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-							<li><a href="#">yoursite.com</a></li>
-						</ul>
-					</div>
-				</div>
+<footer id="colorlib-footer" role="contentinfo">
+	<div class="container">
+		<div class="row row-pb-md">
+			<div class="col footer-col colorlib-widget">
+				<h4>About Footwear</h4>
+				<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic
+					life</p>
+				<p>
+				<ul class="colorlib-social-icons">
+					<li><a href="#"><i class="icon-twitter"></i></a></li>
+					<li><a href="#"><i class="icon-facebook"></i></a></li>
+					<li><a href="#"><i class="icon-linkedin"></i></a></li>
+					<li><a href="#"><i class="icon-dribbble"></i></a></li>
+				</ul>
+				</p>
 			</div>
-			<div class="copy">
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<p>
-							<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span> 
-							<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
-						</p>
-					</div>
-				</div>
+			<div class="col footer-col colorlib-widget">
+				<h4>Customer Care</h4>
+				<p>
+				<ul class="colorlib-footer-links">
+					<li><a href="#">Contact</a></li>
+					<li><a href="#">Returns/Exchange</a></li>
+					<li><a href="#">Gift Voucher</a></li>
+					<li><a href="#">Wishlist</a></li>
+					<li><a href="#">Special</a></li>
+					<li><a href="#">Customer Services</a></li>
+					<li><a href="#">Site maps</a></li>
+				</ul>
+				</p>
 			</div>
-		</footer>
+			<div class="col footer-col colorlib-widget">
+				<h4>Information</h4>
+				<p>
+				<ul class="colorlib-footer-links">
+					<li><a href="#">About us</a></li>
+					<li><a href="#">Delivery Information</a></li>
+					<li><a href="#">Privacy Policy</a></li>
+					<li><a href="#">Support</a></li>
+					<li><a href="#">Order Tracking</a></li>
+				</ul>
+				</p>
+			</div>
+
+			<div class="col footer-col">
+				<h4>News</h4>
+				<ul class="colorlib-footer-links">
+					<li><a href="blog.html">Blog</a></li>
+					<li><a href="#">Press</a></li>
+					<li><a href="#">Exhibitions</a></li>
+				</ul>
+			</div>
+
+			<div class="col footer-col">
+				<h4>Contact Information</h4>
+				<ul class="colorlib-footer-links">
+					<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+					<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+					<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+					<li><a href="#">yoursite.com</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+	<div class="copy">
+		<div class="row">
+			<div class="col-sm-12 text-center">
+				<p>
+					<span>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script> All rights reserved | This template
+						is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+							target="_blank">Colorlib</a>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</span>
+					<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a
+							href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+				</p>
+			</div>
+		</div>
 	</div>
+</footer>
+</div>
 
+<div class="gototop js-top">
+	<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+</div>
 
-	<script>
-      $('#checkout-form').submit((e)=>{
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+	$('#checkout-form').submit((e) => {
 		e.preventDefault();
 		$.ajax({
-			url:'/user/place-order',
-			method:'post',
-			data:$('#checkout-form').serialize(),
-			success:(response)=>{
+			url: '/user/place-order',
+			method: 'post',
+			data: $('#checkout-form').serialize(),
+			success: (response) => {
 				console.log(response)
-				
-				if(response.status){
-					location.href='/user/order-complate'
-					
-					
-				}
 
+				if (response.codSuccess) {
+					location.href = '/user/order-complate'
+
+
+				} else {
+					console.log("hi")
+					razorpayPayment(response.order);
+				}
+			}
+		})
+	})
+
+	function razorpayPayment(order) {
+		console.log(order)
+		let amount = order.amount
+
+		var options = {
+			"key": "rzp_test_RF0nTXmxHqKSxA", // Enter the Key ID generated from the Dashboard
+			"amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			"currency": "INR",
+			"name": "Shooker",
+			"description": "Test Transaction",
+			"image": "https://example.com/your_logo",
+			"order_id": order.id ,//This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      		"handler": function (response) {
+				alert(response)
+
+
+				varifyPayment(response, order);
+			},
+			"prefill": {
+				"name": "Gaurav Kumar",
+				"email": "gaurav.kumar@example.com",
+				"contact": "9999999999"
+			},
+			"notes": {
+				"address": "Razorpay Corporate Office"
+			},
+			"theme": {
+				"color": "#3399cc"
+			}
+		};
+		var rzp1 = new Razorpay(options);
+		rzp1.open();
+		rzp1.on('payment.failed', function (response) {
+			console.log(response.error.code);
+			console.log(response.error.description);
+			console.log(response.error.source);
+			console.log(response.error.step);
+			console.log(response.error.reason);
+			console.log(response.error.metadata.order_id);
+			console.log(response.error.metadata.payment_id);
+		}); 
+
+	};
+
+	function varifyPayment(payment, order) {
+
+		console.log(payment, order, 'kkkkkkkkkkkkkkkkkkk')
+		$.ajax({
+			url:'/user/verify-payment',
+			data: {
+				payment,
+				order
+			},
+			method: 'post',
+			success: (response) => {
+				console.log(response)
+				if (response.status) {
+					location.href = '/user/order-complate'
+				} else {
+					alert("payment failed");
+				}
 			}
 
-		})
-	  })
+		});
+	};
 
 
 
-		
 
 
-	</script>
+</script>

@@ -1,14 +1,14 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var hbs=require('express-handlebars')
-// var fileUpload=require('express-fileupload')
-var db=require('./config/connection')
-var session=require('express-session')
-var Handlebars=require('handlebars')
-var helpers = require('handlebars-helpers')();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const hbs=require('express-handlebars')
+// const fileUpload=require('express-fileupload')
+const db=require('./config/connection')
+const session=require('express-session')
+const Handlebars=require('handlebars')
+const helpers = require('handlebars-helpers')();
 const config = require('dotenv').config();
 const swal=require('sweetalert2')
 const multer=require('multer')
@@ -16,24 +16,25 @@ const multer=require('multer')
 
 
 
-var indexRouter = require('./routes/UserRoutes/homeRoutes');
-var menRouter =require('./routes/UserRoutes/menRoutes')
-var adminRoutes=require('./routes/AdminRoutes/adminRoutes')
-var adminloginRoutes=require('./routes/AdminRoutes/adminloginRoutes')
-var addproductsRoutes=require('./routes/AdminRoutes/addproductsRoutes')
-var daashbordRoutes=require('./routes/AdminRoutes/dashbordRoutes')
-var loginRoutes=require('./routes/UserRoutes/loginRoutes')
-var usersRoutes=require('./routes/AdminRoutes/usersRoutes')
-var productdetailsRoutes=require('.//routes/UserRoutes/productdetailsRoutes')
-var catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
-var cartRoutes=require('./routes/UserRoutes/cartRoutes')
-var userprofileRoutes=require('./routes/UserRoutes/userprofileRoutes')
+const indexRouter = require('./routes/UserRoutes/homeRoutes');
+const menRouter =require('./routes/UserRoutes/menRoutes')
+const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
+const adminloginRoutes=require('./routes/AdminRoutes/adminloginRoutes')
+const addproductsRoutes=require('./routes/AdminRoutes/addproductsRoutes')
+const daashbordRoutes=require('./routes/AdminRoutes/dashbordRoutes')
+const loginRoutes=require('./routes/UserRoutes/loginRoutes')
+const usersRoutes=require('./routes/AdminRoutes/usersRoutes')
+const productdetailsRoutes=require('.//routes/UserRoutes/productdetailsRoutes')
+const catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
+const cartRoutes=require('./routes/UserRoutes/cartRoutes')
+const userprofileRoutes=require('./routes/UserRoutes/userprofileRoutes')
+const paymanetRoutes=require('./routes/UserRoutes/paymantRoutes')
 
 
 
 
 
-// var usersRouter = require('./routes/users');
+// const usersRouter = require('./routes/users');
 
 var app = express();
 
@@ -111,6 +112,7 @@ app.use('/User',loginRoutes)
 app.use('/User',productdetailsRoutes)
 app.use('/User',cartRoutes)
 app.use('/User',userprofileRoutes)
+app.use('/User',paymanetRoutes)
 
 
 

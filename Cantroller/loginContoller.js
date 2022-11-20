@@ -117,8 +117,9 @@ exports.signuppost = async (req, res) => {
       Email: req.body.Email,
       Phone: req.body.Phone,
       Password: req.body.password,
-      status:'active'
-    };
+      status:'active',
+      address:''
+    }
     userDetails.Password = await bcrypt.hash(req.body.password, 10);
     console.log(userDetails);
     const users = await db

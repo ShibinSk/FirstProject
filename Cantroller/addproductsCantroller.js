@@ -120,7 +120,7 @@ exports.addproductspost = async (req, res) => {
 exports.deleteget = async (req, res) => {
   try {
     const id = req.params.id;
-
+ 
     // console.log(id);
 
     const product = await db

@@ -8,7 +8,8 @@ exports.userproget= async(req,res)=>{
         const users = await db
         .get()
         .collection(collection.USER_COLLECTION)
-        .findOne()
+        .find()
+        .toArray()
         
         console.log(users);
 

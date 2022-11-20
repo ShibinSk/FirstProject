@@ -1,16 +1,20 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
 const { CallPage } = require("twilio/lib/rest/insights/v1/call");
-const { get } = require("../app");
+const { get, response } = require("../app");
 const ObjectId = require("mongodb").ObjectId;
+const Razorpay = require("razorpay");
+
+var instance = new Razorpay({
+  key_id: "rzp_test_RF0nTXmxHqKSxA",
+  key_secret: "r7g6b2ScrJedg3CddhpF3v9x",
+});
 
 exports.cartget = async (req, res) => {
   try {
     if (req.session.loggedIn) {
       const productId = req.query._id;
       const userId = req.session.user._id;
-      
-      
 
       console.log(userId);
 
@@ -50,7 +54,7 @@ exports.cartget = async (req, res) => {
         ])
         .toArray();
       console.log(cartItems);
-     
+
       // =======================================================================
 
       const total = await db
@@ -94,8 +98,8 @@ exports.cartget = async (req, res) => {
           },
         ])
         .toArray();
-      
-        res.render("User/cart", {
+
+      res.render("User/cart", {
         user: req.session.user,
         navside: true,
         cartItems: cartItems,
@@ -180,9 +184,9 @@ exports.removeget = async (req, res) => {
   try {
     const productId = req.query.id;
     console.log("hi");
-    
+
     console.log(req.session.user);
-    console.log(productId,'hhhhhhhhhhhhhhhhhhhhhhhhhh');
+    console.log(productId, "hhhhhhhhhhhhhhhhhhhhhhhhhh");
 
     const result = await db
       .get()
@@ -192,8 +196,8 @@ exports.removeget = async (req, res) => {
         {
           $pull: { products: { item: ObjectId(productId) } },
         }
-        );
-        res.redirect("/user/cart")
+      );
+    res.redirect("/user/cart");
   } catch (err) {
     console.log(err);
   }
@@ -286,19 +290,18 @@ exports.placeorder = async (req, res) => {
     console.log(total[0].total);
 
     // =======================================================================================================
-  
 
     const address = await db
-    .get()
-    .collection(collection.ADDRESS_COLLETION)
-    .find()
-    .toArray()
+      .get()
+      .collection(collection.ADDRESS_COLLETION)
+      .find()
+      .toArray();
 
     res.render("User/place-order", {
       navside: true,
       total: total[0].total,
       user: req.session.user,
-      address:address,
+      address: address,
     });
   } catch (err) {
     console.log(err);
@@ -312,59 +315,66 @@ exports.placeorderpost = async (req, res) => {
 
     const agg = [
       {
-        '$match': {
-          'user': ObjectId(userId)
-        }
-      }, {
-        '$unwind': {
-          'path': '$products', 
-          'preserveNullAndEmptyArrays': true
-        }
-      }, {
-        '$project': {
-          'productId': '$products.item', 
-          'quantity': '$products.quantity'
-        }
-      }, {
-        '$lookup': {
-          'from': collection.PRODUCT_COLLECTION, 
-          'localField': 'productId', 
-          'foreignField': '_id', 
-          'as': 'result'
-        }
-      }, {
-        '$unwind': {
-          'path': '$result', 
-          'preserveNullAndEmptyArrays': true
-        }
-      }, {
-        '$project': {
-          '_id': 1, 
-          'productId': 1, 
-          'quantity': 1, 
-          'result': 1
-        }
-      }, {
-        '$group': {
-          '_id': '$_id', 
-          'products': {
-            '$push': {
-              '_id': '$result._id', 
-              'productName': '$result.product', 
-              'quantity': '$quantity', 
-              'description': '$result.description', 
-              'category': '$result.category', 
-              'price': '$result.price'
-            }
-          }
-        }
-      }
+        $match: {
+          user: ObjectId(userId),
+        },
+      },
+      {
+        $unwind: {
+          path: "$products",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          productId: "$products.item",
+          quantity: "$products.quantity",
+        },
+      },
+      {
+        $lookup: {
+          from: collection.PRODUCT_COLLECTION,
+          localField: "productId",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $unwind: {
+          path: "$result",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          productId: 1,
+          quantity: 1,
+          result: 1,
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          products: {
+            $push: {
+              _id: "$result._id",
+              productName: "$result.product",
+              quantity: "$quantity",
+              description: "$result.description",
+              category: "$result.category",
+              price: "$result.price",
+            },
+          },
+        },
+      },
     ];
 
     const products = await db
       .get()
       .collection(collection.CART_COLLECTION)
-      .aggregate(agg).toArray();
+      .aggregate(agg)
+      .toArray();
 
     const total = await db
       .get()
@@ -432,55 +442,131 @@ exports.placeorderpost = async (req, res) => {
       products: products[0].products,
       status: status,
       total: total,
-      date:new Date()
+      date: new Date(),
     };
 
+    const aadres = await db
+      .get()
+      .collection(collection.USER_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(userId) },
+        {
+          $push: {
+            address: orderObj.deliveryDetails,
+          },
+        }
+      );
 
     const address = await db
-    .get()
-    .collection(collection.ADDRESS_COLLETION)
-    .insertOne(orderObj.deliveryDetails)
+      .get()
+      .collection(collection.ADDRESS_COLLETION)
+      .insertOne(orderObj.deliveryDetails);
 
     console.log(orderObj);
     const result = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
       .insertOne(orderObj);
+      console.log(result);
 
-    const removecart = await db
-    .get()
-    .collection(collection.CART_COLLECTION)
-    .deleteOne({user:ObjectId(order.userId)})
+    // const removecart = await db
+    // .get()
+    // .collection(collection.CART_COLLECTION)
+    // .deleteOne({user:ObjectId(order.userId)})
+    req.session.OrderId = order.userId.toString();
+    if (req.body.payment == "COD") {
+      res.json({ codSuccess: true });
+    } else if (req.body.payment === "Razorpay") {
+      try {
+        const OrderId = req.session.OrderId;
 
-    console.log("here");
-    res.json({ status: true });
+        const order = await instance.orders.create({
+          amount: total[0].total*100,
+          currency: "INR",
+          receipt: result.insertedId.toString(),
+        });
+        res.json({
+          
+          order,
+        });
+        console.log(order);
+      } catch (err) {
+        console.log(err);
+      }
+    }
   } catch (err) {
     console.log(err);
   }
 };
 
 
-exports.ordercomplate=(req,res)=>{
-  res.render('user/order-complate',{navside:true})
+//=================================================verifipayment=========================
 
-
-}
-
-
-exports.ordersget= async(req,res)=>{
-
-  const orders = await db
-  .get()
-  .collection(collection.ORDER_COLLECTION)
-  .find()
-  .toArray()
-
- 
+exports.paymentVerification= async(req,res)=>{
+    
+  try {
+      const details= req.body
+      console.log(req.body);
+      console.log('heyyyyyyyyyyyy');
+      const objId = req.body["order[receipt]"];
+      console.log(objId);
+  
+  
+      const crypto=require('crypto');
+      let hmac=crypto.createHmac('sha256','r7g6b2ScrJedg3CddhpF3v9x')
+  
+      hmac.update(
+          details["payment[razorpay_order_id]"] +
+            "|" +
+            details["payment[razorpay_payment_id]"]
+        );
+        hmac=hmac.digest('hex')
+  
+        if(hmac==details['payment[razorpay_signature]']){
+          const result = await db
+          .get()
+          .collection(collection.ORDER_COLLECTION)
+          .updateOne(
+            { _id: ObjectId(objId) },
+            {
+              $set: {status: "Confirmed" },
+            }
+          );
+          console.log(result);
+          res.json({ status: true });
+  
+        }else{
+          console.log("payment failed");
+          res.json({ status: false });
+        }
+  
+  
+      
+  } catch (err) {
+      console.log(err);
+      
+  }
+  
+  
+  }
   
 
-  res.render('user/orders',{navside:true,orders:orders})
-}
 
 
 
 
+
+
+exports.ordercomplate = (req, res) => {
+  res.render("user/order-complate", { navside: true });
+};
+
+exports.ordersget = async (req, res) => {
+  const orders = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .find()
+    .toArray();
+
+  res.render("user/orders", { navside: true, orders: orders });
+};

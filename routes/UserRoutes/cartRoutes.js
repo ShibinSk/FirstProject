@@ -27,6 +27,10 @@ router.get('/order-complate',cartCantroller.ordercomplate)
 
 router.get('/orders',cartCantroller.ordersget)
 
+// =========================verifypayment======================================
+
+router.post('/verify-payment',cartCantroller.paymentVerification)
+
 
 
 
