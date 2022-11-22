@@ -4,10 +4,21 @@ const { CallPage } = require("twilio/lib/rest/insights/v1/call");
 const { get, response } = require("../app");
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
+const paypal = require("paypal-rest-sdk");
 
+// ===========Razorpya configure==================
 var instance = new Razorpay({
   key_id: "rzp_test_RF0nTXmxHqKSxA",
   key_secret: "r7g6b2ScrJedg3CddhpF3v9x",
+});
+
+//==============Paypal cofigure=======================
+paypal.configure({
+  mode: "sandbox",
+  client_id:
+    "ASfcPO2CxnW9RVXGxca4WmjXRD8vYgC9sijMjWaicr1wo8WesgwCJplOmLj8KsBILvWvNnRmgXQWKCgD",
+  client_secret:
+    "EDTonib9jW4tOZdb_-AJigS5gywDhAi_uJUtY5TPxErOwMu_-cNz_cjguHOGme97KDHbx2N8EHREnNKb",
 });
 
 exports.cartget = async (req, res) => {
@@ -133,7 +144,7 @@ exports.addcartget = async (req, res) => {
 
       if (userCart) {
         const proExit = userCart.products.findIndex(
-          (product) => product.item == productId
+          product=> product.item == productId
         );
 
         if (proExit != -1) {
@@ -293,7 +304,7 @@ exports.placeorder = async (req, res) => {
 
     const address = await db
       .get()
-      .collection(collection.ADDRESS_COLLETION)
+      .collection(collection.USER_COLLECTION)
       .find()
       .toArray();
 
@@ -301,7 +312,7 @@ exports.placeorder = async (req, res) => {
       navside: true,
       total: total[0].total,
       user: req.session.user,
-      address: address,
+      address: address[0].address,
     });
   } catch (err) {
     console.log(err);
@@ -457,105 +468,207 @@ exports.placeorderpost = async (req, res) => {
         }
       );
 
-    const address = await db
-      .get()
-      .collection(collection.ADDRESS_COLLETION)
-      .insertOne(orderObj.deliveryDetails);
+    // const address = await db
+    //   .get()
+    //   .collection(collection.ADDRESS_COLLETION)
+    //   .insertOne(orderObj.deliveryDetails);
 
     console.log(orderObj);
     const result = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
       .insertOne(orderObj);
-      console.log(result);
+    console.log(result);
+    req.session.insertedId=result.insertedId
 
     // const removecart = await db
     // .get()
     // .collection(collection.CART_COLLECTION)
     // .deleteOne({user:ObjectId(order.userId)})
-    req.session.OrderId = order.userId.toString();
+
     if (req.body.payment == "COD") {
       res.json({ codSuccess: true });
+
+      //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {
       try {
-        const OrderId = req.session.OrderId;
+       
 
         const order = await instance.orders.create({
-          amount: total[0].total*100,
+          amount: total[0].total * 100,
           currency: "INR",
           receipt: result.insertedId.toString(),
         });
         res.json({
-          
           order,
         });
         console.log(order);
       } catch (err) {
         console.log(err);
       }
+
+      // ===================Paypal==========================================================
+    } else if (req.body.payment === "Paypal") {
+      const cartItems = await db
+        .get()
+        .collection(collection.CART_COLLECTION)
+        .aggregate(agg)
+        .toArray();
+
+      let amount = Math.floor(total[0].total / 81.77);
+      console.log(agg);
+
+      const create_payment_json = {
+        intent: "sale",
+        payer: {
+          payment_method: "paypal",
+        },
+        redirect_urls: {
+          return_url: "http://localhost:3000/user/success",
+          cancel_url: "http://localhost:3000/cancel",
+        },
+        transactions: [
+          {
+            item_list: {
+              items: [
+                {
+                  name: "Red Sox Hat",
+                  sku: "001",
+                  price: amount,
+                  currency: "USD",
+                  quantity: 1,
+                },
+              ],
+            },
+            amount: {
+              currency: "USD",
+              total: amount,
+            },
+            description: "hehe",
+          },
+        ],
+      };
+
+      paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+          console.log(error);
+          console.log(error.details);
+          console.log(payment, "////////////////////////");
+        } else {
+          for (let i = 0; i < payment.links.length; i++) {
+            if (payment.links[i].rel === "approval_url") {
+              console.log(payment);
+              res.json({ paypal: true, link: payment.links[i].href });
+            }
+          }
+        }
+      });
     }
+    console.log("hlolllllllllllllllllll");
   } catch (err) {
     console.log(err);
   }
 };
 
+// ========================paypal=================================================
+
+exports.paypalsuccess = async (req, res) => {
+  console.log("dyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+  try {
+    console.log(req.query.paymentId);
+    const userId = req.session.user._id;
+    console.log(userId);
+    const id = req.session.insertedId;
+    console.log(id);
+
+    const orderDetails = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .findOne({ _id: ObjectId(id) });
+      console.log(orderDetails);
+
+    let amount =Math.floor(orderDetails.total[0].total/81.78);
+
+    var execute_payment_json = {
+      payer_id: req.query.PayerID,
+      transactions: [
+        {
+          amount: {
+            currency: "USD",
+            total: amount,
+          },
+        },
+      ],
+    };
+
+    const paymentId = req.query.paymentId;
+    paypal.payment.execute(
+      paymentId,
+      execute_payment_json,
+      async function (error, payment) {
+        if (error) {
+          console.log(error);
+        } else {
+          const result = await db
+            .get()
+            .collection(collection.ORDER_COLLECTION)
+            .updateOne(
+              { _id: ObjectId(id)},
+              {
+                $set: { status: "Confirmed" },
+              }
+            );
+            console.log(result);
+        }
+      }
+    );
+    res.redirect("/user/order-complate");
+    req.session.OrderId = null;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 //=================================================verifipayment=========================
 
-exports.paymentVerification= async(req,res)=>{
-    
+exports.paymentVerification = async (req, res) => {
   try {
-      const details= req.body
-      console.log(req.body);
-      console.log('heyyyyyyyyyyyy');
-      const objId = req.body["order[receipt]"];
-      console.log(objId);
-  
-  
-      const crypto=require('crypto');
-      let hmac=crypto.createHmac('sha256','r7g6b2ScrJedg3CddhpF3v9x')
-  
-      hmac.update(
-          details["payment[razorpay_order_id]"] +
-            "|" +
-            details["payment[razorpay_payment_id]"]
+    const details = req.body;
+    console.log(req.body);
+    console.log("heyyyyyyyyyyyy");
+    const objId = req.body["order[receipt]"];
+    console.log(objId);
+
+    const crypto = require("crypto");
+    let hmac = crypto.createHmac("sha256", "r7g6b2ScrJedg3CddhpF3v9x");
+
+    hmac.update(
+      details["payment[razorpay_order_id]"] +
+        "|" +
+        details["payment[razorpay_payment_id]"]
+    );
+    hmac = hmac.digest("hex");
+
+    if (hmac == details["payment[razorpay_signature]"]) {
+      const result = await db
+        .get()
+        .collection(collection.ORDER_COLLECTION)
+        .updateOne(
+          { _id: ObjectId(objId) },
+          {
+            $set: { status: "Confirmed" },
+          }
         );
-        hmac=hmac.digest('hex')
-  
-        if(hmac==details['payment[razorpay_signature]']){
-          const result = await db
-          .get()
-          .collection(collection.ORDER_COLLECTION)
-          .updateOne(
-            { _id: ObjectId(objId) },
-            {
-              $set: {status: "Confirmed" },
-            }
-          );
-          console.log(result);
-          res.json({ status: true });
-  
-        }else{
-          console.log("payment failed");
-          res.json({ status: false });
-        }
-  
-  
-      
+      console.log(result);
+      res.json({ status: true });
+    } else {
+      console.log("payment failed");
+      res.json({ status: false });
+    }
   } catch (err) {
-      console.log(err);
-      
+    console.log(err);
   }
-  
-  
-  }
-  
-
-
-
-
-
-
+};
 
 exports.ordercomplate = (req, res) => {
   res.render("user/order-complate", { navside: true });

@@ -30,20 +30,29 @@ exports.catagoryget= async(req,res)=>{
 exports.catagorypost= async(req,res)=>{
   
     try {
-        const category={
-            category:req.body.Category
-        }
-        const newcatagory= await db
+           
+        const catagory= await db
         .get()
         .collection(collection.CATEGORY_COLLECTION)
-        .insertOne(category)
-        
-         
-        res.redirect('/admin/category')
-       
-        
+        .findOne({category:req.body.Category})
+        if(catagory==null){
+            const category={
+           
+                category:req.body.Category
+            }
+            const newcatagory= await db
+            .get()
+            .collection(collection.CATEGORY_COLLECTION)
+            .insertOne(category)
+            res.redirect('/admin/category')
+           
 
+        }else{
 
+            res.redirect('/admin/category')
+           
+
+        }
         
     } catch (err) {
         console.log(err);

@@ -179,7 +179,7 @@
 							<div class="form-group">
 								<div class="col-md-12">
 									<div class="radio">
-										<label><input type="radio" name="payment"> Paypal</label>
+										<label><input type="radio" name="payment" value="Paypal"> Paypal</label>
 									</div>
 								</div>
 							</div>
@@ -210,27 +210,37 @@
 
 </form>
 {{#each address}}
-<div class="container">
-	<div class="row">
-		<div class="col-md-6">
-			<div class="mb-5 pb-5">
-				<label for="exampleFormControlTextarea1" style="font-weight: 400;" class="form-label">ADDRESS </label>
 
-				<textarea class="form-control" id="exampleFormControlTextarea1" style="height: 156px;
-  
-    width: 50%; font-size:larger; font-weight: 700;"
-					rows="3">{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}</textarea>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-					<label class="form-check-label" for="flexCheckDefault">
-						This Address
-					</label>
+          
+           <div class="container ">
+			
+			 <div class="row ">
+	     	<div class="col-md-6">
+			<div class="mb-5 pb-5">
+			 <div class="form-check">
+                 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="d">
+                <label class="form-check-label" for="exampleRadios4">
+           
+				<div class="row d-" style="display: contents; justify-content: end; ">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <button class="btn btn-danger">EDIT</button>
+               <h1 style="color: skyblue; font-weight: 300; font-size: x-large;">Addressess</h1>
+               <p>{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}
+	<div class="form-check"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 				</div>
 			</div>
 		</div>
 
 
 	</div>
+        </label>
+
 
 </div>
 
@@ -337,9 +347,14 @@
 
 				if (response.codSuccess) {
 					location.href = '/user/order-complate'
+				} 
 
+				else if(response.paypal){
+					location.href = response.link
 
-				} else {
+				}
+				
+				else {
 					console.log("hi")
 					razorpayPayment(response.order);
 				}
@@ -360,7 +375,7 @@
 			"image": "https://example.com/your_logo",
 			"order_id": order.id ,//This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       		"handler": function (response) {
-				alert(response)
+				
 
 
 				varifyPayment(response, order);

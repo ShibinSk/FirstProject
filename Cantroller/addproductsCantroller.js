@@ -28,8 +28,14 @@ exports.viewproductsget = async (req, res) => {
   }
 };
 
-exports.addproductsget = (req, res) => {
-  res.render("Admin/add-products", { admin: true });
+exports.addproductsget = async(req, res) => {
+  const category = await db
+      .get()
+      .collection(collection.CATEGORY_COLLECTION)
+      .find()
+      .toArray()
+      console.log(category,'lllllllllllllllllllllllllll');
+  res.render("Admin/add-products", { admin: true ,category});
 };
 
 exports.addproductspost = async (req, res) => {
@@ -150,8 +156,9 @@ exports.editget = async (req, res) => {
       .collection(collection.CATEGORY_COLLECTION)
       .find()
       .toArray()
+      console.log(category,'lllllllllllllllllllllllllll');
     // res.render('Admin/add-products.hbs',{admin:true})
-    res.render("Admin/edit-products", { admin: true, product,category });
+    res.render("Admin/edit-products", { admin: true, product,category:category });
     // res.render()
   } catch (err) {
     console.log(err);

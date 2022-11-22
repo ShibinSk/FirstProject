@@ -67,11 +67,18 @@
 								</div>
 							</div>
 							<div class="one-eight text-center">
-								<div class="display-tc">
+								{{!-- <div class="display-tc">
 									<button class="cbtn1" mr-3 onclick="changeQuantity('{{this._id}}','{{this.products._id}}',-1)">-</button>     {{this.quantity}}   
 								    <button class="cbtn" mr-3 onclick="changeQuantity('{{this._id}}','{{this.products._id}}',1)">+</button>
 									
-								</div>
+								</div> --}}
+
+								 
+                    <div class="pro-qty-2 pt-4" >
+                      <button class="fa fa-angle-left dec qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',-1)" ></button>
+                      <span class="proq" id="{{this.result._id}}">  {{this.quantity}} </span>
+                      <button class="fa fa-angle-right inc qtybtn quantity" onclick="changeQuantity('{{this._id}}','{{this.result._id}}',1)"></button>
+                    </div>
 							</div>
 							<div class="one-eight text-center">
 								<div class="display-tc">
@@ -98,7 +105,8 @@
 												<input type="text" name="quantity" class="form-control input-number" placeholder="Your Coupon Number...">
 											</div>
 											<div class="col-sm-3">
-												<input type="submit" value="Apply Coupon" class="btn btn-primary">
+												{{!-- <input type="submit" value="Apply Coupon" class="btn btn-primary"> --}}
+												  <button type="submit" class="btn btn-primary">Apply Coupon</button>
 											</div>
 										</div>
 									</form>

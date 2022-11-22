@@ -29,6 +29,7 @@
     "nodemon": "^2.0.20",
     "npm": "^8.19.3",
     "params": "^0.1.1",
+    "paypal-rest-sdk": "^1.8.1",
     "razorpay": "^2.8.3",
     "sweetalert2": "^11.6.7",
     "twilio": "^3.83.1"

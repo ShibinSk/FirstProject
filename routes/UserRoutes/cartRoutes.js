@@ -31,6 +31,9 @@ router.get('/orders',cartCantroller.ordersget)
 
 router.post('/verify-payment',cartCantroller.paymentVerification)
 
+// ==========================PaypalSuccess=============================
+
+router.get('/success',cartCantroller.paypalsuccess)
 
 
 

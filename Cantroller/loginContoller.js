@@ -23,7 +23,6 @@ exports.loginget = (req, res) => {
       res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: false });
     }
     req.session.loginErr=false
-    
    }
   
  
