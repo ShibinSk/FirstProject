@@ -36,5 +36,10 @@ router.post('/verify-payment',cartCantroller.paymentVerification)
 router.get('/success',cartCantroller.paypalsuccess)
 
 
+// router.get('/pick-address/:id',cartCantroller.picupAddress)
+
+router.post('/addNewaddress',cartCantroller.addaddress)
+
+
 
 module.exports=router;

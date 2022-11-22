@@ -144,7 +144,7 @@ exports.addcartget = async (req, res) => {
 
       if (userCart) {
         const proExit = userCart.products.findIndex(
-          product=> product.item == productId
+          (product) => product.item == productId
         );
 
         if (proExit != -1) {
@@ -218,7 +218,6 @@ exports.quantitypost = async (req, res) => {
   const cart = req.body.cart;
   const product = req.body.product;
   const count = parseInt(req.body.count);
-  console.log(cart);
 
   try {
     if (req.body.count == -1 && req.body.quantity == 1) {
@@ -255,7 +254,6 @@ exports.quantitypost = async (req, res) => {
 exports.placeorder = async (req, res) => {
   try {
     const userId = req.session.user._id;
-    console.log(userId);
 
     const total = await db
       .get()
@@ -298,7 +296,6 @@ exports.placeorder = async (req, res) => {
         },
       ])
       .toArray();
-    console.log(total[0].total);
 
     // =======================================================================================================
 
@@ -323,7 +320,28 @@ exports.placeorderpost = async (req, res) => {
   try {
     const productId = req.query._id;
     const userId = req.session.user._id;
-
+    const aggr = [
+      {
+        $match: {
+          _id: ObjectId(userId),
+        },
+      },
+      {
+        $unwind: {
+          path: "$address",
+        },
+      },
+      {
+        $match: {
+          "address._id": ObjectId(req.body.Address),
+        },
+      },
+    ];
+    const addressDetails = await db
+      .get()
+      .collection(collection.USER_COLLECTION)
+      .aggregate(aggr).toArray();
+console.log(addressDetails);
     const agg = [
       {
         $match: {
@@ -435,19 +453,10 @@ exports.placeorderpost = async (req, res) => {
     console.log(products[0].products);
 
     const status = order.payment === "COD" ? "placed" : "pending";
+    const obj = new ObjectId();
 
     const orderObj = {
-      deliveryDetails: {
-        name: order.name,
-        lnam: order.lname,
-        address: order.address,
-        town: order.town,
-        state: order.state,
-        zip: Number(order.zip),
-        email: order.email,
-        phone: Number(order.phone),
-      },
-
+      deliveryDetails: addressDetails[0].address,
       userId: ObjectId(order.userId),
       payment: order.payment,
       products: products[0].products,
@@ -456,30 +465,25 @@ exports.placeorderpost = async (req, res) => {
       date: new Date(),
     };
 
-    const aadres = await db
-      .get()
-      .collection(collection.USER_COLLECTION)
-      .updateOne(
-        { _id: ObjectId(userId) },
-        {
-          $push: {
-            address: orderObj.deliveryDetails,
-          },
-        }
-      );
-
-    // const address = await db
+    // const aadres = await db
     //   .get()
-    //   .collection(collection.ADDRESS_COLLETION)
-    //   .insertOne(orderObj.deliveryDetails);
+    //   .collection(collection.USER_COLLECTION)
+    //   .updateOne(
+    //     { _id: ObjectId(userId) },
+    //     {
+    //       $push: {
+    //         address: orderObj.deliveryDetails,
+    //       },
+    //     }
+    //   );
 
     console.log(orderObj);
     const result = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
       .insertOne(orderObj);
-    console.log(result);
-    req.session.insertedId=result.insertedId
+
+    req.session.insertedId = result.insertedId;
 
     // const removecart = await db
     // .get()
@@ -492,8 +496,6 @@ exports.placeorderpost = async (req, res) => {
       //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {
       try {
-       
-
         const order = await instance.orders.create({
           amount: total[0].total * 100,
           currency: "INR",
@@ -502,7 +504,6 @@ exports.placeorderpost = async (req, res) => {
         res.json({
           order,
         });
-        console.log(order);
       } catch (err) {
         console.log(err);
       }
@@ -516,7 +517,6 @@ exports.placeorderpost = async (req, res) => {
         .toArray();
 
       let amount = Math.floor(total[0].total / 81.77);
-      console.log(agg);
 
       const create_payment_json = {
         intent: "sale",
@@ -564,7 +564,6 @@ exports.placeorderpost = async (req, res) => {
         }
       });
     }
-    console.log("hlolllllllllllllllllll");
   } catch (err) {
     console.log(err);
   }
@@ -585,9 +584,9 @@ exports.paypalsuccess = async (req, res) => {
       .get()
       .collection(collection.ORDER_COLLECTION)
       .findOne({ _id: ObjectId(id) });
-      console.log(orderDetails);
+    console.log(orderDetails);
 
-    let amount =Math.floor(orderDetails.total[0].total/81.78);
+    let amount = Math.floor(orderDetails.total[0].total / 81.78);
 
     var execute_payment_json = {
       payer_id: req.query.PayerID,
@@ -613,12 +612,12 @@ exports.paypalsuccess = async (req, res) => {
             .get()
             .collection(collection.ORDER_COLLECTION)
             .updateOne(
-              { _id: ObjectId(id)},
+              { _id: ObjectId(id) },
               {
                 $set: { status: "Confirmed" },
               }
             );
-            console.log(result);
+          console.log(result);
         }
       }
     );
@@ -634,7 +633,7 @@ exports.paypalsuccess = async (req, res) => {
 exports.paymentVerification = async (req, res) => {
   try {
     const details = req.body;
-    console.log(req.body);
+    c;
     console.log("heyyyyyyyyyyyy");
     const objId = req.body["order[receipt]"];
     console.log(objId);
@@ -659,7 +658,7 @@ exports.paymentVerification = async (req, res) => {
             $set: { status: "Confirmed" },
           }
         );
-      console.log(result);
+
       res.json({ status: true });
     } else {
       console.log("payment failed");
@@ -682,4 +681,77 @@ exports.ordersget = async (req, res) => {
     .toArray();
 
   res.render("user/orders", { navside: true, orders: orders });
+};
+
+//========================================== PicUp Address===================
+// exports.picupAddress = async (req, res) => {
+//   const userId=req.session.user._id
+// console.log(req.params.id,'alllllllllllllllllllllllllllllllllp');
+
+//   let address = await db
+//   .get()
+//   .collection(collection.USER_COLLECTION)
+//   .aggregate(
+//     [
+//         {
+//             '$match': {
+//                 '_id': objId(userId)
+//             }
+//         }, {
+//             '$unwind': {
+//                 'path': '$address'
+//             }
+//         }, {
+//             '$match': {
+//                 'address._id': objId(addressId)
+//             }
+//         }, {
+//             '$project': {
+//                 'address': 1,
+//                 'email': 1,
+//                 'username': 1
+//             }
+//         }
+//     ]
+// ).toArray()
+
+//       res.json(address)
+
+//       console.log();
+//   }
+
+exports.addaddress = async (req, res) => {
+  try {
+    const order = req.body;
+    const userId = req.session.user._id;
+    console.log(req.body, "loooolllllfooooooooooooooooosfas");
+
+    const obj = new ObjectId();
+
+    const orderObj = {
+      deliveryDetails: {
+        _id: ObjectId(obj),
+        name: order.name,
+        lnam: order.lname,
+        address: order.address,
+        town: order.town,
+        state: order.state,
+        zip: Number(order.zip),
+        email: order.email,
+        phone: Number(order.phone),
+      },
+    };
+    const aadres = await db
+      .get()
+      .collection(collection.USER_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(userId) },
+        {
+          $push: {
+            address: orderObj.deliveryDetails,
+          },
+        }
+      );
+    res.redirect("back");
+  } catch (err) {}
 };

@@ -30,10 +30,34 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-lg-8">
-				<form action="" method="post" class="colorlib-form" id="checkout-form">
-					<h2>Billing Details</h2>
+		{{!-- <button class="btn btn-dark newAddress" type="button">
+			Add New Address
+		</button> --}}
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new
+			Address</button>
+		<form  class="colorlib-form" id="checkout-form">
+			<div class="grid">
+				<div class="row">
+					<div class="col-md-6">
+						<span class="plan-type">Addresess</span>
+						{{#each address}}
+						<label class="card">
+							<input name="Address" value={{this._id}} class="radio1" type="radio"
+								onchange="pickAddress('{{this.address._id}}')" checked>
+
+							<span class="plan-details">
+								<span class="plan-cost " style="color:brown ;"><span class="slash"></span>{{this.name}}<abbr class="plan-cycle"
+										title="month"></abbr></span>
+								<span>{{this.name}},<br>{{this.address}},<br>{{this.town}},{{this.state}},<br>{{this.zip}}</span>
+
+							</span>
+						</label>
+						{{/each}}
+
+					</div>
+
+
+					{{!-- <h2>Billing Details</h2>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -68,11 +92,7 @@
 						</div>
 
 						<div class="col-md-12">
-							{{!-- <div class="form-group">
-								<label for="companyname">Company Name</label>
-								<input type="text" id="companyname" name="company" class="form-control"
-									placeholder="Company Name">
-							</div> --}}
+
 						</div>
 
 						<div class="col-md-12">
@@ -126,310 +146,568 @@
 
 						<div class="col-md-12">
 							<div class="form-group">
-								{{!-- <div class="radio">
-									<label><input type="radio" name="optradio"> Create an Account? </label>
-									<label><input type="radio" name="optradio"> Ship to different address</label>
-								</div> --}}
+
 							</div>
 						</div>
+					</div> --}}
+
+
+
+					<div class="col-lg-6">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="cart-detail">
+									<h2>Cart Total</h2>
+									<ul>
+										<li>
+											<span>Subtotal</span> <span>₹00</span>
+											{{!-- <ul>
+												<li><span>1 x Product Name</span> <span>$99.00</span></li>
+												<li><span>1 x Product Name</span> <span>$78.00</span></li>
+											</ul> --}}
+										</li>
+										<li><span>Shipping</span> <span>₹0.00</span></li>
+										<li><span>Order Total</span> <span>₹ {{total}}</span></li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="w-100"></div>
+
+							<div class="col-md-12">
+								<div class="cart-details">
+									<h2>Payment Method</h2>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="radio">
+												<label><input type="radio" name="payment"  value="COD"> COD</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="radio">
+												<label><input type="radio" name="payment" value="Razorpay">
+													Razorpay</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="radio">
+												<label><input type="radio" name="payment"  value="Paypal">
+													Paypal</label>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-12">
+											<div class="checkbox">
+												{{!-- <label><input type="checkbox" value=""> I have read and accept
+													the
+													terms
+													and conditions</label> --}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12 text-center">
+								{{!-- <p><a type="submit" class="btn btn-primary">Place an order</a></p> --}}
+								<button type="submit" class="btn btn-primary">Place an order</button>
+							</div>
+
+
+						</div>
 					</div>
+				</div>
 
 			</div>
+			<div class="col">
+			</div>
+	</div>
+
+	</form>
+	{{!-- {{#each address}}
 
 
+	<div class="container ">
 
-			<div class="col-lg-4">
+		<div class="row ">
+			<div class="col-md-6">
+				<div class="mb-5 pb-5">
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="d">
+						<label class="form-check-label" for="exampleRadios4">
+
+							<div class="row d-" style="display: contents; justify-content: end; ">
+								<div class="col-md-6">
+									<div class="card mb-4 mb-md-0">
+										<div class="card-body">
+											<button class="btn btn-danger">EDIT</button>
+											<h1 style="color: skyblue; font-weight: 300; font-size: x-large;">
+												Addressess
+											</h1>
+											<p>{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}
+											<div class="form-check">
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+
+
+			</div>
+			</label>
+
+
+		</div>
+
+		{{/each}} --}}
+
+		<footer id="colorlib-footer" role="contentinfo">
+			<div class="container">
+				<div class="row row-pb-md">
+					<div class="col footer-col colorlib-widget">
+						<h4>About Footwear</h4>
+						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost
+							unorthographic
+							life</p>
+						<p>
+						<ul class="colorlib-social-icons">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+						</p>
+					</div>
+					<div class="col footer-col colorlib-widget">
+						<h4>Customer Care</h4>
+						<p>
+						<ul class="colorlib-footer-links">
+							<li><a href="#">Contact</a></li>
+							<li><a href="#">Returns/Exchange</a></li>
+							<li><a href="#">Gift Voucher</a></li>
+							<li><a href="#">Wishlist</a></li>
+							<li><a href="#">Special</a></li>
+							<li><a href="#">Customer Services</a></li>
+							<li><a href="#">Site maps</a></li>
+						</ul>
+						</p>
+					</div>
+					<div class="col footer-col colorlib-widget">
+						<h4>Information</h4>
+						<p>
+						<ul class="colorlib-footer-links">
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Delivery Information</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Support</a></li>
+							<li><a href="#">Order Tracking</a></li>
+						</ul>
+						</p>
+					</div>
+
+					<div class="col footer-col">
+						<h4>News</h4>
+						<ul class="colorlib-footer-links">
+							<li><a href="blog.html">Blog</a></li>
+							<li><a href="#">Press</a></li>
+							<li><a href="#">Exhibitions</a></li>
+						</ul>
+					</div>
+
+					<div class="col footer-col">
+						<h4>Contact Information</h4>
+						<ul class="colorlib-footer-links">
+							<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+							<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+							<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+							<li><a href="#">yoursite.com</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="copy">
 				<div class="row">
-					<div class="col-md-12">
-						<div class="cart-detail">
-							<h2>Cart Total</h2>
-							<ul>
-								<li>
-									<span>Subtotal</span> <span>₹00</span>
-									{{!-- <ul>
-										<li><span>1 x Product Name</span> <span>$99.00</span></li>
-										<li><span>1 x Product Name</span> <span>$78.00</span></li>
-									</ul> --}}
-								</li>
-								<li><span>Shipping</span> <span>₹0.00</span></li>
-								<li><span>Order Total</span> <span>₹ {{total}}</span></li>
-							</ul>
+					<div class="col-sm-12 text-center">
+						<p>
+							<span>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;
+								<script>document.write(new Date().getFullYear());</script> All rights reserved |
+								This
+								template
+								is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+									href="https://colorlib.com" target="_blank">Colorlib</a>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+							<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a>
+								, <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+	</div>
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add New Address</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form method="post" action="/user/addNewaddress" class="colorlib-form" id="addaddress-form">
+						<div class="form-group">
+							<label for="recipient-name" class="col-form-label">First Name</label>
+							<input type="text" class="form-control" name="name" id="recipient-name">
 						</div>
-					</div>
-
-					<div class="w-100"></div>
-
-					<div class="col-md-12">
-						<div class="cart-detail">
-							<h2>Payment Method</h2>
-							<div class="form-group">
-								<div class="col-md-12">
-									<div class="radio">
-										<label><input type="radio" name="payment" value="COD"> COD</label>
-									</div>
-								</div>
+						<div class="form-group">
+							<label for="message-text" class="col-form-label">Last name</label>
+							<input class="form-control" name="lname" id="message-text"></input>
+						</div>
+						<div class="form-group">
+							<label for="recipient-name" class="col-form-label">Address</label>
+							<input type="text" class="form-control" name="address" id="recipient-name">
+						</div>
+						<div class="form-group">
+							<label for="recipient-name" class="col-form-label">TOWN/CITY</label>
+							<input type="text" class="form-control" name="town" id="recipient-name">
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="recipient-name" class="col-form-label">STATE/PROVINCE</label>
+								<input type="text" class="form-control" name="state" id="recipient-name">
 							</div>
-							<div class="form-group">
-								<div class="col-md-12">
-									<div class="radio">
-										<label><input type="radio" name="payment" value="Razorpay"> Razorpay</label>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-12">
-									<div class="radio">
-										<label><input type="radio" name="payment" value="Paypal"> Paypal</label>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="col-md-12">
-									<div class="checkbox">
-										{{!-- <label><input type="checkbox" value=""> I have read and accept the terms
-											and conditions</label> --}}
-									</div>
-								</div>
+							<div class="form-group col-md-6">
+								<label for="recipient-name" class="col-form-label">ZIP/POSTAL CODE</label>
+								<input type="text" class="form-control" name="zip" id="recipient-name">
 							</div>
 						</div>
-					</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="recipient-name" class="col-form-label">E-MAIL ADDRESS</label>
+								<input type="text" class="form-control" name="email" id="recipient-name">
+							</div>
+							<div class="form-group col-md-6">
+								<label for="recipient-name" class="col-form-label">PHONE NUMBER</label>
+								<input type="text" class="form-control" name="phone" id="recipient-name">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn-dark">Save</button></a>
+						</div>
+					</form>
 				</div>
-				<div class="row">
-					<div class="col-md-12 text-center">
-						{{!-- <p><a type="submit" class="btn btn-primary">Place an order</a></p> --}}
-						<button type="submit" class="btn btn-primary">Place an order</button>
-					</div>
 
-
-				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script>
+		$('#checkout-form').submit((e) => {
+			e.preventDefault();
+			$.ajax({
+				url: '/user/place-order',
+				method: 'post',
+				data: $('#checkout-form').serialize(),
+				success: (response) => {
+					console.log(response)
 
-</form>
-{{#each address}}
+					if (response.codSuccess) {
+						console.log("gggggggggg")
+						location.href ='/user/order-complate'
+						
+					}
 
-          
-           <div class="container ">
-			
-			 <div class="row ">
-	     	<div class="col-md-6">
-			<div class="mb-5 pb-5">
-			 <div class="form-check">
-                 <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="d">
-                <label class="form-check-label" for="exampleRadios4">
-           
-				<div class="row d-" style="display: contents; justify-content: end; ">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <button class="btn btn-danger">EDIT</button>
-               <h1 style="color: skyblue; font-weight: 300; font-size: x-large;">Addressess</h1>
-               <p>{{this.name}},{{this.address}},{{this.town}},{{this.state}},{{this.zip}}
-	<div class="form-check"></p>
-        </div>
-      </div>
-    </div>
-  </div>
-				</div>
-			</div>
-		</div>
+					else if (response.paypal) {
+						location.href = response.link
 
+					}
 
-	</div>
-        </label>
-
-
-</div>
-
-{{/each}}
-
-<footer id="colorlib-footer" role="contentinfo">
-	<div class="container">
-		<div class="row row-pb-md">
-			<div class="col footer-col colorlib-widget">
-				<h4>About Footwear</h4>
-				<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic
-					life</p>
-				<p>
-				<ul class="colorlib-social-icons">
-					<li><a href="#"><i class="icon-twitter"></i></a></li>
-					<li><a href="#"><i class="icon-facebook"></i></a></li>
-					<li><a href="#"><i class="icon-linkedin"></i></a></li>
-					<li><a href="#"><i class="icon-dribbble"></i></a></li>
-				</ul>
-				</p>
-			</div>
-			<div class="col footer-col colorlib-widget">
-				<h4>Customer Care</h4>
-				<p>
-				<ul class="colorlib-footer-links">
-					<li><a href="#">Contact</a></li>
-					<li><a href="#">Returns/Exchange</a></li>
-					<li><a href="#">Gift Voucher</a></li>
-					<li><a href="#">Wishlist</a></li>
-					<li><a href="#">Special</a></li>
-					<li><a href="#">Customer Services</a></li>
-					<li><a href="#">Site maps</a></li>
-				</ul>
-				</p>
-			</div>
-			<div class="col footer-col colorlib-widget">
-				<h4>Information</h4>
-				<p>
-				<ul class="colorlib-footer-links">
-					<li><a href="#">About us</a></li>
-					<li><a href="#">Delivery Information</a></li>
-					<li><a href="#">Privacy Policy</a></li>
-					<li><a href="#">Support</a></li>
-					<li><a href="#">Order Tracking</a></li>
-				</ul>
-				</p>
-			</div>
-
-			<div class="col footer-col">
-				<h4>News</h4>
-				<ul class="colorlib-footer-links">
-					<li><a href="blog.html">Blog</a></li>
-					<li><a href="#">Press</a></li>
-					<li><a href="#">Exhibitions</a></li>
-				</ul>
-			</div>
-
-			<div class="col footer-col">
-				<h4>Contact Information</h4>
-				<ul class="colorlib-footer-links">
-					<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-					<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-					<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-					<li><a href="#">yoursite.com</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="copy">
-		<div class="row">
-			<div class="col-sm-12 text-center">
-				<p>
-					<span>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>document.write(new Date().getFullYear());</script> All rights reserved | This template
-						is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-							target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</span>
-					<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a
-							href="http://pexels.com/" target="_blank">Pexels.com</a></span>
-				</p>
-			</div>
-		</div>
-	</div>
-</footer>
-</div>
-
-<div class="gototop js-top">
-	<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
-</div>
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-	$('#checkout-form').submit((e) => {
-		e.preventDefault();
-		$.ajax({
-			url: '/user/place-order',
-			method: 'post',
-			data: $('#checkout-form').serialize(),
-			success: (response) => {
-				console.log(response)
-
-				if (response.codSuccess) {
-					location.href = '/user/order-complate'
-				} 
-
-				else if(response.paypal){
-					location.href = response.link
-
+					else {
+						console.log("hi")
+						razorpayPayment(response.order);
+					}
 				}
-				
-				else {
-					console.log("hi")
-					razorpayPayment(response.order);
-				}
-			}
+			})
 		})
-	})
-
-	function razorpayPayment(order) {
-		console.log(order)
-		let amount = order.amount
-
-		var options = {
-			"key": "rzp_test_RF0nTXmxHqKSxA", // Enter the Key ID generated from the Dashboard
-			"amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-			"currency": "INR",
-			"name": "Shooker",
-			"description": "Test Transaction",
-			"image": "https://example.com/your_logo",
-			"order_id": order.id ,//This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      		"handler": function (response) {
-				
 
 
-				varifyPayment(response, order);
-			},
-			"prefill": {
-				"name": "Gaurav Kumar",
-				"email": "gaurav.kumar@example.com",
-				"contact": "9999999999"
-			},
-			"notes": {
-				"address": "Razorpay Corporate Office"
-			},
-			"theme": {
-				"color": "#3399cc"
-			}
-		};
-		var rzp1 = new Razorpay(options);
-		rzp1.open();
-		rzp1.on('payment.failed', function (response) {
-			console.log(response.error.code);
-			console.log(response.error.description);
-			console.log(response.error.source);
-			console.log(response.error.step);
-			console.log(response.error.reason);
-			console.log(response.error.metadata.order_id);
-			console.log(response.error.metadata.payment_id);
-		}); 
 
-	};
 
-	function varifyPayment(payment, order) {
 
-		console.log(payment, order, 'kkkkkkkkkkkkkkkkkkk')
-		$.ajax({
-			url:'/user/verify-payment',
-			data: {
-				payment,
-				order
-			},
-			method: 'post',
-			success: (response) => {
-				console.log(response)
-				if (response.status) {
-					location.href = '/user/order-complate'
-				} else {
-					alert("payment failed");
+
+
+		function razorpayPayment(order) {
+			console.log(order)
+			let amount = order.amount
+
+			var options = {
+				"key": "rzp_test_RF0nTXmxHqKSxA", // Enter the Key ID generated from the Dashboard
+				"amount": amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+				"currency": "INR",
+				"name": "Shooker",
+				"description": "Test Transaction",
+				"image": "https://example.com/your_logo",
+				"order_id": order.id,//This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+				"handler": function (response) {
+
+
+
+					varifyPayment(response, order);
+				},
+				"prefill": {
+					"name": "Gaurav Kumar",
+					"email": "gaurav.kumar@example.com",
+					"contact": "9999999999"
+				},
+				"notes": {
+					"address": "Razorpay Corporate Office"
+				},
+				"theme": {
+					"color": "#3399cc"
 				}
+			};
+			var rzp1 = new Razorpay(options);
+			rzp1.open();
+			rzp1.on('payment.failed', function (response) {
+				console.log(response.error.code);
+				console.log(response.error.description);
+				console.log(response.error.source);
+				console.log(response.error.step);
+				console.log(response.error.reason);
+				console.log(response.error.metadata.order_id);
+				console.log(response.error.metadata.payment_id);
+			});
+
+		};
+
+		function varifyPayment(payment, order) {
+
+			console.log(payment, order, 'kkkkkkkkkkkkkkkkkkk')
+			$.ajax({
+				url: '/user/verify-payment',
+				data: {
+					payment,
+					order
+				},
+				method: 'post',
+				success: (response) => {
+					console.log(response)
+					if (response.status) {
+						location.href = '/user/order-complate'
+					} else {
+						alert("payment failed");
+					}
+				}
+
+			});
+		};
+
+
+
+
+
+	</script>
+
+
+	<style>
+		:root {
+			--card-line-height: 1.2em;
+			--card-padding: 1em;
+			--card-radius: 0.5em;
+			--color-green: #141611;
+			--color-gray: #e2ebf6;
+			--color-dark-gray: #c4d1e1;
+			--radio-border-width: 2px;
+			--radio-size: 1.5em;
+		}
+
+
+		.grid {
+			display: grid;
+			grid-gap: var(--card-padding);
+			margin: 0 auto;
+
+			padding: 0;
+		}
+
+
+
+		.card:hover {
+			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+		}
+ 
+
+
+
+
+        #radio1 {
+			width: 16px;
+			font-size: inherit;
+			
+		}
+		.radio1 {
+			width: 16px;
+			font-size: inherit;
+			margin: 0;
+			position: absolute;
+			right: calc(var(--card-padding) + var(--radio-border-width));
+			top: calc(var(--card-padding) + var(--radio-border-width));
+		}
+
+		@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+			.radio {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				background: #fff;
+
+				border-radius: 50%;
+				cursor: pointer;
+
+
 			}
 
-		});
-	};
+			.radio::after {
+				border: var(--radio-border-width) solid #fff;
+				border-top: 0;
+				border-left: 0;
+				content: "";
+				display: block;
+				height: 0.75rem;
+				left: 25%;
+				position: absolute;
+				top: 50%;
+				transform: rotate(45deg) translate(-50%, -50%);
+				width: 0.375rem;
+			}
 
+			.radio:checked {
+				background: var(--color-green);
+				border-color: var(--color-green);
+			}
 
+			.card:hover .radio {
+				border-color: var(--color-dark-gray);
+			}
 
+			.card:hover .radio:checked {
+				border-color: var(--color-green);
+			}
+		}
 
+		.plan-details {
+			border: var(--radio-border-width) solid var(--color-gray);
+			border-radius: var(--card-radius);
+			cursor: pointer;
+			display: flex;
+			flex-direction: column;
+			padding: var(--card-padding);
+			transition: border-color 0.2s ease-out;
+		}
 
-</script>
+		.card:hover .plan-details {
+			border-color: var(--color-dark-gray);
+		}
+
+		.radio:checked~.plan-details {
+			border-color: var(--color-green);
+		}
+
+		.radio:focus~.plan-details {
+			box-shadow: 0 0 0 2px var(--color-dark-gray);
+		}
+
+		.radio:disabled~.plan-details {
+			color: var(--color-dark-gray);
+			cursor: default;
+		}
+
+		.radio:disabled~.plan-details .plan-type {
+			color: var(--color-dark-gray);
+		}
+
+		.card:hover .radio:disabled~.plan-details {
+			border-color: var(--color-gray);
+			box-shadow: none;
+		}
+
+		.card:hover .radio:disabled {
+			border-color: var(--color-gray);
+		}
+
+		.plan-type {
+			color: var(--color-green);
+			font-size: 1.5rem;
+			font-weight: bold;
+			line-height: 1em;
+		}
+
+		.plan-cost {
+			font-size: 2.5rem;
+			font-weight: bold;
+			padding: 0.5rem 0;
+		}
+
+		.slash {
+			font-weight: normal;
+		}
+
+		.plan-cycle {
+			font-size: 2rem;
+			font-variant: none;
+			border-bottom: none;
+			cursor: inherit;
+			text-decoration: none;
+		}
+
+		.hidden-visually {
+			border: 0;
+			clip: rect(0, 0, 0, 0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			white-space: nowrap;
+			width: 1px;
+		}
+	</style>
+	{{!--
+	<script>
+		function pickAddress(addressId) {
+			console.log(addressId), 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+			$.ajax({
+				url: '/pick-address/' + addressId,
+				method: 'get',
+				success: (response) => {
+					$("#fname").val(response[0].address.name);
+					$("#lname").val(response[0].address.lname);
+					$("#address").val(response[0].address.address);
+					$("#towncity").val(response[0].address.town);
+					$("fname").val(response[0].address.state);
+					$("#zippostalcode").val(response[0].address.zip);
+					$("#email").val(response[0].address.email);
+					$("#zippostalcode").val(response[0].address.phone);
+
+				}
+			})
+		}
+	</script> --}}
