@@ -35,7 +35,7 @@
 		</button> --}}
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new
 			Address</button>
-		<form  class="colorlib-form" id="checkout-form">
+		<form class="colorlib-form" id="checkout-form">
 			<div class="grid">
 				<div class="row">
 					<div class="col-md-6">
@@ -46,7 +46,8 @@
 								onchange="pickAddress('{{this.address._id}}')" checked>
 
 							<span class="plan-details">
-								<span class="plan-cost " style="color:brown ;"><span class="slash"></span>{{this.name}}<abbr class="plan-cycle"
+								<span class="plan-cost " style="color:brown ;"><span
+										class="slash"></span>{{this.name}}<abbr class="plan-cycle"
 										title="month"></abbr></span>
 								<span>{{this.name}},<br>{{this.address}},<br>{{this.town}},{{this.state}},<br>{{this.zip}}</span>
 
@@ -180,14 +181,14 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-												<label><input type="radio" name="payment"  value="COD"> COD</label>
+												<label><input type="radio" name="payment" id="rd" value="COD"> COD</label>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-												<label><input type="radio" name="payment" value="Razorpay">
+												<label><input type="radio" name="payment" id="rd" value="Razorpay">
 													Razorpay</label>
 											</div>
 										</div>
@@ -195,7 +196,7 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-												<label><input type="radio" name="payment"  value="Paypal">
+												<label><input type="radio" name="payment" id="rd" value="Paypal">
 													Paypal</label>
 											</div>
 										</div>
@@ -432,8 +433,8 @@
 
 					if (response.codSuccess) {
 						console.log("gggggggggg")
-						location.href ='/user/order-complate'
-						
+						location.href = '/user/order-complate'
+
 					}
 
 					else if (response.paypal) {
@@ -554,16 +555,17 @@
 		.card:hover {
 			box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 		}
- 
 
 
 
 
-        #radio1 {
+
+		#radio1 {
 			width: 16px;
 			font-size: inherit;
-			
+
 		}
+
 		.radio1 {
 			width: 16px;
 			font-size: inherit;

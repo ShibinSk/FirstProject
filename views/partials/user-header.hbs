@@ -8,49 +8,36 @@
         <div class="col-sm-5 col-md-3">
           <form action="#" class="search-wrap">
             <div class="form-group">
-              <input
-                type="search"
-                class="form-control search"
-                placeholder="Search"
-              />
-              <button
-                class="btn btn-primary submit-search text-center"
-                type="submit"
-              ><i class="icon-search"></i></button>
+              <input type="search" class="form-control search" placeholder="Search" />
+              <button class="btn btn-primary submit-search text-center" type="submit"><i
+                  class="icon-search"></i></button>
             </div>
           </form>
         </div>
       </div>
-	  <div class="dropdown show">
-              <a
-                class="btn btn-secondary dropdown-toggle"
-                href="#"
-                role="button"
-                id="dropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-              {{#if user}}
-              {{user.Name}}
-              {{else}}
-              Account
-              {{/if }}
-              
-              </a>
+      <div class="dropdown show">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          {{#if user}}
+          {{user.Name}}
+          {{else}}
+          Account
+          {{/if }}
 
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                 {{#if user}}
-                       <a class="dropdown-item" href="/user/logout">LogOut</a>
-                       <a class="dropdown-item" href="/user/userPro">Profile</a>
+        </a>
 
-              {{else}}
-                       <a class="dropdown-item" href="/user/login">LogIn</a>
-              {{/if }}
-                
-                
-              </div>
-            </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          {{#if user}}
+          <a class="dropdown-item" href="/user/logout">LogOut</a>
+          <a class="dropdown-item" href="/user/userPro">Profile</a>
+
+          {{else}}
+          <a class="dropdown-item" href="/user/login">LogIn</a>
+          {{/if }}
+
+
+        </div>
+      </div>
       <div class="row">
         <div class="col-sm-12 text-left menu-1">
           <ul>
@@ -72,14 +59,21 @@
             <li><a href="/user/orders">Orders</a></li>
             {{/if}}
             
-            <li class="cart"><a href="/user/cart"><i
-                  class="icon-shopping-cart"
-                ></i>
-              Cart
-              
-              <span class="badge badge-danger">{{count}}</span></li></a> 
-          
-            
+
+            <li class="cart"><a href="/user/cart"><i class="icon-shopping-cart"></i>
+                Cart
+
+                <span class="badge badge-danger">{{count}}</span></li></a>
+
+
+
+                 <li class="cart"><a href="#"><i class="fa-regular fa-heart"></i>
+               Wishlist
+                <span class="badge badge-danger"></span></li></a>
+
+           
+
+
           </ul>
         </div>
       </div>
