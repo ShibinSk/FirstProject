@@ -35,13 +35,14 @@ exports.deleteAddress = async (req, res) => {
     console.log(req.query.id);
     const userId = req.session.user._id;
     const id = req.query.id;
+    console.log(userId);
 
     const address = await db
       .get()
       .collection(collection.USER_COLLECTION)
       .updateOne(
         { _id: ObjectId(userId) },
-        { $pull: { address: { _id:id } } }
+        { $pull: { address: { _id: ObjectId(id) } } }
       );
     res.redirect("/user/userPro");
   } catch (err) {
@@ -98,10 +99,10 @@ exports.posteditaddress = async (req, res) => {
     .get()
     .collection(collection.USER_COLLECTION)
     .updateOne(
-      { "address._id": ObjectId(addressId )  },
+      { "address._id": ObjectId(addressId) },
       {
         $set: {
-          "address.$._id": ObjectId(addressId) ,
+          "address.$._id": ObjectId(addressId),
           "address.$.name": req.body.firstname,
           "address.$.lnam": req.body.lastname,
           "address.$.address": req.body.address,
@@ -116,6 +117,4 @@ exports.posteditaddress = async (req, res) => {
     );
 
   res.redirect("/user/userPro");
-
- 
 };

@@ -1,77 +1,551 @@
- <div class="container">
-    <div class="dash">
-<div class="main-panel">
-        <div class="content-wrapper">
-          <div class="row">
-            <div class="col-md-12 grid-margin">
-              <div class="row">
-                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                  <h3 class="font-weight-bold">Welcome Aamir</h3>
-                  <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span class="text-primary">3 unread alerts!</span></h6>
-                </div>
-                <div class="col-12 col-xl-4">
-                 <div class="justify-content-end d-flex">
-                  <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
-                    <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                     <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
-                      <a class="dropdown-item" href="#">January - March</a>
-                      <a class="dropdown-item" href="#">March - June</a>
-                      <a class="dropdown-item" href="#">June - August</a>
-                      <a class="dropdown-item" href="#">August - November</a>
-                    </div>
-                  </div>
-                 </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    
-          <div class="row">
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <p class="card-title">Order Details</p>
-                  <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
-                  <div class="d-flex flex-wrap mb-5">
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Order value</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">12.3k</h3>
-                    </div>
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Orders</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">14k</h3>
-                    </div>
-                    <div class="mr-5 mt-3">
-                      <p class="text-muted">Users</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">71.56%</h3>
-                    </div>
-                    <div class="mt-3">
-                      <p class="text-muted">Downloads</p>
-                      <h3 class="text-primary fs-30 font-weight-medium">34040</h3>
-                    </div> 
-                  </div>
-                  <canvas id="order-chart"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                 <div class="d-flex justify-content-between">
-                  <p class="card-title">Sales Report</p>
-                  <a href="#" class="text-info">View all</a>
-                 </div>
-                  <p class="font-weight-500">The total number of sessions within the date range. It is the period time a user is actively engaged with your website, page or app, etc</p>
-                  <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
-                  <canvas id="sales-chart"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="col-md-10" style="margin-left: 13%;">
+  <div class="pt-5">
+    <h4>
+      DASHBOARD
+    </h4>
+  </div>
 
+<h2 id="paymentcod" hidden>{{cod}}</h2>
+<h2 id="paymentpaypal" hidden>{{paypal}}</h2>
+<h2 id="paymentrazorpay" hidden>{{razorpay}}</h2>
+
+<h2 id="shipped" hidden>{{ordershipped}}</h2>
+<h2 id="pending" hidden>{{orderpending}}</h2>
+<h2 id="canceled" hidden>{{ordercanceled}}</h2>
+<h2 id="placed" hidden>{{orderplaced}}</h2>
+<h2 id="deliverd" hidden>{{orderdeliverd}}</h2>
+
+
+  <div class="row" style="padding-top: 70px;">
+    <div class="col-xl-3 col-lg-6">
+      <div class="card l-bg-cherry">
+        <div class="card-statistic-3 p-4">
+          <div class="card-icon card-icon-large"><i class="fas fa-shopping-cart"></i></div>
+          <div class="mb-4">
+            <h5 class="card-title mb-0" style="color: white;">Total Orders</h5  >
+          </div>
+          <div class="row align-items-center mb-2 d-flex">
+            <div class="col-8">
+              <h2 id="orderamount" class="d-flex align-items-center mb-0" style="color:floralwhite ;">
+                {{ordercount}}
+              </h2>
+            </div>
+            <div class="col-4 text-right">
+              {{!-- <span>12.5% <i class="fa fa-arrow-up"></i></span> --}}
+            </div>
+          </div>
+          <div class="progress mt-1 " data-height="8" style="height: 8px;">
+            <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0"
+              aria-valuemax="100" style="width: 25%;"></div>
+          </div>
+        </div>
+      </div>
     </div>
-    
- </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card l-bg-blue-dark">
+        <div class="card-statistic-3 p-4">
+          <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
+          <div class="mb-4">
+            <h5 class="card-title mb-0" style="color: white;">Customers</h5>
+          </div>
+          <div class="row align-items-center mb-2 d-flex">
+            <div class="col-8">
+              <h2 id="usercount" class="d-flex align-items-center mb-0" style="color: white;">
+                {{usercount}}
+              </h2>
+            </div>
+            <div class="col-4 text-right">
+              {{!-- <span>9.23% <i class="fa fa-arrow-up"></i></span> --}}
+            </div>
+          </div>
+          <div class="progress mt-1 " data-height="8" style="height: 8px;">
+            <div class="progress-bar l-bg-green" role="progressbar" data-width="25%" aria-valuenow="25"
+              aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card l-bg-green-dark">
+        <div class="card-statistic-3 p-4">
+          <div class="card-icon card-icon-large"><i class="fas fa-ticket-alt"></i></div>
+          <div class="mb-4">
+            <h5 style="color: white;" class="card-title mb-0">Payment Completed</h5>
+          </div>
+          <div class="row align-items-center mb-2 d-flex">
+            <div class="col-8">
+              <h2 style="color: white;" class="d-flex align-items-center mb-0">
+{{orderdeliverd}}
+              </h2>
+            </div>
+            <div class="col-4 text-right">
+              {{!-- <span>10% <i class="fa fa-arrow-up"></i></span> --}}
+            </div>
+          </div>
+          <div class="progress mt-1 " data-height="8" style="height: 8px;">
+            <div class="progress-bar l-bg-orange" role="progressbar" data-width="25%" aria-valuenow="25"
+              aria-valuemin="0" aria-valuemax="100" style="width: 25%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <div class="card l-bg-orange-dark">
+        <div class="card-statistic-3 p-4">
+          <div class="card-icon card-icon-large"><i class="fas fa-dollar-sign"></i></div>
+          <div class="mb-4">
+            <h5 class="card-title mb-0">Total Revenue</h5>
+          </div>
+          <div class="row align-items-center mb-2 d-flex">
+            <div class="col-8">
+              <h2 class="d-flex align-items-center mb-0">
+                ₹{{total.[0].totalAmount}}
+              </h2>
+            </div>
+            {{!-- <div class="col-4 text-right">
+              <span>2.5% <i class="fa fa-arrow-up"></i></span>
+            </div> --}}
+          </div>
+          <div class="progress mt-1 " data-height="8" style="height: 8px;">
+            <div class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25" aria-valuemin="0"
+              aria-valuemax="100" style="width: 25%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Data</h3>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Charts</a></li>
+            <li class="breadcrumb-item active" aria-current="page">data</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+
+              <h4 class="card-title text-muted">Order status</h4>
+              <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-muted">Payment Methods</h4>
+              <canvas id="pie-chart" width="400" height="250"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{!-- <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Area chart</h4>
+              <canvas id="radar-chart" width="800" height="600"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-muted text-uppercase">Payment Method</h4>
+              <canvas id="bar-chart" width="400" height="300"></canvas>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Pie chart</h4>
+              <canvas id="bar-chart" width="800" height="450"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-uppercase text-muted">Payment Status</h4>
+              <canvas id="polar-chart" width="600" height="450"></canvas>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> --}}
+    <!-- content-wrapper ends -->
+
+  </div>
+
+
+
+  <div style="color: #3cba9f7e"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+  const order = document.getElementById('orderamount').innerText;
+  const usercount = document.getElementById('usercount').innerText;
+  const paymentcod=document.getElementById('paymentcod').innerText
+  const paymentpaypal=document.getElementById('paymentpaypal').innerText;
+  const paymentrazorpay=document.getElementById('paymentrazorpay').innerText;
+
+  const orderstatus=document.getElementById('shipped').innerText;
+  const statuspending=document.getElementById('pending').innerText;
+  const statuscanceled=document.getElementById('canceled').innerText;
+  const statusdeliverd=document.getElementById('deliverd').innerText;
+  const statusplaces=document.getElementById('placed').innerText;
   
+  
+ 
+
+
+
+   
+ 
+
+
+  const ctx = document.getElementById('bar-chart-horizontal');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Deliverid', 'pending', 'cancelled', 'shipped', 'places'],
+      datasets: [{
+        label: '# of Status',
+        data: [statusdeliverd, orderstatus,statuspending,statuscanceled,statusplaces],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+
+
+  new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: ["COD", "Paypal", "Razorpay"],
+      datasets: [{
+        label: "orded (count)",
+        backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f"],
+        data: [paymentpaypal,paymentcod,paymentrazorpay]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Predicted world population (millions) in 2050'
+      }
+    }
+  });
+
+
+
+  
+
+
+
+
+
+ 
+
+
+
+
+
+</script>
+
+{{!--
+<script>
+  window.addEventListener("load", () => {
+    piefunction(1)
+  })
+
+
+  console.log('ssssssssssssssss')
+  function piefunction(day) {
+
+    $.ajax({
+      url: '/Admin/dashboard/' + day,
+      method: 'get',
+      success: (response) => {
+        if (response) {
+
+
+
+          //========================================POLAR AREA CHART START===============================================================================//
+          new Chart(document.getElementById("bar-chart-grouped"), {
+            type: 'polarArea',
+            data: {
+              labels: ["Complted Payments", "Cancel Orders"],
+              datasets: [
+                {
+                  label: "Population (millions)",
+                  backgroundColor: ["#3e95cd", "#8e5ea2"],
+                  data: [1, 1]
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Completed vs calcelled order Payment'
+              }
+            }
+          });
+          //===================================================POLAR AREA CHART END==========================================================================================//
+          //====================================================HORIZONTAL SINGLE BAR START======================================================================================================================//
+          new Chart(document.getElementById("bar-chart-horizontal"), {
+            type: 'horizontalBar',
+            data: {
+              labels: ["Action", "Thriller", "Adventure", "Survival", "Drama", "Sports"],
+              datasets: [
+                {
+                  label: "No. Of Games",
+                  backgroundColor: ["#2516fc85", "#11f0119a", "#3cba9f98", "#da282891", "#dfeb368c", "#ba2dc76c"],
+                  borderColor: [
+                    '#010f26',
+                    '#064606',
+                    '#0d5545',
+                    '#bdca00',
+                    '#930aa0'
+                  ],
+                  borderWidth: 3,
+                  data: [1, 1, 1, 1, 1, 1]
+                }
+              ]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'GAMES PER CATEGORY'
+              }
+            }
+          });
+          //====================================================HORIZONTAL SINGLE BAR END======================================================================================================================//
+          //====================================================RADAR CHART START======================================================================================================================//
+          new Chart(document.getElementById("radar-chart"), {
+            type: 'radar',
+            data: {
+              labels: ["Africa", "Asia", "Europe", "Latin America", "North America", "as"],
+              datasets: [
+                {
+                  label: "1950",
+                  fill: true,
+                  backgroundColor: "rgba(179,181,198,0.2)",
+                  borderColor: "rgba(179,181,198,1)",
+                  pointBorderColor: "#fff",
+                  pointBackgroundColor: "rgba(179,181,198,1)",
+                  data: [8.77, 55.61, 21.69, 6.62, 6.82]
+                }, {
+                  label: "2050",
+                  fill: true,
+                  backgroundColor: "rgba(255,99,132,0.2)",
+                  borderColor: "rgba(255,99,132,1)",
+                  pointBorderColor: "#fff",
+                  pointBackgroundColor: "rgba(255,99,132,1)",
+                  pointBorderColor: "#fff",
+                  data: [25.48, 54.16, 7.61, 8.06, 4.45]
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Distribution in % of world population'
+              }
+            }
+          });
+          //====================================================RADAR CHART END======================================================================================================================//
+          //====================================================BAR CHART GROUP START======================================================================================================================//
+
+          new Chart(document.getElementById("bar-chart-grouped"), {
+            type: 'bar',
+            data: {
+              labels: ["Action", "Thriller", "Adventure", "Survival", "Drama", "Sports"],
+              datasets: [
+                {
+                  label: "Active Games Per Category",
+                  backgroundColor: "#3e95cd",
+                  borderColor: "#1e0046",
+                  borderWidth: 3,
+                  data: [1,
+                    1,
+                    1,
+                    1,
+                    1, 1]
+                }, {
+                  label: "Orders per Category",
+                  backgroundColor: "#8e5ea291",
+                  borderColor: "#581774",
+                  borderWidth: 3,
+
+                  data: [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1]
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'CATEGORY RELATIVE'
+              }
+            }
+          });
+          //====================================================BAR CHAER GROUP END======================================================================================================================//
+          //====================================================DONUT CHART START======================================================================================================================//
+
+
+          new Chart(document.getElementById("doughnut-chart"), {
+            type: 'doughnut',
+            data: {
+              [
+              labels: ["COD", "ONLINE", "PAYPA"]
+                            datasets: [
+                {
+                  label: "Population (millions)",
+                  backgroundColor: ["#3e96cdb4", " #cc203d93", "#3cba9f7e"],
+                  borderColor: ["#004a79", "#cc203d", "#3cba9f"],
+                  borderWidth: 3,
+                  data: [1, 1, 1]
+                }
+
+                        },
+            options: {
+              title: {
+                display: true,
+                text: 'PAYMENT METHOD USED FOR ORDERS'
+              }
+            }
+          });
+          //====================================================DONUT CHART END======================================================================================================================//
+          //====================================================BAR START======================================================================================================================//
+          new Chart(document.getElementById("bar-chart"), {
+            type: 'bar',
+            data: {
+              labels: ["Placed", "Shipped", "Delivered", "Cancelled"],
+              datasets: [
+                {
+                  label: "Payment Status",
+                  backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                  data: [1, 1, 1, 1]
+                }
+              ]
+            },
+            options: {
+              legend: { display: false },
+              title: {
+                display: true,
+                text: 'Predicted world population (millions) in 2050'
+              }
+            }
+          });
+
+        }
+      }
+    })
+  }
+
+</script> --}}
+
+
+<style>
+  .card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1), 0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1), 0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12), 0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
+  }
+
+  .card:hover {
+
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px !important;
+
+  }
+
+  .l-bg-cherry {
+    background: linear-gradient(to right, #493240, #f09) !important;
+    color: #fff;
+  }
+
+  .l-bg-blue-dark {
+    background: linear-gradient(to right, #373b44, #4286f4) !important;
+    color: #fff;
+  }
+
+  .l-bg-green-dark {
+    background: linear-gradient(to right, #0a504a, #38ef7d) !important;
+    color: #fff;
+  }
+
+  .l-bg-orange-dark {
+    background: linear-gradient(to right, #a86008, #ffba56) !important;
+    color: #fff;
+  }
+
+  .card .card-statistic-3 .card-icon-large .fas,
+  .card .card-statistic-3 .card-icon-large .far,
+  .card .card-statistic-3 .card-icon-large .fab,
+  .card .card-statistic-3 .card-icon-large .fal {
+    font-size: 110px;
+  }
+
+  .card .card-statistic-3 .card-icon {
+    text-align: center;
+    line-height: 50px;
+    margin-left: 15px;
+    color: #000;
+    position: absolute;
+    right: 73px;
+    top: 20px;
+    opacity: 0.1;
+  }
+
+  .l-bg-cyan {
+    background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+    color: #fff;
+  }
+
+  .l-bg-green {
+    background: linear-gradient(135deg, #23bdb8 0%, #43e794 100%) !important;
+    color: #fff;
+  }
+
+  .l-bg-orange {
+    background: linear-gradient(to right, #f9900e, #ffba56) !important;
+    color: #fff;
+  }
+
+  .l-bg-cyan {
+    background: linear-gradient(135deg, #289cf5, #84c0ec) !important;
+    color: #fff;
+  }
+</style>

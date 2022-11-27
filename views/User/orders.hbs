@@ -1,4 +1,6 @@
-<div class="background pb-3" style="margin-left: 7%;
+<div class="container-fluid">
+    <div class="row">
+        <div class="background pb-3" style="margin-left: 7%;
     width: 90%;">
     <div class="" style=" vh-100">
         <a class="navbar-brand mt-4" style="font-family: none; font-weight: 900; color: black;">
@@ -19,42 +21,98 @@
                             <th>Quantity</th>
                             <th>Status</th>
                             <th>address</th>
-                             {{!-- <th>address</th> --}}
-                           
+                            {{!-- <th>address</th> --}}
+
                         </tr>
                     </thead>
                     <tbody>
+                       
+                        {{#if orders }}
                         {{#each orders}}
-                            {{#with products}}
-                             
 
-                      
+
+
+
                         <tr>
                             <td class="align-middle fw-b">{{inc @index}}</td>
                             <td>
-                                <img style="width:70px; height: 70px;" src="/product-images/{{image.[0]}}alt="">
+                                <img style="width:70px; height: 70px;"  src="/product-images/{{image.[0]}}" alt="Image Loadin">
                             </td>
                             <td class="align-middle fw-b">
-                               <p>{{this.productName}}</p> 
-                                </td>
+                                <p>{{this.products.productName}}</p>
+                            </td>
                             <td class="align-middle fw-b">{{this.products.category}}</td>
-                            <td class="align-middle fw-b">₹ {{this.price}}</td>
-                            <td class="align-middle fw-b">{{../this.date}}</td>
-                            <td class="align-middle fw-b">{{../this.payment}}</td>
-                            <td class="align-middle fw-b">{{this.quantity}}</td>
-                            <td class="align-middle fw-b">{{../this.status}}</td>
-                            <td class="align-middle fw-b">{{../this.deliveryDetails.address}}</td>
-                           
-                            
+                            <td class="align-middle fw-b">₹ {{this.products.price}}</td>
+                            <td class="align-middle fw-b">{{this.date}}</td>
+                            <td class="align-middle fw-b">{{this.payment}}</td>
+                            <td class="align-middle fw-b">{{this.products.quantity}}</td>
+                            {{!-- <td class="align-middle fw-b">{{this.status}}</td> --}}
+
+                            <td class="align-middle fw-b" id="select">
+                                {{#ifCheck this.status 'delivered'}}
+                                <option value="delivered">Delivered</option><br>
+                                 <button type="button" class="btn btn-primary"
+                                        onclick="returnProduct('{{this._id}}','{{this.item}}')">Return
+                                        Product</button>
+
+                                {{/ifCheck}}
+                                {{#ifCheck this.status 'canceled'}}
+                                <option value="canceled">Cancelled</option>
+                                {{/ifCheck}}
+                                {{#ifCheck this.status 'placed'}}
+                                <select  class="form-control" id="{{this.products._id}}{{this._id}}"
+                                    onchange="statusChange('{{this.products._id}}','{{this._id}}')"
+                                    style="width: 90px;">
+                                    <option selected="true" disabled="disabled"
+                                        style="background-color: blue; color: white;">
+                                        {{this.status}}</option>
+                                    <option value="cancel">cancel</option>
+
+                                </select>
+
+                                {{/ifCheck}}
+                                {{#ifCheck this.status 'pending'}}
+                                <option value="pending">pending</option>
+                                {{/ifCheck}}
+
+                                {{#ifCheck this.status 'shipped'}}
+                                <select class="form-control" id="{{this.products._id}}{{this._id}}"
+                                    onchange="statusChange('{{this.products._id}}','{{this._id}}')"
+                                    style="width: 90px;">
+                                    <option selected="true" disabled="disabled"
+                                        style="background-color: blue; color: white;">
+                                        {{this.status}}</option>
+                                    <option value="canceled">Cancel</option>
+                                </select>
+                                {{/ifCheck}}
+
+
+
+
+
+                            </td>
+
+                            <td class="align-middle fw-b">{{this.deliveryDetails.address}}</td>
+
+
                         </tr>
 
-                            {{/with}}
+
                         {{/each}}
-                        
+                        {{else}}
+                        <h2 class="fw-bold text-danger">Order list is Empty...!</h2>
+                        {{/if}}
+
+                     
                     </tbody>
                 </table>
             </div>
         </div>
+
+        
+    </div>
+</div>
+
 
         <script>
             $(document).ready(function () {

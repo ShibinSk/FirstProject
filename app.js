@@ -29,6 +29,7 @@ const catagoryRoutes=require('./routes/AdminRoutes/catagoryRoutes')
 const cartRoutes=require('./routes/UserRoutes/cartRoutes')
 const userprofileRoutes=require('./routes/UserRoutes/userprofileRoutes')
 const paymanetRoutes=require('./routes/UserRoutes/paymantRoutes')
+const wishlistRoutes=require('./routes/UserRoutes/wishlistRoutes')
 
 
 
@@ -39,12 +40,15 @@ const paymanetRoutes=require('./routes/UserRoutes/paymantRoutes')
 var app = express();
 
 
-
+Handlebars.registerHelper('ifCheck', function (arg1, arg2, options) {
+  return (arg1 == arg2) ? options.fn(this) : options.inverse(this)
+})
 
 Handlebars.registerHelper("inc", (value)=>
 {
     return parseInt(value) + 1;
 });
+
 Handlebars.registerHelper( "when",function(operand_1, operator, operand_2, options) {
   var operators = {
    'eq': function(l,r) { return l == r; },
@@ -113,6 +117,7 @@ app.use('/User',productdetailsRoutes)
 app.use('/User',cartRoutes)
 app.use('/User',userprofileRoutes)
 app.use('/User',paymanetRoutes)
+app.use('/User',wishlistRoutes)
 
 
 

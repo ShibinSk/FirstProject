@@ -1,8 +1,3 @@
-
-
-
-
-
 (function () {
   "use strict";
 
@@ -320,15 +315,45 @@ let tabChange = function (val) {
   }
 };
 
-
-
 // =================================
 
 // zoom in product details
 
 $(document).ready(function () {
   $(".block__pic").imagezoomsl({
-      zoomrange: [6, 6]
-    });
+    zoomrange: [6, 6],
+  });
 });
+
+function statusChange(prodId, orderId, status) {
+  var status = document.getElementById(prodId + orderId).value;
+  console.log(status);
+  $.ajax({
+    url: "/admin/order-status",
+    data: {
+      prodId,
+      orderId,
+      status,
+    },
+    method: "post",
+    success: (response) => {
+      console.log("asdasdasd");
+      if (response.status) {
+        document.getElementById(orderId + prodId).innerHTML = status;
+        if (
+          status == "pending" ||
+          status == "placed" ||
+          status == "shipped" ||
+          status == "delivered" ||
+          status == "canceled"
+        ) {
+          location.reload();
+        }
+      }
+    },
+  });
+}
+
+
+
 

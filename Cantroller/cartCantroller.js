@@ -456,7 +456,6 @@ console.log(addressDetails);
     const obj = new ObjectId();
 
     const orderObj = {
-      deliveryDetails: addressDetails[0].address,
       userId: ObjectId(order.userId),
       payment: order.payment,
       products: products[0].products,
@@ -614,7 +613,7 @@ exports.paypalsuccess = async (req, res) => {
             .updateOne(
               { _id: ObjectId(id) },
               {
-                $set: { status: "Confirmed" },
+                $set: { status: "placed" },
               }
             );
           console.log(result);
@@ -633,7 +632,7 @@ exports.paypalsuccess = async (req, res) => {
 exports.paymentVerification = async (req, res) => {
   try {
     const details = req.body;
-    c;
+    
     console.log("heyyyyyyyyyyyy");
     const objId = req.body["order[receipt]"];
     console.log(objId);
@@ -655,7 +654,7 @@ exports.paymentVerification = async (req, res) => {
         .updateOne(
           { _id: ObjectId(objId) },
           {
-            $set: { status: "Confirmed" },
+            $set: { status: "placed" },
           }
         );
 
@@ -674,13 +673,28 @@ exports.ordercomplate = (req, res) => {
 };
 
 exports.ordersget = async (req, res) => {
+  const agg = [
+    {
+      $unwind: {
+        path: "$products",
+      },
+    },
+  ];
+
   const orders = await db
     .get()
     .collection(collection.ORDER_COLLECTION)
-    .find()
+    .aggregate(agg)
     .toArray();
 
-  res.render("user/orders", { navside: true, orders: orders });
+    const products = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .find()
+      .toArray();
+
+  res.render("user/orders", { navside: true, orders: orders,products:products });
+  console.log(products,'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
 };
 
 //========================================== PicUp Address===================
@@ -755,3 +769,12 @@ exports.addaddress = async (req, res) => {
     res.redirect("back");
   } catch (err) {}
 };
+
+
+
+exports.statuspost=(req,res)=>{
+  console.log('ooooooooooooooooooooooooooooooooooooooo');
+console.log(req.body);
+
+
+}
