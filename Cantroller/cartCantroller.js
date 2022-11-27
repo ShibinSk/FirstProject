@@ -380,6 +380,7 @@ console.log(addressDetails);
           productId: 1,
           quantity: 1,
           result: 1,
+          image:'$result.image'
         },
       },
       {
@@ -393,6 +394,7 @@ console.log(addressDetails);
               description: "$result.description",
               category: "$result.category",
               price: "$result.price",
+              image:"$image"
             },
           },
         },
