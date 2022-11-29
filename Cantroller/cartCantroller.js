@@ -394,7 +394,7 @@ console.log(addressDetails);
               description: "$result.description",
               category: "$result.category",
               price: "$result.price",
-              image:"$image"
+              image:"$image",
             },
           },
         },
@@ -438,6 +438,7 @@ console.log(addressDetails);
             product_Id: 1,
             quantity: 1,
             products: { $arrayElemAt: ["$product", 0] },
+           
           },
         },
         {
@@ -453,17 +454,19 @@ console.log(addressDetails);
     console.log(order);
     console.log(total[0].total);
     console.log(products[0].products);
+    console.log(products,'ddddddddddddddddddddddddddddddddd');
 
     const status = order.payment === "COD" ? "placed" : "pending";
     const obj = new ObjectId();
 
     const orderObj = {
       userId: ObjectId(order.userId),
+      deliveryDetails:addressDetails[0].address,
       payment: order.payment,
       products: products[0].products,
       status: status,
       total: total,
-      date: new Date(),
+      date: new Date().toDateString(),
     };
 
     // const aadres = await db
@@ -486,10 +489,10 @@ console.log(addressDetails);
 
     req.session.insertedId = result.insertedId;
 
-    // const removecart = await db
-    // .get()
-    // .collection(collection.CART_COLLECTION)
-    // .deleteOne({user:ObjectId(order.userId)})
+    const removecart = await db
+    .get()
+    .collection(collection.CART_COLLECTION)
+    .deleteOne({user:ObjectId(order.userId)})
 
     if (req.body.payment == "COD") {
       res.json({ codSuccess: true });
@@ -769,7 +772,9 @@ exports.addaddress = async (req, res) => {
         }
       );
     res.redirect("back");
-  } catch (err) {}
+  } catch (err) {
+   res.render(console.error())
+  }
 };
 
 

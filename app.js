@@ -30,6 +30,8 @@ const cartRoutes=require('./routes/UserRoutes/cartRoutes')
 const userprofileRoutes=require('./routes/UserRoutes/userprofileRoutes')
 const paymanetRoutes=require('./routes/UserRoutes/paymantRoutes')
 const wishlistRoutes=require('./routes/UserRoutes/wishlistRoutes')
+const womenRoutes=require('./routes/UserRoutes/womenRoutes')
+const offerRoutes=require('./routes/AdminRoutes/offerRoutes')
 
 
 
@@ -103,6 +105,7 @@ app.use('/Admin',addproductsRoutes);
 app.use('/Admin',daashbordRoutes);
 app.use('/Admin',usersRoutes)
 app.use('/Admin',catagoryRoutes)
+app.use('/Admin',offerRoutes)
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
@@ -118,6 +121,8 @@ app.use('/User',cartRoutes)
 app.use('/User',userprofileRoutes)
 app.use('/User',paymanetRoutes)
 app.use('/User',wishlistRoutes)
+app.use('/USer',womenRoutes)
+
 
 
 
@@ -134,7 +139,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error',{navside:true});
 });
 
 module.exports = app;

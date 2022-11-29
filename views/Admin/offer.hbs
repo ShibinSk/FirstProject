@@ -1,0 +1,149 @@
+<div class="log"></div>
+<div class="background pb-3" style=" margin-left: 6%;
+    width: 90%;">
+    <div>
+        <a class="navbar-brand mt-4" style="font-family: none; font-weight: 900; color: black;">
+            <h1 class="text-center pt-5">Offers</h1>
+        </a>
+    </div>
+    <div class="d-flex" style="margin-left:9%;">
+
+        <div class="col-4 me-5" style="width:43%;">
+            <div class="d-flex mb-2">
+                <h4 class=""><strong>Product Offer</strong></h4>
+                <button type="button" class="btn btn-outline-secondary ms-auto" data-bs-toggle="modal"
+                    data-bs-target="#product-offer" data-bs-whatever=" @mdo"><i class="fa-solid fa-plus"></i>&nbsp; Add
+                    Product
+                    Offer</button>
+            </div>
+            <table class="table table-bordered" style="">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">No</th>
+                        <th scope="col" class="text-center">Product</th>
+                        <th scope="col" class="text-center">Offer in %</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr>
+                        <td class="text-center">{{inc @index}}</td>
+                        <td class="text-center">{{this.product}}</td>
+                        <td class="text-center">{{this.productOffer}}</td>
+                        <td class="text-center">
+                            <button type="button" style="border:0;" onclick="deleteProductOffer('{{this._id}}')"><i
+                                    class="fa-solid fa-trash" style="color: red; font-size:20px;"></i></button>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-4 me-5" style="width:43%;">
+            <div class="d-flex mb-2">
+                <h4 class=""><strong>Category Offer</strong></h4>
+                <button type="button" class="btn btn-outline-secondary ms-auto" data-bs-toggle="modal"
+                    data-bs-target="#category-offer" data-bs-whatever=" @mdo"><i class="fa-solid fa-plus"></i>&nbsp; Add
+                    Category
+                    Offer</button>
+            </div>
+            <table class="table table-bordered" style="">
+                <thead class="table-dark">
+                    <tr>
+
+                         <th scope="col" class="text-center">No</th>
+                        <th scope="col" class="text-center">Category</th>
+                        <th scope="col" class="text-center">Offer in %</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    {{#each products}}
+                        <td class="text-center">{{inc @index}}</td>
+                        <td class="text-center">{{this.category}}</td>
+                        <td class="text-center">{{this.categoryOffer}}</td>
+                        <td class="text-center">
+                            <button type="button" style="border:0;"
+                                onclick="deleteCategoryOffer('{{this.category}}')"><i class="fa-solid fa-trash"
+                                    style="color: red; font-size:20px;"></i></button>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{{!--ProductModal --}}
+<div class="modal fade" id="product-offer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Product Offer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/add-offer" id="product-offer" method="post"
+                    class="needs-validation" novalidate>
+                    <div class=" mb-3">
+                        <select class="form-select" id="product-offer" name="product" required>
+                            <option selected>Choose the Product</option>
+                            {{#each products}}
+                            <option value="{{this._id}}">{{this.product}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default" id="product-offer" name="productOffer"
+                            placeholder="Enter Offer in Percentage" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!--CategoryModal--}}
+<div class="modal fade" id="category-offer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Category Offer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/add-offer" method="post" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <select class="form-select" id="category-offer" name="category">
+                            <option selected>Choose the Category</option>
+                            {{#each category}}
+                            <option value="{{this.category}}">{{this.category}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default" id="category-offer" name="categoryOffer"
+                            placeholder="Enter Offer in Percentage" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

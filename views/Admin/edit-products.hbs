@@ -12,11 +12,19 @@
             <label for="">Category</label>
             <input type="text" name="category" class="form-control" value="{{this.category}}">
 
-            <label for="">price</label>
-            <input type="text" name="price" class="form-control" value="{{this.price}}">
+            {{!-- <label for="">price</label>
+            <input type="text" name="price" class="form-control" value="{{this.price}}"> --}}
 
             <label for="">Description</label>
             <input type="text" name="Description" class="form-control" value="{{this.description}}">
+            <div class="form-group mb-3 mt-5 col-xs-12 col-sm-6">
+                  <label for="stock">Original Price</label>
+                  <input id="stock" name="price" type="text" value="{{this.price}}" class="form-control validate"required/>
+                 </div>
+                 <div class="form-group mb-3 col-xs-12 col-sm-6">
+                  <label for="stock">After Discount</label>
+                  <input id="stock" name="disprice" type="text" value="{{this.discountprice}}" class="form-control validate"required/>
+                  </div>
                
             <label for="">Image</label>
             <img src="/product-images/{{image.[0]}}" alt="" style="width:100px ;" height="auto" id="imgView">

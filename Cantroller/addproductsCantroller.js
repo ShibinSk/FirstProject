@@ -5,8 +5,6 @@ const cloudinary = require("../utils/cloudinary");
 const path = require("path");
 const multer = require("multer");
 
-
-
 var ObjectId = require("mongodb").ObjectId;
 
 exports.viewproductsget = async (req, res) => {
@@ -18,7 +16,7 @@ exports.viewproductsget = async (req, res) => {
       .toArray();
 
     res.render("Admin/view-products", { admin: true, products });
-    console.log(products,'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq');
+    console.log(products, "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
   } catch (err) {
     console.log(err);
   }
@@ -80,8 +78,12 @@ exports.addproductspost = async (req, res) => {
       product: req.body.name,
       description: req.body.Description,
       category: req.body.category,
-      price: Number(req.body.price),
+      // price: Number(req.body.price),
       quantity: Number(req.body.quantity),
+      orginalprice:Number(req.body.price),
+      discountprice:Number(req.body.price),
+      productOffer: 0,
+      categoryOffer: 0,
       image: urls,
     };
     console.log(price);

@@ -57,7 +57,8 @@
                                         Product</button>
 
                                 {{/ifCheck}}
-                                {{#ifCheck this.status 'canceled'}}
+                                {{#ifCheck this.status 'cancel'}}
+                                 
                                 <option value="canceled">Cancelled</option>
                                 {{/ifCheck}}
                                 {{#ifCheck this.status 'placed'}}
