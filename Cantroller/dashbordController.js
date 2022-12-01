@@ -131,3 +131,51 @@ const orderdeliverd = await db
     console.log(err);
   }
 };
+
+
+
+
+// ===================Sales report ================
+
+
+exports.getsales= async(req,res)=>{
+  try {
+    
+    const agg = [
+      {
+        '$unwind': {
+          'path': "$products", 
+          'preserveNullAndEmptyArrays': true
+        }
+      }, {
+        '$project': {
+          '_id': 0, 
+          'date': "$date", 
+          'productsName': '$products.productName', 
+          'quantity': '$products.quantity', 
+          'price': '$totalAmountOriginal',
+          'discountPrice':'$totalAmountDiscounted', 
+          
+        }
+      }
+    ];
+    
+    console.log(req.query,'ooooooooooooooooooooooooooooooooooo[[[[[[[[[');
+    
+    console.log(agg);
+
+    const salesDetails = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .aggregate(agg)
+      .toArray();
+
+
+    
+
+    res.render('Admin/sales',{admin:true,salesDetails,})
+  } catch (err) {
+
+    console.log(err);
+  }
+}

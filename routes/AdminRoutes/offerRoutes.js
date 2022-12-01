@@ -9,5 +9,9 @@ const offerController=require('../../Cantroller/offerController')
 
 router.get('/offer',offerController.getoffer)
 router.post('/add-offer',offerController.addoffer)
+// ===================delete offer==================================================
+
+router.get('/delete-product-offer/:id',offerController.deleteoffer)
+router.get('/delete-category-offfer/:id',offerController.deletecategoryoffer)
 
 module.exports=router; 

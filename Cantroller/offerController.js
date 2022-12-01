@@ -19,18 +19,54 @@ exports.getoffer = async (req, res) => {
           $project: {
             _id: 1,
             product: 1,
-            orginalprice:1,
-            discountprice:1,
-            productOffer:1,
-            categoryOffer:1
+            // category:1,
+            // orginalprice:1,
+            // discountprice:1,
+            // productOffer:1,
+            // categoryOffer:1
+
 
 
           },
         }, 
       ])
       .toArray();
+      const disproduct = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .aggregate([{
+        $match:{
+          productOffer:{$gt:1}
+        }
+      },{
+        $project:{
+          _id:1,
+          product:1,
+          productOffer:1,
+        }
+      }])
+      .toArray()
+      console.log(disproduct,'111111111111111111111111111111111');
 
-    res.render("Admin/offer", { admin: true, category, products });
+      const discategory = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .aggregate([{
+        $match:{
+          categoryOffer:{$gt:0}
+        }
+      },{
+        $project:{
+          _id:1,
+          category:1,
+          categoryOffer:1,
+        }
+      }])
+      .toArray()
+      console.log(discategory,'lllllllll');
+      
+
+    res.render("Admin/offer", { admin: true, category, products,disproduct,discategory});
   } catch (err) {}
 };
 
@@ -139,3 +175,95 @@ console.log(pro.orginalprice,"orginal")
     console.log(err);
   }
 };
+
+
+
+// ==============delete prodduct offer===========================
+exports.deleteoffer=async(req,res)=>{
+  try {
+
+    const id = req.params.id   
+
+    await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .updateOne({_id:ObjectId(id)},{
+      $set:{
+        productOffer:0
+      }
+    })
+
+    const product  = await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .findOne({_id:ObjectId(id)})
+    console.log(product);
+
+    const amount= Math.ceil(
+      product.orginalprice-(product.orginalprice * product.productOffer) /100
+
+    );
+    await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .updateOne({_id:ObjectId(id)},{
+      $set:{ discountprice:amount
+
+      }
+    })
+
+
+    res.redirect("back");
+    
+  } catch (err) {
+    console.log(err);
+    
+  }
+  
+}
+
+
+// ===================delete category offer =============================
+
+
+exports.deletecategoryoffer=async(req,res)=>{
+  try {
+    console.log(req.params.id);
+    const id= req.params.id
+
+    const result = await db 
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .updateOne({_id:ObjectId(id)},{
+      $set:{categoryOffer:0}
+    })
+    
+    console.log(result,'jjjjjjjjjjjjjjjjjjj');
+
+    const product = await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .findOne({_id:ObjectId(id)})
+    console.log(product,'777777777777777777');
+
+    const amount= Math.ceil(
+      product.orginalprice-(product.orginalprice*product.productOffer) /100
+
+    )
+
+    await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .updateOne({_id:ObjectId(id)},{
+      $set:{
+        discountprice:amount
+
+      }
+    })
+
+    
+    res.redirect("back");
+  } catch (err) {
+    console.log(err);
+  }
+}

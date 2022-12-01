@@ -5,6 +5,7 @@ const { get, response } = require("../app");
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
 const paypal = require("paypal-rest-sdk");
+const e = require("express");
 
 // ===========Razorpya configure==================
 var instance = new Razorpay({
@@ -64,7 +65,7 @@ exports.cartget = async (req, res) => {
           },
         ])
         .toArray();
-      console.log(cartItems);
+      console.log(cartItems,'123456789');
 
       // =======================================================================
 
@@ -104,7 +105,7 @@ exports.cartget = async (req, res) => {
           {
             $group: {
               _id: null,
-              total: { $sum: { $multiply: ["$quantity", "$products.price"] } },
+              total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
             },
           },
         ])
@@ -291,7 +292,7 @@ exports.placeorder = async (req, res) => {
         {
           $group: {
             _id: null,
-            total: { $sum: { $multiply: ["$quantity", "$products.price"] } },
+            total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
           },
         },
       ])
@@ -393,7 +394,7 @@ console.log(addressDetails);
               quantity: "$quantity",
               description: "$result.description",
               category: "$result.category",
-              price: "$result.price",
+              price: "$result.totalAmountDiscounted",
               image:"$image",
             },
           },
@@ -444,7 +445,7 @@ console.log(addressDetails);
         {
           $group: {
             _id: null,
-            total: { $sum: { $multiply: ["$quantity", "$products.price"] } },
+            total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
           },
         },
       ])
@@ -452,9 +453,66 @@ console.log(addressDetails);
 
     const order = req.body;
     console.log(order);
+
+   
     console.log(total[0].total);
     console.log(products[0].products);
     console.log(products,'ddddddddddddddddddddddddddddddddd');
+
+
+   
+    let discAmount = 0;
+    let afterDisc = total[0].total;
+console.log(req.body.couponId,'--------------------------------------------');
+    if(req.body.couponId){
+
+       const result = await db 
+       .get()
+       .collection(collection.COUPONS_COLLECTION)
+       .findOne({coupon: req.body.couponId})
+    
+
+    const discount = result.discount; //coupon discount percentage
+    discAmount = Math.floor((total[0].total * discount) / 100); //coupon discount amount in total price
+    console.log( discAmount,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssss');
+    afterDisc -= discAmount;
+    const productDiscount = discAmount / products[0].products.length; // Coupon discount amount splitted equally
+
+    products[0].products.forEach((item) => {
+      item.discountedSubtotal = Math.floor(
+        item.offerSubTotal - productDiscount
+      );
+    });
+
+   
+     //get user details
+     const user = await db
+     .get()
+     .collection(collection.USER_COLLECTION)
+     .findOne({ _id: ObjectId(req.session.user._id) });
+
+     const Obj = {
+      userId: user._id,
+      email: user.Email,
+      name: user.Name,
+    };
+    await db
+    .get()
+    .collection(collection.COUPONS_COLLECTION)
+    .updateOne(
+      { coupon: req.body.couponId},
+      {
+        $push: {
+          users: Obj,
+        },
+      }
+    );
+  }else{
+    products[0].products.forEach((item) => {
+      item.discountedSubtotal = item.offerSubTotal;
+    });
+  }
+
 
     const status = order.payment === "COD" ? "placed" : "pending";
     const obj = new ObjectId();
@@ -467,6 +525,15 @@ console.log(addressDetails);
       status: status,
       total: total,
       date: new Date().toDateString(),
+      
+      returnedAmount: 0,
+        cancelledAmount: 0,
+        couponPrice: Math.floor(discAmount) ?? null,
+        products:products[0].products,
+        totalAmountOriginal: total[0].total,
+        totalOfferPrice:total[0].total,
+        totalAmountDiscounted: afterDisc,
+        grandTotal: afterDisc,
     };
 
     // const aadres = await db
@@ -784,4 +851,88 @@ exports.statuspost=(req,res)=>{
 console.log(req.body);
 
 
+}
+
+ 
+
+// ========================apply coupon =======================
+
+exports.applycoupon= async(req,res)=>{
+  try {
+    console.log(req.body.couponcode,'888888888888');
+    console.log(req.body.total,'======================');
+   if(!req.body.couponcode){
+    res.json({msg:"Pleace enter a coupon code !"})
+   }
+   const result = await db
+   .get()
+   .collection(collection.COUPONS_COLLECTION)
+   .findOne({ coupon: req.body.couponcode });
+   console.log(result);
+
+   
+   if (result == null) {
+    res.json({ msg: "Please enter valid coupon !" });
+  }
+  if (result) {
+    const agg = [
+      {
+        $match: {
+          coupon: req.body.couponcode,
+        },
+      },
+      {
+        $unwind: {
+          path: "$users",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $match: {
+          "users.userId":ObjectId(req.session.user._id),
+        },
+      },
+    ];
+    const usedCoupon = await db
+      .get()
+      .collection(collection.COUPONS_COLLECTION)
+      .aggregate(agg)
+      .toArray();
+
+
+      if(usedCoupon.length >0 ){
+        res.json({msg:"Already Used"})
+      }else{
+        const expdate = result.expdate;
+        const currentdate = new Date();
+        if (new Date(currentdate) > new Date(expdate)) {
+          res.json({ msg: "Coupon Expired !" });
+      }else{
+
+        const discount = result.discount;
+          let discAmount = (Number(req.body.total) * discount) / 100;
+          let afterDisc = Number(req.body.total) - discAmount;
+          const d = Math.round(discAmount);
+          console.log(d);
+          const t = Math.round(afterDisc);
+          console.log(t);
+          req.session.coupon = t;
+
+          res.json({
+            discount: d,
+            total: t,
+            discountPercentage: discount,
+            coupon: req.body.couponcode,
+          });
+
+      }
+  }
+
+    
+}
+    
+    
+  } catch (err) {
+    console.log(err);
+  }
 }

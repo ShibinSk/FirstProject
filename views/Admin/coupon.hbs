@@ -1,0 +1,82 @@
+<div class="background pb-3" style=" margin-left: 6%;">
+    <div>
+        <a class="navbar-brand mt-4" style="font-family: none; font-weight: 900; color: black;">
+            <h1 class="text-center pt-5">Coupon</h1>
+        </a>
+    </div>
+    <div class="col-10 me-5" style="margin-left: 6%;">
+        <div class="d-flex mb-2">
+            {{!-- <h4 class=""><strong>Product Offer</strong></h4> --}}
+            <button type="button" class="btn btn-outline-secondary ms-auto" data-bs-toggle="modal"
+                data-bs-target="#coupon" data-bs-whatever=" @mdo"><i class="fa-solid fa-plus"></i>&nbsp; Add
+                Coupon</button>
+        </div>
+        <table class="table table-bordered" style="">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="text-center">Coupons</th>
+                    <th scope="col" class="text-center">offer in %</th>
+                    <th scope="col" class="text-center">Minimum Price</th>
+                    <th scope="col" class="text-center">Offer Price Limit</th>
+                    <th scope="col" class="text-center">Expiry Date</th>
+                    <th scope="col" class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupons}}
+                <tr>
+                    <td class="text-center"><strong>{{this.coupon}}</strong></td>
+                    <td class="text-center">{{this.discount}}</td>
+                    <td class="text-center">{{this.minprice}}</td>
+                    <td class="text-center">{{this.pricelimit}}</td>
+                    <td class="text-center">{{this.expdate}}</td>
+                    <td class="text-center">
+                       <a href="/Admin/coupon-delete/{{this._id}}"><button type="button" style="border:0;"><i
+                                class="fa-solid fa-trash" style="color: red; font-size:20px;"></i></button></a> 
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{!-- COUPON MODAL --}}
+<div class="modal fade" id="coupon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Coupon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCoupon" action="/Admin/coupon" method="post">
+                    <div class=" mb-3">
+                        <input type="text" class="form-control" id="coupon" name="coupon"
+                            placeholder="Enter Coupon code" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="coupon-offer" name="couponOffer"
+                            placeholder="Enter Offer in Percentage" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="minPrice" name="minPrice"
+                            placeholder="Enter minimum price" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" class="form-control" id="maxPrice" name="priceLimit"
+                            placeholder="Enter Price Limimt" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Expiry Date</label>
+                        <input type="date" class="form-control" id="expDate" name="expDate" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

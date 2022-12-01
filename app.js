@@ -32,6 +32,7 @@ const paymanetRoutes=require('./routes/UserRoutes/paymantRoutes')
 const wishlistRoutes=require('./routes/UserRoutes/wishlistRoutes')
 const womenRoutes=require('./routes/UserRoutes/womenRoutes')
 const offerRoutes=require('./routes/AdminRoutes/offerRoutes')
+const couponRoutes=require('./routes/AdminRoutes/couponRoutes')
 
 
 
@@ -106,6 +107,7 @@ app.use('/Admin',daashbordRoutes);
 app.use('/Admin',usersRoutes)
 app.use('/Admin',catagoryRoutes)
 app.use('/Admin',offerRoutes)
+app.use('/Admin',couponRoutes)
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);

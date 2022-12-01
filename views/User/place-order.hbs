@@ -33,10 +33,29 @@
 		{{!-- <button class="btn btn-dark newAddress" type="button">
 			Add New Address
 		</button> --}}
+
+		<div class="pl-5">
+			<span id="couponerror" style="color:red;"></span>
+			<a href="/User/place-order"><span id="success" style="color:rgb(34, 255, 0);"></span><span id="close"></span></a> 
+			<form id="coupon" method="post">
+				<div class="row form-group">
+					<div class="col-sm-9">
+						<input type="text" name="couponcode" class="form-control input-number" <input type="text"
+							placeholder="Your Coupon Number...">
+						<input type="text" name="total" hidden value="{{total}}">
+					</div>
+					<div class="col-sm-3">
+
+						<button type="submit" class="btn btn-primary">Apply Coupon</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
 		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add new
 			Address</button>
 		<form class="colorlib-form" id="checkout-form">
-			<div class="grid">
+			<div class="grid">discount
 				<div class="row">
 					<div class="col-md-6">
 						<span class="plan-type">Addresess</span>
@@ -168,7 +187,17 @@
 											</ul> --}}
 										</li>
 										<li><span>Shipping</span> <span>₹0.00</span></li>
-										<li><span>Order Total</span> <span>₹ {{total}}</span></li>
+										<li><span>Order Total</span> <span id="">₹{{total}}</span></li>
+										<li><span>Coupon Discount</span> <span  style="color:rgb(27, 140, 10); font-weight: 700;" id="discount"  >₹0 /</span></li>
+										<li><span>Offer %</span><span id="Percentage">₹ {{discountPercentage}}</span></li>
+										<li><span>Bill Total</span><span id="topay">₹ {{total}}</span></li>
+										
+
+										<input type="text" id="couponcode" name="couponId" value="" hidden>
+
+
+
+
 									</ul>
 								</div>
 							</div>
@@ -181,7 +210,8 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											<div class="radio">
-												<label><input type="radio" name="payment" id="rd" value="COD"> COD</label>
+												<label><input type="radio" name="payment" id="rd" value="COD">
+													COD</label>
 											</div>
 										</div>
 									</div>
@@ -271,6 +301,7 @@
 		</div>
 
 		{{/each}} --}}
+
 
 		<footer id="colorlib-footer" role="contentinfo">
 			<div class="container">
@@ -374,6 +405,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					
 					<form method="post" action="/user/addNewaddress" class="colorlib-form" id="addaddress-form">
 						<div class="form-group">
 							<label for="recipient-name" class="col-form-label">First Name</label>
@@ -422,6 +454,66 @@
 	</div>
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
+
+		const $form = $('#coupon')
+		console.log('/////')
+		$form.on('submit', submitHandler)
+		function submitHandler(e) {
+			e.preventDefault()
+
+			$.ajax({
+				url: '/User/apply-coupon',
+				type: 'post',
+				data: $form.serialize()
+
+			}).done(response => {
+				console.log(response)
+				if (response.msg) {
+					document.getElementById('couponerror').classList.remove("d-none");
+					document.getElementById('couponerror').innerText = response.msg;
+					window.addEventListener("click", function (event) {
+						document.getElementById('couponerror').classList.add("d-none");
+					});
+
+				} else {
+					console.log("dfgdfgfgffg")
+
+
+					document.getElementById('couponcode').value = response.coupon
+					document.getElementById('success').innerText = "Coupon applied."
+					document.getElementById('close').innerText = " Remove"
+					console.log("sgfdsdddddddddd")
+					document.getElementById('discount').innerText = response.discount
+					document.getElementById("topay").innerText = response.total
+					document.getElementById("Percentage").innerText=response.discountPercentage
+
+
+
+					window.addEventListener("click", function (event) {
+						document.getElementById('success').classList.add("d-none");
+					});
+
+				}
+			})
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		$('#checkout-form').submit((e) => {
 			e.preventDefault();
 			$.ajax({
@@ -434,7 +526,7 @@
 					if (response.codSuccess) {
 						console.log("gggggggggg")
 						location.href = '/user/order-complate'
-						
+
 
 					}
 

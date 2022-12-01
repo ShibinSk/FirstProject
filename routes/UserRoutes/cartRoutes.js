@@ -43,5 +43,7 @@ router.post('/addNewaddress',cartCantroller.addaddress)
 
 // router.post('/orderStatusChange',cartCantroller.statuspost)
 
+// ==========coupon apply =================================
 
+router.post('/apply-coupon',cartCantroller.applycoupon)
 module.exports=router;

@@ -1,0 +1,152 @@
+<div class="container">
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 ">
+                <h5 class="m-0 font-weight-bold text-primary text-center">Shooker Sales Report</h5>
+                {{!-- <a href="/admin/sales-report-pdf"
+                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-download fa-sm text-white-50"></i> Sales Report Pdf</a> --}}
+                <button class="btn btn-primary" onclick="export_data()" value="Export to excel"  id="export">Export to Excel</button>
+                <button class="btn btn-primary"  id="pdf">Export to Pdf</button>
+                {{!-- <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        class="fas fa-download fa-sm text-white-50"></i> Sales Report excel</a> --}}
+
+            </div>
+            <div class="d-flex flex-row">
+                {{!-- < action="/admin/sales-report" method="get">
+                    <label class="ms-2 fw-bold" for="date"> Date Wise</label>
+                    <input type="text" name="daterange" id="daterange" style="width: 146px;" value="">
+
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                    </form> --}}
+                    <form action="/admin/sales-report" method="get" class="ma-5">
+                        <label class="ms-2 fw-bold" for="date"> Date Wise</label>
+                        <input style="width: 180px;" type="text" name="daterange" value="01/01/2022 - 12/30/2022" />
+                        <button   class=" btn btn-sm  btn-primary" type="submit">Filter Date</button>
+                    </form>
+                    <div>
+                        <form action="/admin/sales-report" method="get">
+                            <label class="ms-5 fw-bold" for="month">Month Wise</label>
+                            <input type="month" name="month" style="width: 146px;">
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </form>
+                    </div>
+                    {{!-- <div>
+                        <form action="/admin/sales-report" method="get">
+                            <label class="ms-5 fw-bold" for="month">Year Wise</label>
+
+                            <select name="" id="date">
+                                <option value="2022">2022</option>
+                            </select>
+
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </form>
+                    </div> --}}
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="salesreport" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead style="background: lightseagreen;">
+                            <tr>
+                                <th>Sl. No</th>
+                                <th>Date</th>
+                                <th>Product </th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Discounts</th>
+                                {{!-- <th>Revenue</th> --}}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {{#each salesDetails}}
+                            <tr>
+                                <td>{{inc @index}} </td>
+                                <td>{{this.date}}</td>
+                                <td>{{this.productsName}} </td>
+                                <td>{{this.quantity}} </td>
+                                <td>₹{{this.price}}</td>
+                                {{#if this.discountPrice }}
+                                <td>₹{{this.discountPrice}}</td>
+                                {{else}}
+                                <td>Nil</td>
+                                {{/if}}
+                                {{!-- <td>₹{{this.revenue}}</td> --}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="...">
+                            <ul class="pagination pagination-sm">
+                                {{#each page}}
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link" style="border-radius: 10px; background:#009688"> <a
+                                            onclick="page({{this}})" style="color:white;">{{this}}</a></span>
+                                </li>
+                                {{/each}}
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="/js/html2pdf.bundle.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#salesreport').DataTable();
+    });
+
+
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+
+            maxDate: new Date()
+        }, function (start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+
+    });
+    //excel convert
+
+function export_data() {
+    let data = document.getElementById('salesreport');
+    var fp = XLSX.utils.table_to_book(data, { sheet: 'vi' });
+    XLSX.write(fp, {
+        bookType: 'xlsx',
+        type: 'base64'
+    });
+    XLSX.writeFile(fp, 'test.xlsx');
+}
+
+
+    //pdf convert
+    document.getElementById('pdf').onclick = function () {
+        var element = document.getElementById("salesreport")
+        var opt = {
+            margin: 0,
+            filename: 'salesReport.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf(element, opt)
+    }
+
+</script>
