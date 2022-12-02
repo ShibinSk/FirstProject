@@ -8,7 +8,6 @@
 	</div>
 </div>
 
-
 <div class="colorlib-product">
 	<div class="container">
 		<div class="row row-pb-lg">
@@ -51,11 +50,13 @@
 
 				{{#each cartItems}}
 
-				{{#with products}}
+
 				<div class="product-cart d-flex">
+					{{#with products}}
 					<div class="one-forth">
 						<div class="product-img" style="background-image: url(/product-images/{{image.[0]}});">
 						</div>
+						{{/with}}
 						<div class="display-tc">
 							<h3>{{this.product}}</h3>
 						</div>
@@ -63,40 +64,43 @@
 
 					<div class="one-eight text-center">
 						<div class="display-tc">
-							<span class="price">₹ {{this.discountprice}}</span>
+							<span class="price">₹ {{this.products.discountprice}}</span>
 						</div>
 					</div>
 					<div class="one-eight text-center">
 						{{!-- <div class="display-tc">
 							<button class="cbtn1" mr-3
-								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',-1)">-</button>
+								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
 							{{this.quantity}}
 							<button class="cbtn" mr-3
-								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',1)">+</button>
+								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
 
 						</div> --}}
 
 
 						<div class="pro-qty-2 pt-4">
 							<button class="fa fa-angle-left dec qtybtn quantity"
-								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)"></button>
-							<span class="proq" id="{{this.product._id}}"> {{this.quantity}} </span>
+								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',-1)"></button>
+							<span class="proq" id="{{this.products._id}}">{{this.quantity}}</span>
 							<button class="fa fa-angle-right inc qtybtn quantity"
-								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)"></button>
+								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',1)"></button>
 						</div>
+
 					</div>
 					<div class="one-eight text-center">
 						<div class="display-tc">
 							<span class="price">₹</span>
 						</div>
 					</div>
+					{{#with products}}
 					<div class="one-eight text-center">
 						<div class="display-tc">
 							<a href="/user/remove-cart?id={{this._id}}" class="closed"></a>
 						</div>
+						{{/with}}
 					</div>
 				</div>
-				{{/with}}
+
 				{{/each}}
 
 				<div class="row row-pb-lg">
@@ -109,11 +113,10 @@
 										<div class="row form-group">
 											<div class="col-sm-9">
 												<input type="text" name="couponcode" class="form-control input-number"
-											   
-											  		placeholder="Your Coupon Number...">
+													placeholder="Your Coupon Number...">
 											</div>
 											<div class="col-sm-3">
-												
+
 												<button type="submit" class="btn btn-primary">Apply Coupon</button>
 											</div>
 										</div>
@@ -121,7 +124,7 @@
 								</div>
 								<div class="col-sm-4 text-center">
 									<div class="total">
-				 						<div class="sub">
+										<div class="sub">
 											<p><span>Subtotal:</span> <span>₹ 00</span></p>
 											<p><span>Delivery:</span> <span>₹ 00</span></p>
 											<p><span>Discount:</span> <span>₹ 00</span></p>
@@ -130,7 +133,7 @@
 											<p><span><strong>Total:</strong></span> <span id="tota">₹ {{total}}</span>
 											</p>
 										</div>
-										
+
 										<div class="col-sm-3">
 											<a href="/user/place-order"><input type="submit" value="Check out"
 													class="btn btn-primary"></a>
@@ -287,7 +290,7 @@
 
 	<script>
 
-		
+
 
 
 
@@ -307,18 +310,33 @@
 
 
 		function changeQuantity(cartId, productId, count) {
+			var quantity = parseInt(document.getElementById(productId).innerHTML)
+			console.log('ffffffffffffffff')
 			$.ajax({
-				url: '/user/change-product-quantity',
+				url: '/User/change-product-quantity',
+				type: 'post',
 				data: {
 					cart: cartId,
 					product: productId,
 					count: count,
+					quantity: quantity
 
 
 				},
-				method: 'post',
+				
 				success: (response) => {
-					alert('hy')
+					console.log(response)
+					if (response.status == "removeProduct") {
+					
+					} else {
+						document.getElementById(productId).innerHTML = quantity + count
+						location.reload()
+						
+						console.log('eeeeeeeeeeeeeeeeeee')
+						
+
+
+					}
 
 
 				}

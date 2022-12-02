@@ -65,7 +65,7 @@ exports.cartget = async (req, res) => {
           },
         ])
         .toArray();
-      console.log(cartItems,'123456789');
+      console.log(cartItems, "123456789");
 
       // =======================================================================
 
@@ -105,18 +105,28 @@ exports.cartget = async (req, res) => {
           {
             $group: {
               _id: null,
-              total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
+              total: {
+                $sum: { $multiply: ["$quantity", "$products.discountprice"] },
+              },
             },
           },
         ])
         .toArray();
+      console.log(total, "3333333333333333333333333333333333333");
+      console.log(cartItems.length);
+      let total_price = 0;
+      if (cartItems.length > 0) {
+        total_price = total[0].total;
+      } else {
+        total_price = 0;
+      }
 
       res.render("User/cart", {
         user: req.session.user,
         navside: true,
         cartItems: cartItems,
         user: req.session.user,
-        total: total[0].total,
+        total: total_price,
       });
     } else {
       res.redirect("/User/login");
@@ -216,6 +226,7 @@ exports.removeget = async (req, res) => {
 };
 
 exports.quantitypost = async (req, res) => {
+  console.log(req.body, "wwwwwwwwwwwwwwwwwwwwwwwwww");
   const cart = req.body.cart;
   const product = req.body.product;
   const count = parseInt(req.body.count);
@@ -233,20 +244,21 @@ exports.quantitypost = async (req, res) => {
         );
 
       req.status = "removeProduct";
+      res.json({ status: "removeProduct" });
     } else {
       const products = await db
         .get()
         .collection(collection.CART_COLLECTION)
         .updateOne(
-          { _id: ObjectId(cart), "products.product_Id": ObjectId(product) },
+          { _id: ObjectId(cart), "products.item": ObjectId(product) },
           {
             $inc: { "products.$.quantity": count },
           }
         );
 
       req.status = true;
+      res.json({ status: "update" });
     }
-    next();
   } catch (err) {
     console.log(err);
   }
@@ -292,11 +304,14 @@ exports.placeorder = async (req, res) => {
         {
           $group: {
             _id: null,
-            total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
+            total: {
+              $sum: { $multiply: ["$quantity", "$products.discountprice"] },
+            },
           },
         },
       ])
       .toArray();
+    console.log(total, "aaaaaaaaaaaaaawwwwwwwwwwwwwwwwwwww");
 
     // =======================================================================================================
 
@@ -341,8 +356,9 @@ exports.placeorderpost = async (req, res) => {
     const addressDetails = await db
       .get()
       .collection(collection.USER_COLLECTION)
-      .aggregate(aggr).toArray();
-console.log(addressDetails);
+      .aggregate(aggr)
+      .toArray();
+    console.log(addressDetails);
     const agg = [
       {
         $match: {
@@ -381,7 +397,7 @@ console.log(addressDetails);
           productId: 1,
           quantity: 1,
           result: 1,
-          image:'$result.image'
+          image: "$result.image",
         },
       },
       {
@@ -395,7 +411,7 @@ console.log(addressDetails);
               description: "$result.description",
               category: "$result.category",
               price: "$result.totalAmountDiscounted",
-              image:"$image",
+              image: "$image",
             },
           },
         },
@@ -439,13 +455,14 @@ console.log(addressDetails);
             product_Id: 1,
             quantity: 1,
             products: { $arrayElemAt: ["$product", 0] },
-           
           },
         },
         {
           $group: {
             _id: null,
-            total: { $sum: { $multiply: ["$quantity", "$products.discountprice"] } },
+            total: {
+              $sum: { $multiply: ["$quantity", "$products.discountprice"] },
+            },
           },
         },
       ])
@@ -454,86 +471,85 @@ console.log(addressDetails);
     const order = req.body;
     console.log(order);
 
-   
     console.log(total[0].total);
     console.log(products[0].products);
-    console.log(products,'ddddddddddddddddddddddddddddddddd');
+    console.log(products, "ddddddddddddddddddddddddddddddddd");
 
-
-   
     let discAmount = 0;
     let afterDisc = total[0].total;
-console.log(req.body.couponId,'--------------------------------------------');
-    if(req.body.couponId){
-
-       const result = await db 
-       .get()
-       .collection(collection.COUPONS_COLLECTION)
-       .findOne({coupon: req.body.couponId})
-    
-
-    const discount = result.discount; //coupon discount percentage
-    discAmount = Math.floor((total[0].total * discount) / 100); //coupon discount amount in total price
-    console.log( discAmount,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssss');
-    afterDisc -= discAmount;
-    const productDiscount = discAmount / products[0].products.length; // Coupon discount amount splitted equally
-
-    products[0].products.forEach((item) => {
-      item.discountedSubtotal = Math.floor(
-        item.offerSubTotal - productDiscount
-      );
-    });
-
-   
-     //get user details
-     const user = await db
-     .get()
-     .collection(collection.USER_COLLECTION)
-     .findOne({ _id: ObjectId(req.session.user._id) });
-
-     const Obj = {
-      userId: user._id,
-      email: user.Email,
-      name: user.Name,
-    };
-    await db
-    .get()
-    .collection(collection.COUPONS_COLLECTION)
-    .updateOne(
-      { coupon: req.body.couponId},
-      {
-        $push: {
-          users: Obj,
-        },
-      }
+    console.log(
+      req.body.couponId,
+      "--------------------------------------------"
     );
-  }else{
-    products[0].products.forEach((item) => {
-      item.discountedSubtotal = item.offerSubTotal;
-    });
-  }
+    if (req.body.couponId) {
+      const result = await db
+        .get()
+        .collection(collection.COUPONS_COLLECTION)
+        .findOne({ coupon: req.body.couponId });
 
+      const discount = result.discount; //coupon discount percentage
+      discAmount = Math.floor((total[0].total * discount) / 100); //coupon discount amount in total price
+      console.log(
+        discAmount,
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssss"
+      );
+      afterDisc -= discAmount;
+      const productDiscount = discAmount / products[0].products.length; // Coupon discount amount splitted equally
+
+      products[0].products.forEach((item) => {
+        item.discountedSubtotal = Math.floor(
+          item.offerSubTotal - productDiscount
+        );
+      });
+
+      //get user details
+      const user = await db
+        .get()
+        .collection(collection.USER_COLLECTION)
+        .findOne({ _id: ObjectId(req.session.user._id) });
+
+      const Obj = {
+        userId: user._id,
+        email: user.Email,
+        name: user.Name,
+      };
+      await db
+        .get()
+        .collection(collection.COUPONS_COLLECTION)
+        .updateOne(
+          { coupon: req.body.couponId },
+          {
+            $push: {
+              users: Obj,
+            },
+          }
+        );
+    } else {
+      products[0].products.forEach((item) => {
+        item.discountedSubtotal = item.offerSubTotal;
+      });
+    }
 
     const status = order.payment === "COD" ? "placed" : "pending";
     const obj = new ObjectId();
 
     const orderObj = {
       userId: ObjectId(order.userId),
-      deliveryDetails:addressDetails[0].address,
+      deliveryDetails: addressDetails[0].address,
       payment: order.payment,
       products: products[0].products,
       status: status,
       total: total,
       date: new Date().toDateString(),
-      
+
       returnedAmount: 0,
-        cancelledAmount: 0,
-        couponPrice: Math.floor(discAmount) ?? null,
-        products:products[0].products,
-        totalAmountOriginal: total[0].total,
-        totalOfferPrice:total[0].total,
-        totalAmountDiscounted: afterDisc,
-        grandTotal: afterDisc,
+      cancelledAmount: 0,
+      couponPrice: Math.floor(discAmount) ?? null,
+      products: products[0].products,
+      totalAmountOriginal: total[0].total,
+      totalOfferPrice: total[0].total,
+      totalAmountDiscounted: afterDisc,
+      grandTotal: afterDisc,
     };
 
     // const aadres = await db
@@ -557,9 +573,9 @@ console.log(req.body.couponId,'--------------------------------------------');
     req.session.insertedId = result.insertedId;
 
     const removecart = await db
-    .get()
-    .collection(collection.CART_COLLECTION)
-    .deleteOne({user:ObjectId(order.userId)})
+      .get()
+      .collection(collection.CART_COLLECTION)
+      .deleteOne({ user: ObjectId(order.userId) });
 
     if (req.body.payment == "COD") {
       res.json({ codSuccess: true });
@@ -704,7 +720,7 @@ exports.paypalsuccess = async (req, res) => {
 exports.paymentVerification = async (req, res) => {
   try {
     const details = req.body;
-    
+
     console.log("heyyyyyyyyyyyy");
     const objId = req.body["order[receipt]"];
     console.log(objId);
@@ -757,16 +773,24 @@ exports.ordersget = async (req, res) => {
     .get()
     .collection(collection.ORDER_COLLECTION)
     .aggregate(agg)
+    .sort({
+      _id: -1,
+    })
+    .toArray();
+  console.log(orders, "///////////////////");
+
+  const products = await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .find()
     .toArray();
 
-    const products = await db
-      .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .find()
-      .toArray();
-
-  res.render("user/orders", { navside: true, orders: orders,products:products });
-  console.log(products,'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+  res.render("user/orders", {
+    navside: true,
+    orders: orders,
+    products: products,
+  });
+  console.log(products, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 };
 
 //========================================== PicUp Address===================
@@ -840,80 +864,71 @@ exports.addaddress = async (req, res) => {
       );
     res.redirect("back");
   } catch (err) {
-   res.render(console.error())
+    res.render(console.error());
   }
 };
 
-
-
-exports.statuspost=(req,res)=>{
-  console.log('ooooooooooooooooooooooooooooooooooooooo');
-console.log(req.body);
-
-
-}
-
- 
+exports.statuspost = (req, res) => {
+  console.log("ooooooooooooooooooooooooooooooooooooooo");
+  console.log(req.body);
+};
 
 // ========================apply coupon =======================
 
-exports.applycoupon= async(req,res)=>{
+exports.applycoupon = async (req, res) => {
   try {
-    console.log(req.body.couponcode,'888888888888');
-    console.log(req.body.total,'======================');
-   if(!req.body.couponcode){
-    res.json({msg:"Pleace enter a coupon code !"})
-   }
-   const result = await db
-   .get()
-   .collection(collection.COUPONS_COLLECTION)
-   .findOne({ coupon: req.body.couponcode });
-   console.log(result);
-
-   
-   if (result == null) {
-    res.json({ msg: "Please enter valid coupon !" });
-  }
-  if (result) {
-    const agg = [
-      {
-        $match: {
-          coupon: req.body.couponcode,
-        },
-      },
-      {
-        $unwind: {
-          path: "$users",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $match: {
-          "users.userId":ObjectId(req.session.user._id),
-        },
-      },
-    ];
-    const usedCoupon = await db
+    console.log(req.body.couponcode, "888888888888");
+    console.log(req.body.total, "======================");
+    if (!req.body.couponcode) {
+      res.json({ msg: "Pleace enter a coupon code !" });
+    }
+    const result = await db
       .get()
       .collection(collection.COUPONS_COLLECTION)
-      .aggregate(agg)
-      .toArray();
+      .findOne({ coupon: req.body.couponcode });
+    console.log(result);
 
+    if (result == null) {
+      res.json({ msg: "Please enter valid coupon !" });
+    }
+    if (result) {
+      const agg = [
+        {
+          $match: {
+            coupon: req.body.couponcode,
+          },
+        },
+        {
+          $unwind: {
+            path: "$users",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $match: {
+            "users.userId": ObjectId(req.session.user._id),
+          },
+        },
+      ];
+      const usedCoupon = await db
+        .get()
+        .collection(collection.COUPONS_COLLECTION)
+        .aggregate(agg)
+        .toArray();
 
-      if(usedCoupon.length >0 ){
-        res.json({msg:"Already Used"})
-      }else{
+      if (usedCoupon.length > 0) {
+        res.json({ msg: "Already Used" });
+      } else {
         const expdate = result.expdate;
         const currentdate = new Date();
         if (new Date(currentdate) > new Date(expdate)) {
           res.json({ msg: "Coupon Expired !" });
-      }else{
-
-        const discount = result.discount;
+        } else {
+          const discount = result.discount;
           let discAmount = (Number(req.body.total) * discount) / 100;
           let afterDisc = Number(req.body.total) - discAmount;
           const d = Math.round(discAmount);
-          console.log(d);
+          console.log(d, "//");
           const t = Math.round(afterDisc);
           console.log(t);
           req.session.coupon = t;
@@ -924,15 +939,10 @@ exports.applycoupon= async(req,res)=>{
             discountPercentage: discount,
             coupon: req.body.couponcode,
           });
-
+        }
       }
-  }
-
-    
-}
-    
-    
+    }
   } catch (err) {
     console.log(err);
   }
-}
+};
