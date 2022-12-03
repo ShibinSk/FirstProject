@@ -82,6 +82,9 @@ exports.orders = async (req, res) => {
     .get()
     .collection(collection.ORDER_COLLECTION)
     .aggregate(agg)
+    .sort({
+      _id: -1,
+    })
     .toArray();
   console.log(orders, "qqqqqqqqqqqqqqqqqqqq");
 

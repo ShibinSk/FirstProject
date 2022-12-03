@@ -7,6 +7,7 @@ module.exports = {
     ORDER_COLLECTION: "order",
     ADDRESS_COLLETION:'address',
     COUPONS_COLLECTION:"coupons",
+    WALLET_COLLECTION:"wallet",
     
 }
   

@@ -10,4 +10,10 @@ router.get('/delete-address',userproController.deleteAddress)
 router.get('/edit-address',userproController.editaddress)
 
 router.post('/edit-address',userproController.posteditaddress)
+
+
+// =======================Wallet =================================
+
+router.get('/wallet',userproController.getwallet)
 module.exports=router;
+

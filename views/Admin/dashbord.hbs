@@ -14,6 +14,7 @@
 <h2 id="canceled" hidden>{{ordercanceled}}</h2>
 <h2 id="placed" hidden>{{orderplaced}}</h2>
 <h2 id="deliverd" hidden>{{orderdeliverd}}</h2>
+<h1 id="Returned" hidden>{{orderReturned}}</h1>
 
 
   <div class="row" style="padding-top: 70px;">
@@ -208,6 +209,7 @@
   const statuscanceled=document.getElementById('canceled').innerText;
   const statusdeliverd=document.getElementById('deliverd').innerText;
   const statusplaces=document.getElementById('placed').innerText;
+  const statusreturned=document.getElementById('Returned').innerText
   
   
  
@@ -223,10 +225,10 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Deliverid', 'pending', 'cancelled', 'shipped', 'places'],
+      labels: ['Deliverid', 'pending', 'cancelled', 'shipped', 'places','returned'],
       datasets: [{
         label: '# of Status',
-        data: [statusdeliverd, orderstatus,statuspending,statuscanceled,statusplaces],
+        data: [statusdeliverd, orderstatus,statuspending,statuscanceled,statusplaces,statusreturned],
         borderWidth: 1
       }]
     },

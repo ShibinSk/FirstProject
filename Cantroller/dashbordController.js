@@ -34,17 +34,9 @@ exports.dashbordget = async (req, res) => {
     const orderstatus = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
-      .aggregate([
-        {
-          $group: {
-            _id: "$status",
-            status: {
-              $sum: 1,
-            },
-          },
-        },
-      ])
+      .aggregate()
       .toArray();
+      console.log(orderstatus,'ooooooooooooooooooopppppppppppppp');
 
     const ordercount = await db
       .get()
@@ -105,6 +97,12 @@ const orderdeliverd = await db
 .find({status:"delivered"})
 .count()
 
+const orderReturned = await db
+.get()
+.collection(collection.ORDER_COLLECTION)
+.find({status:"Returned"})
+.count()
+
 
 
 
@@ -123,7 +121,8 @@ const orderdeliverd = await db
       orderpending,
       ordercanceled,
       orderplaced ,
-      orderdeliverd
+      orderdeliverd,
+      orderReturned
 
 
     });

@@ -18,13 +18,24 @@ exports.userproget = async (req, res) => {
       .find()
       .toArray();
 
+      const walletDetails = await db
+      .get()
+      .collection(collection.WALLET_COLLECTION)
+      .findOne({ userId: ObjectId(req.session.user._id) });
+    
+    const walletD = walletDetails;
+    console.log(walletD.walletAmount,'rrrrrrrrrrrrrrrrrrrrr');
+      
+console.log(req.session.user._id,'======================================');
     res.render("user/userPro", {
       navside: true,
       users: users,
       navside: true,
       user: req.session.user,
       address: address[0].address,
+      walletD: walletD.walletAmount
     });
+    console.log(walletD.walletAmount);
   } catch (err) {
     console.log(err);
   }
@@ -44,6 +55,12 @@ exports.deleteAddress = async (req, res) => {
         { _id: ObjectId(userId) },
         { $pull: { address: { _id: ObjectId(id) } } }
       );
+    
+
+
+
+
+
     res.redirect("/user/userPro");
   } catch (err) {
     console.log(err);
@@ -84,8 +101,22 @@ exports.editaddress = async (req, res) => {
     .aggregate(agg)
     .toArray();
 
-  console.log(userdata, "thi fuck");
-  res.render("user/edit-address", { navside: true, userdata });
+  
+
+    
+  // Cart count
+  // const count = await commonController.getCartCount(req.session.user);
+  // res.render("user/wallet", {
+  //   active: true,
+  //   user: true,
+  //   style: "profile",
+  //   wallet: "is-active",
+  //   walletD,
+  //   count,
+  // });
+
+
+  res.render("user/edit-address", { navside: true, userdata ,});
 };
 
 exports.posteditaddress = async (req, res) => {
@@ -118,3 +149,10 @@ exports.posteditaddress = async (req, res) => {
 
   res.redirect("/user/userPro");
 };
+
+
+
+
+exports.getwallet=(req,res)=>{
+  res.render('User/wallet')
+}

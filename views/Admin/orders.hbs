@@ -49,7 +49,10 @@
                                 {{#ifCheck this.status 'delivered'}}
                                 <option value="delivered">Delivered</option>
                                 {{/ifCheck}}
-                                {{#ifCheck this.status 'cancel'}}
+                                 {{#ifCheck this.status 'Returned'}}
+                                  <option value="canceled">Returned</option>
+                                  {{/ifCheck}}
+                                {{#ifCheck this.status 'canceled'}}
                                 <option value="canceled">Cancelled</option>
                                 {{/ifCheck}}
                                 {{#ifCheck this.status 'placed'}}

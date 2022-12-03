@@ -13,6 +13,7 @@ exports.viewproductsget = async (req, res) => {
       .get()
       .collection(collection.PRODUCT_COLLECTION)
       .find()
+      .sort({_id: -1})
       .toArray();
 
     res.render("Admin/view-products", { admin: true, products });

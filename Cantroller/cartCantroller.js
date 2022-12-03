@@ -1,7 +1,6 @@
 var db = require("../config/connection");
 var collection = require("../config/collection");
 const { CallPage } = require("twilio/lib/rest/insights/v1/call");
-const { get, response } = require("../app");
 const ObjectId = require("mongodb").ObjectId;
 const Razorpay = require("razorpay");
 const paypal = require("paypal-rest-sdk");
@@ -411,6 +410,7 @@ exports.placeorderpost = async (req, res) => {
               description: "$result.description",
               category: "$result.category",
               price: "$result.totalAmountDiscounted",
+              returned: false,
               image: "$image",
             },
           },
@@ -572,13 +572,14 @@ exports.placeorderpost = async (req, res) => {
 
     req.session.insertedId = result.insertedId;
 
-    const removecart = await db
-      .get()
-      .collection(collection.CART_COLLECTION)
-      .deleteOne({ user: ObjectId(order.userId) });
-
+   
     if (req.body.payment == "COD") {
+      const removecart = await db
+        .get()
+        .collection(collection.CART_COLLECTION)
+        .deleteOne({ user: ObjectId(userId) });
       res.json({ codSuccess: true });
+      
 
       //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {
@@ -588,6 +589,10 @@ exports.placeorderpost = async (req, res) => {
           currency: "INR",
           receipt: result.insertedId.toString(),
         });
+        const removecart = await db
+        .get()
+        .collection(collection.CART_COLLECTION)
+        .deleteOne({ user: ObjectId(userId) });
         res.json({
           order,
         });
@@ -645,6 +650,7 @@ exports.placeorderpost = async (req, res) => {
           for (let i = 0; i < payment.links.length; i++) {
             if (payment.links[i].rel === "approval_url") {
               console.log(payment);
+              
               res.json({ paypal: true, link: payment.links[i].href });
             }
           }
@@ -745,7 +751,10 @@ exports.paymentVerification = async (req, res) => {
             $set: { status: "placed" },
           }
         );
-
+        const removecart = await db
+        .get()
+        .collection(collection.CART_COLLECTION)
+        .deleteOne({ user: ObjectId(req.session.user._id)});
       res.json({ status: true });
     } else {
       console.log("payment failed");
@@ -946,3 +955,125 @@ exports.applycoupon = async (req, res) => {
     console.log(err);
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==============retrun-product================================
+
+exports.getreturnproduct= async(req,res)=>{
+  try {
+
+    const trackingId=req.query.track
+    const productId =req.query.productId
+    console.log(trackingId,productId);
+
+    const aggr = [
+      {
+        $match: {
+          _id: ObjectId (trackingId),
+        },
+      },
+      {
+        $unwind: {
+          path: "$products",
+        },
+      },
+      {
+        $match: {
+          "products._id": ObjectId(productId),
+        },
+      },
+      {
+        $project: {
+          subtotal: "$totalAmountDiscounted",
+          total: "$totalAmountOriginal",
+        },
+      },
+    ];
+    const subtotal=  await db 
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .aggregate(aggr)
+    .toArray()
+    console.log(subtotal,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+    const sub = subtotal[0].subtotal;
+    console.log(sub,'111111111111111111111');
+    const total = subtotal[0].total;
+    const afterCancel = total - sub;
+    console.log(afterCancel);
+    const afc = Math.floor(afterCancel);
+    console.log(afc);
+
+
+  const userID=req.session.user._id;
+   
+    const walletExit = await db 
+    .get()
+    .collection(collection.WALLET_COLLECTION)
+    .findOne({userId:ObjectId(userID)})
+    console.log(walletExit);
+
+    if( walletExit){
+      const totalWallet = walletExit.walletAmount + Number(total);
+      const objc={
+        orderId: trackingId,
+        amount: Math.ceil(total),
+      }
+   
+    await db
+        .get()
+        .collection(collection.WALLET_COLLECTION)
+        .updateOne(
+          { userId: ObjectId(userID) },
+          {
+            $set: { walletAmount: totalWallet },
+            
+              $push:{
+                "transaction":objc
+              }
+            
+           
+          }
+        )
+
+        const result = await db
+        .get()
+        .collection(collection.ORDER_COLLECTION)
+        .updateOne(
+          { _id: ObjectId(trackingId) },
+          {
+            $set: { status: "Returned" },
+          }
+        );
+      
+      console.log(result);
+
+
+
+      }else{
+        const obj = {
+          userId: ObjectId(req.session.user._id),
+          walletAmount: total,
+          
+        };
+        await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
+      }
+      res.redirect("back")
+      
+    
+  } catch (err) {
+    console.log(err);
+  }
+ 
+}

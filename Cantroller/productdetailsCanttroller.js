@@ -22,4 +22,7 @@ exports.detailsget= async(req,res)=>{
     };
 
 
+    
+
+
    

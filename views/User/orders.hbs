@@ -52,13 +52,15 @@
                             <td class="align-middle fw-b" id="select">
                                 {{#ifCheck this.status 'delivered'}}
                                 <option value="delivered">Delivered</option><br>
-                                 <button type="button" class="btn btn-primary"
-                                        onclick="returnProduct('{{this._id}}','{{this.item}}')">Return
-                                        Product</button>
-
+                                <a href="/User/return-product?track={{this._id}}&productId={{this.products._id}}"><button type="button" class="btn btn-primary"
+                                        >Return
+                                        Product</button></a> 
                                 {{/ifCheck}}
-                                {{#ifCheck this.status 'cancel'}}
-                                 
+                                {{#ifCheck this.status 'Returned'}}
+                                  <option value="canceled">Returned</option>
+                                  {{/ifCheck}}
+
+                                {{#ifCheck this.status 'canceled'}}
                                 <option value="canceled">Cancelled</option>
                                 {{/ifCheck}}
                                 {{#ifCheck this.status 'placed'}}
