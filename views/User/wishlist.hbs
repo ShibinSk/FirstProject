@@ -15,7 +15,7 @@
 			<div class="container">
 				<div class="row row-pb-lg">
 					<div class="col-md-10 offset-md-1">
-						<div class="process-wrap">
+						{{!-- <div class="process-wrap">
 							<div class="process text-center active">
 								<p><span>01</span></p>
 								<h3>Shopping Cart</h3>
@@ -28,7 +28,7 @@
 								<p><span>03</span></p>
 								<h3>Order Complete</h3>
 							</div>
-						</div>
+						</div> --}}
 					</div>
 				</div>
 				<div class="row row-pb-lg">
@@ -43,103 +43,69 @@
 							<div class="one-eight text-center">
 								<span>Quantity</span>
 							</div>
-							<div class="one-eight text-center">
+							{{!-- <div class="one-eight text-center">
 								<span>Total</span>
-							</div>
+							</div> --}}
 							<div class="one-eight text-center px-4">
 								<span>Remove</span>
 							</div>
 						</div>
-						<div class="product-cart d-flex">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url(/images/item-6.jpg);">
-								</div>
-								<div class="display-tc">
-									<h3>Product Name</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$68.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$120.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href="#" class="closed"></a>
-								</div>
-							</div>
+					{{#each wishlistItems}}
+
+
+				<div class="product-cart d-flex">
+					{{#with products}}
+					<div class="one-forth">
+						<div class="product-img" style="background-image: url(/product-images/{{image.[0]}});">
 						</div>
-						<div class="product-cart d-flex">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url(images/item-7.jpg);">
-								</div>
-								<div class="display-tc">
-									<h3>Product Name</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$68.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<form action="#">
-										<input type="text" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
-									</form>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$120.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href="#" class="closed"></a>
-								</div>
-							</div>
-						</div>
-						<div class="product-cart d-flex">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url(/images/item-8.jpg);">
-								</div>
-								<div class="display-tc">
-									<h3>Product Name</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$68.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">$120.00</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href="#" class="closed"></a>
-								</div>
-							</div>
+						{{/with}}
+						<div class="display-tc">
+							<h3>{{this.products.product}}</h3>
 						</div>
 					</div>
+
+					<div class="one-eight text-center">
+						<div class="display-tc">
+							<span class="price">₹ {{this.products.discountprice}}</span>
+						</div>
+					</div>
+					<div class="one-eight text-center">
+						{{!-- <div class="display-tc">
+							<button class="cbtn1" mr-3
+								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">-</button>
+							{{this.quantity}}
+							<button class="cbtn" mr-3
+								onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">+</button>
+
+						</div> --}}
+
+
+						<div class="pro-qty-2 pt-4">
+							
+								
+							<span class="proq" id="{{this.products._id}}">{{this.quantity}}</span>
+							
+						</div>
+
+					</div>
+					{{!-- <div class="one-eight text-center">
+						<div class="display-tc">
+							<span class="price">₹</span>
+						</div>
+					</div> --}}
+					{{#with products}}
+					<div class="one-eight text-center">
+						<div class="display-tc">
+							<a href="/user/remove-wishlist?id={{this._id}}" class="closed"></a>
+						</div>
+						{{/with}}
+					</div>
+				</div>
+
+				{{/each}}
+						<div class="product-cart d-flex">
+							
+						
 				</div>
 				<div class="row">
 					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">

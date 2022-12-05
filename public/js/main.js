@@ -359,4 +359,19 @@ function statusChange(prodId, orderId, status) {
 
 
 
+
+// jQuery('#frm').validate({
+//   rules:{
+//     username:required
+
+
+//   },messages:{
+//     required:"pleace enter your name"
+
+
+//   }
+
+// });
+
+
  

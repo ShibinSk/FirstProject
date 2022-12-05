@@ -13,6 +13,12 @@
                 {{message}} !
             </div>
             {{/if}}
+
+           {{#if userBlock}}
+          <p class="error" style="color:red ;"> User Blocked Temproraly</p>
+        {{/if}}
+
+
             
             <form action="/User/otp" method="post" class="mt-5">
               <input type="number" id="form2Example17" class="form-control form-control-lg" name="code" placeholder="Enter Otp"  />

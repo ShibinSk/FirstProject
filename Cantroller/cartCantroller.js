@@ -579,7 +579,15 @@ exports.placeorderpost = async (req, res) => {
         .collection(collection.CART_COLLECTION)
         .deleteOne({ user: ObjectId(userId) });
       res.json({ codSuccess: true });
-      
+
+      const prodlt= await db 
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .deleteOne({user:ObjectId(userId)},{
+        $dec:{
+          quantity:-1
+        }
+      })
 
       //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {

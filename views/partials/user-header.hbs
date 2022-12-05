@@ -1,3 +1,4 @@
+<div id="page">
 <nav class="colorlib-nav" role="navigation">
   <div class="top-menu">
     <div class="container">
@@ -44,7 +45,7 @@
             <li class="active"><a href="/">Home</a></li>
             <li class="has-dropdown">
               <a href="/user/men">Men</a>
-              
+
             </li>
             <li><a href="/user/women">Women</a></li>
             <li><a href="about.html">About</a></li>
@@ -52,7 +53,7 @@
             {{#if user}}
             <li><a href="/user/orders">Orders</a></li>
             {{/if}}
-            
+
 
             <li class="cart"><a href="/user/cart"><i class="icon-shopping-cart"></i>
                 Cart
@@ -60,12 +61,38 @@
                 <span class="badge badge-danger">{{count}}</span></li></a>
 
 
+            {{!-- <div class="dropdown show">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{#if user}}
+                {{user.Name}}
+                {{else}}
+                Account
+                {{/if }}
 
-                 {{!-- <li class="cart"><a href="/user/wishlist"><i class="fa-regular fa-heart"></i>
-               Wishlist
-                <span class="badge badge-danger"></span></li></a> --}}
+              </a>
 
-           
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {{#if user}}
+                <a class="dropdown-item" href="/user/logout">LogOut</a>
+                <a class="dropdown-item" href="/user/userPro">Profile</a>
+
+                {{else}}
+                <a class="dropdown-item" href="/user/login">LogIn</a>
+                {{/if }}
+
+
+              </div>
+            </div> --}}
+
+
+
+
+            <li class="cart"><a href="/user/wishlist"><i class="fa-regular fa-heart"></i>
+                Wishlist
+                <span class="badge badge-danger">{{countwish}}</span></li></a>
+
+
 
 
           </ul>
@@ -73,6 +100,7 @@
       </div>
     </div>
   </div>
+
   <div class="sale">
     <div class="container">
       <div class="row">
@@ -97,3 +125,5 @@
     </div>
   </div>
 </nav>
+
+</div>

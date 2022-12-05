@@ -1,10 +1,11 @@
 
+
 <body style="background-color:#181a1c; height: 100px;">
   
 <div class="log">
 
 
-  <form action="/User/login" method="post">
+  <form action="/User/login" id="frm2" method="post">
 
     <div class="box d-flex justify-content-center">
       <div class="form">
@@ -25,21 +26,21 @@
 
         </div>
 
-        {{#if loginErr}}
+        {{!-- {{#if loginErr}}
           <p class="error" style="color:red ;">Invalid Username or Password </p>
-        {{/if}}
+        {{/if}} --}}
         
         <div class="inputBox">
           <input name="password" type="password" />
           <span>Password</span>
           <i></i>
         </div>
-
+{{!-- 
         {{#if loginErr}}
           <p class="error" style="color:red ;">Invalid Username or Password</p>
-        {{/if}}
+        {{/if}} --}}
         
-        <div class="links">
+        <div  class="links mt-4">
           <a href="/User/otp-login">Forgot Password login with OTP ?</a>
           <a href="/User/signup">SignUp</a>
         </div>
@@ -422,3 +423,47 @@ body {
 }
 
 </style> --}}
+
+
+<style>
+  .error {
+    color: red;
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+display: flex;
+    
+  }
+</style>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+  integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script>
+
+  jQuery('#frm2').validate({
+    rules:{
+      username:"required",
+      password:{
+        required:true,
+        minlength:3
+      }
+      
+    },messages:{
+      username:"Please enter your name",
+      password:{
+        required: "Please enter your password",
+        minlength: "Password must be 3 char long"
+
+      }
+
+    },submitHandler: function (form) {
+      form.submit();
+    }
+
+  })
+
+
+</script>

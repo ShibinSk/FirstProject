@@ -1,65 +1,64 @@
 <body style="background-color:#181a1c;">
-  
-<div class="log">
 
-  <form action="/User/signup" method="post">
-    <div class="box d-flex justify-content-center">
-      <div class="form">
-        <h2>SignUp</h2>
-        {{#if message}}
-        <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-        {{/if}}
-        <div class="inputBox">
-          <input name="username" type="text" />
-          <span>Username</span>
-          <i></i>
-          {{#if message}}
+  <div class="log">
+
+    <form action="/User/signup" id="frm" method="post">
+      <div class="box d-flex justify-content-center">
+        <div class="form">
+          <h2>SignUp</h2>
+          {{!-- {{#if message}}
           <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-          {{/if}}
+          {{/if}} --}}
+          <div class="inputBox">
+            <input name="username" id="username" type="text">
+            <span>Username</span>
+            <i></i>
+            {{!-- {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}} --}}
+
+          </div>
+
+          <div class="inputBox">
+            <input name="Email" type="Email" />
+            <span>Email</span>
+            <i></i>
+            {{!-- {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}} --}}
+          </div>
+          <div class="inputBox">
+            <input name="Phone" type="number" />
+            <span>Phone</span>
+            <i></i>
+            {{!-- {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}} --}}
+          </div>
+          <div class="inputBox">
+            <input name="password" type="password" />
+            <span>Password</span>
+            <i></i>
+            {{!-- {{#if message}}
+            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+            {{/if}} --}}
+          </div>
+
+          <div class="links">
+            <a class="mt-4" href="/User/login">You alrady have accound? ?</a>
+            {{! <a href="/user/signup">Log In</a> }}
+          </div>
+          <button type="submit" class="button"><span>LOGIN</span></button>
 
         </div>
-
-        <div class="inputBox">
-          <input name="Email" type="Email" />
-          <span>Email</span>
-          <i></i>
-          {{#if message}}
-          <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-          {{/if}}
-        </div>
-        <div class="inputBox">
-          <input name="Phone" type="" />
-          <span>Phone</span>
-          <i></i>
-          {{#if message}}
-          <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-          {{/if}}
-        </div>
-        <div class="inputBox">
-          <input name="password" type="password" />
-          <span>Password</span>
-          <i></i>
-          {{#if message}}
-          <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-          {{/if}}
-        </div>
-
-        <div class="links">
-          <a href="/User/login">You alrady have accound? ?</a>
-          {{! <a href="/user/signup">Log In</a> }}
-        </div>
-        <button type="submit" class="button"><span>LOGIN</span></button>
-        {{#if message}}
-        <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-        {{/if}}
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 </body>
 
 
-{{!-- <!DOCTYPE html>
+{{!--
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -435,3 +434,62 @@
     }
   }
 </style> --}}
+
+
+<style>
+  .error {
+    color: red;
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+display: flex;
+    
+  }
+</style>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+  integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script>
+  jQuery('#frm').validate({
+    rules: {
+      username: "required",
+      Email: {
+        required: true,
+        email: true
+      },
+      password: {
+        required: true,
+        minlength: 5
+      },
+      Phone: {
+        required: true,
+        minlength: 10,
+        maxlength: 10
+      }
+    }, messages: {
+      username: "Please enter your name",
+      Email: {
+        required: "Please enter email",
+      
+      },
+      password: {
+        required: "Please enter your password",
+        minlength: "Password must be 5 char long"
+      },
+     
+      Phone: {
+        required: "Please enter your Mobile number",
+        minlength: "Mobile must be 10 digit",
+        maxlength: "Mobile must be 10 digit"
+      }
+    },
+    submitHandler: function (form) {
+      form.submit();
+    }
+  }); 
+</script>

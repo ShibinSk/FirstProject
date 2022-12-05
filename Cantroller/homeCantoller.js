@@ -19,8 +19,18 @@ exports.homeget = async (req, res) => {
       if (cart) {
         count = cart.products.length;
       }
-    
+
       
+      
+      // const wishlistcount=await db
+      // .get()
+      // .collection(collection.WISHLIST_COLLECTION)
+      // .findOne({user:ObjectId(userId)})
+
+
+      // if( wishlistcount){
+      //   countwish= wishlistcount.products.length
+      // }
     }
 
     const products = await db
@@ -29,7 +39,7 @@ exports.homeget = async (req, res) => {
       .find()
       .toArray();
 
-    res.render("index", { admin: false, products, user, count });
+    res.render("index", { admin: false, products, user, count});
   } catch (err) {
     console.log(err);
   }
