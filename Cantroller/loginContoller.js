@@ -218,7 +218,7 @@ exports.resentotp=(req,res)=>{
     client.verify
     .services(process.env.TWILIO_SERVICE_SID)
     .verifications.create({
-      to: `+91${req.session.mobile}`,
+      to: `+91${7034928633}`,
       channel: "sms",
     })
     .then((data) => {})
@@ -227,7 +227,7 @@ exports.resentotp=(req,res)=>{
     })
 
   req.session.Phone = req.body.mobile;
-  res.redirect("/user/otp-login");
+  res.redirect("/user/otp");
   } catch (err) {
     console.log(err);
   }

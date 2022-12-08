@@ -4,6 +4,7 @@ const router =express.Router();
 const cartCantroller=require('../../Cantroller/cartCantroller')
 //middlewear
 
+const userMiddlewere=require('../../Middleweres/userMiddlewere')
 router.use(function (req, res, next) {
     if (req.query._method == 'DELETE') {
         req.method = 'DELETE';
@@ -71,4 +72,6 @@ router.post('/apply-coupon',cartCantroller.applycoupon)
 // ==============return-product =======================
 
 router.get('/return-product',cartCantroller.getreturnproduct)
+
+router.get('/return-conform',cartCantroller.getconform)
 module.exports=router;

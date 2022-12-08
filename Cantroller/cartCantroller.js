@@ -472,11 +472,7 @@ exports.placeorderpost = async (req, res) => {
     const order = req.body;
     console.log(order);
 
-    console.log(total[0].total);
-    console.log(
-      products[0].products[0]._id,
-      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-    );
+   
     console.log(products, "ddddddddddddddddddddddddddddddddd");
 
     let discAmount = 0;
@@ -584,6 +580,7 @@ exports.placeorderpost = async (req, res) => {
         .deleteOne({ user: ObjectId(userId) });
 
       const prodId = products[0].products[0]._id;
+      console.log(prodId,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
       const prodlt = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
@@ -603,6 +600,7 @@ exports.placeorderpost = async (req, res) => {
       //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {
       try {
+        const prodId = products[0].products[0]._id;
         const order = await instance.orders.create({
           amount: total[0].total * 100,
           currency: "INR",
@@ -822,6 +820,10 @@ exports.ordersget = async (req, res) => {
     .get()
     .collection(collection.ORDER_COLLECTION)
     .find()
+    .sort({
+      _id: -1,
+    })
+    
     .toArray();
   console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
   console.log(orders, "///////////////////");
@@ -1002,6 +1004,159 @@ exports.applycoupon = async (req, res) => {
 // ==============retrun-product================================
 
 exports.getreturnproduct = async (req, res) => {
+  const trackingId = req.query.track;
+  const productId = req.query.productId;
+
+  const result = await db
+  .get()
+  .collection(collection.ORDER_COLLECTION)
+  .updateOne(
+    { _id: ObjectId(trackingId) },
+    {
+      $set: { status: "Return-pending" },
+    }
+  );
+  res.redirect("back");
+//   try {
+//     const trackingId = req.query.track;
+//     const productId = req.query.productId;
+//     console.log(trackingId, productId);
+
+//     const aggr = [
+//       {
+//         $match: {
+//           _id: ObjectId(trackingId),
+//         },
+//       },
+//       {
+//         $unwind: {
+//           path: "$products",
+//         },
+//       },
+//       {
+//         $match: {
+//           "products._id": ObjectId(productId),
+//         },
+//       },
+//       {
+//         $project: {
+//           subtotal: "$totalAmountDiscounted",
+//           total: "$totalAmountOriginal",
+//         },
+//       },
+//     ];
+//     const subtotal = await db
+//       .get()
+//       .collection(collection.ORDER_COLLECTION)
+//       .aggregate(aggr)
+//       .toArray();
+//     console.log(subtotal, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+//     const sub = subtotal[0].subtotal;
+//     console.log(sub, "111111111111111111111");
+//     const total = subtotal[0].total;
+//     const afterCancel = total - sub;
+//     console.log(afterCancel);
+//     const afc = Math.floor(afterCancel);
+//     console.log(afc);
+
+//     const userID = req.session.user._id;
+
+//     const walletExit = await db
+//       .get()
+//       .collection(collection.WALLET_COLLECTION)
+//       .findOne({ userId: ObjectId(userID) });
+//     console.log(walletExit);
+
+//     if (walletExit) {
+//       const totalWallet = walletExit.walletAmount + Number(total);
+//       const objc = {
+//         orderId: trackingId,
+//         amount: Math.ceil(total),
+//         mode: "Credit",
+//         type: "Return",
+//         date: new Date().toDateString(),
+//       };
+
+//       await db
+//         .get()
+//         .collection(collection.WALLET_COLLECTION)
+//         .updateOne(
+//           { userId: ObjectId(userID) },
+//           {
+//             $set: { walletAmount: totalWallet },
+
+//             $push: {
+//               transaction: objc,
+//             },
+//           }
+//         );
+
+//       const result = await db
+//         .get()
+//         .collection(collection.ORDER_COLLECTION)
+//         .updateOne(
+//           { _id: ObjectId(trackingId) },
+//           {
+//             $set: { status: "Return-pending" },
+//           }
+//         );
+
+//       console.log(result);
+//     } else {
+//       const obj = {
+//         userId: ObjectId(req.session.user._id),
+//         walletAmount: total,
+//         date: new Date().toDateString(),
+//         mode: "Credit",
+//         type: "Return",
+//       };
+//       await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
+//     }
+//     res.redirect("back");
+//   } catch (err) {
+//     console.log(err);
+//   }
+};
+
+exports.gethisroy = async (req, res) => {
+  const prodId = req.query.id;
+  console.log(req.query.id);
+
+  const agg = [
+    {
+      $match: {
+        _id: ObjectId(prodId),
+      },
+    },
+    {
+      $unwind: {
+        path: "$products",
+      },
+    },
+  ];
+  const orders = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .aggregate(agg)
+    .sort({
+      _id: -1,
+    })
+
+    .toArray();
+  console.log(orders, ",,,,,.............");
+
+  const data = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .find()
+    .toArray();
+
+  res.render("User/history", { navside: true, orders: orders });
+};
+
+
+exports.getconform=async(req,res)=>{
+
   try {
     const trackingId = req.query.track;
     const productId = req.query.productId;
@@ -1103,38 +1258,3 @@ exports.getreturnproduct = async (req, res) => {
   }
 };
 
-exports.gethisroy = async (req, res) => {
-  const prodId = req.query.id;
-  console.log(req.query.id);
-
-  const agg = [
-    {
-      $match: {
-        _id: ObjectId(prodId),
-      },
-    },
-    {
-      $unwind: {
-        path: "$products",
-      },
-    },
-  ];
-  const orders = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .aggregate(agg)
-    .sort({
-      _id: -1,
-    })
-
-    .toArray();
-  console.log(orders, ",,,,,.............");
-
-  const data = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .find()
-    .toArray();
-
-  res.render("User/history", { navside: true, orders: orders });
-};
