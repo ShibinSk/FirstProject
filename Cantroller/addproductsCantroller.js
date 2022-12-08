@@ -166,17 +166,43 @@ exports.editpost = async (req, res) => {
     const id = req.query.id;
     console.log(req.body);
     console.log(id);
+    const proDetails=await db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:ObjectId(id)})
+    console.log(proDetails);
+    let oldImage =proDetails.image
+    console.log(oldImage);
     console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 
     console.log(req.files);
-    const { image1, image2, image3, image4 } = req.files;
-
+    const fileLength=Object.keys(req.files).length
+    console.log(fileLength);
     let urls = [];
-    urls.push(image1[0].filename);
-    urls.push(image2[0].filename);
-    urls.push(image3[0].filename);
-    urls.push(image4[0].filename);
+
+
+
+    const files = req.files;
+    let arr1 = Object.values(files);
+    let arr2 = arr1.flat();
+
+    console.log({arr2})
+
+    if(arr2.length>0){
+      //  const  [image1, image2, image3, image4 ] = req.files;
+
+      for(let i=0; i<arr2.length;i++){
+        urls.push(arr2[i].filename)
+
+      }
+
+      // urls.push(image1[0].filename);
+      // urls.push(image2[0].filename);
+      // urls.push(image3[0].filename);
+      // urls.push(image4[0].filename);
+    }
     console.log(urls);
+
+    oldImage.splice(0, urls.length, ...urls);
+    console.log("oldImage2");
+    console.log(oldImage);
 
     const newproduct = await db
       .get()
@@ -188,8 +214,9 @@ exports.editpost = async (req, res) => {
             product: req.body.name,
             description: req.body.Description,
             category: req.body.category,
+            quantity:req.body.quantity,
             price: req.body.price,
-            image: urls,
+            image: oldImage,
           },
         }
       );

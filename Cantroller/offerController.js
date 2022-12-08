@@ -117,6 +117,7 @@ exports.addoffer = async (req, res) => {
             prod.orginalprice - (prod.orginalprice * prod.productOffer) / 100;
           prod.discountprice = Math.ceil(disc);
         }
+        
         return await db
           .get()
           .collection(collection.PRODUCT_COLLECTION)

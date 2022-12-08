@@ -76,5 +76,4 @@ upload.fields([
 ]),
 addproductsCantroller.editpost)
 
-
 module.exports=router; 

@@ -78,15 +78,16 @@
 						</div> --}}
 
 
-      
+
 
 
 						<div class="pro-qty-2 pt-4">
 							<button class="fa fa-angle-left dec qtybtn quantity"
-								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',-1)"></button>
+								onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{this.products.quantity}}',-1)"></button>
 							<span class="proq" id="{{this.products._id}}">{{this.quantity}}</span>
 							<button class="fa fa-angle-right inc qtybtn quantity"
-								onclick="changeQuantity('{{this._id}}','{{this.products._id}}',1)"></button>
+								onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{this.products.quantity}}',1)"></button>
+							<span style="color: red; display:none;" id="stockout" >stock out</span>
 						</div>
 
 					</div>
@@ -98,7 +99,7 @@
 					{{#with products}}
 					<div class="one-eight text-center">
 						<div class="display-tc">
-							<a href="/user/remove-cart?id={{this._id}}" class="closed"></a>
+							<a href="/user/remove-cart?id={{this._id}}&_method=DELETE"class="closed"></a>
 						</div>
 						{{/with}}
 					</div>
@@ -312,12 +313,18 @@
 
 
 
-		function changeQuantity(cartId, productId, count) {
+		function changeQuantity(cartId, productId, stock, count) {
+			console.log(stock)
 			var quantity = parseInt(document.getElementById(productId).innerHTML)
 			console.log('ffffffffffffffff')
+
+			quantityCheck = quantity + count
+			console.log(quantityCheck);
+			stock = parseInt(stock)
+			if (quantityCheck <= stock && quantityCheck != 0) {
 			$.ajax({
 				url: '/User/change-product-quantity',
-				type: 'post',
+				type: 'put',
 				data: {
 					cart: cartId,
 					product: productId,
@@ -326,17 +333,17 @@
 
 
 				},
-				
+
 				success: (response) => {
 					console.log(response)
 					if (response.status == "removeProduct") {
-					
+
 					} else {
 						document.getElementById(productId).innerHTML = quantity + count
 						location.reload()
-						
+
 						console.log('eeeeeeeeeeeeeeeeeee')
-						
+
 
 
 					}
@@ -346,6 +353,10 @@
 
 
 			})
+			}else if(quantityCheck >= stock){
+				document.getElementById('stockout').style.display="block"
+
+			}
 		}
 
 	</script>

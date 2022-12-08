@@ -334,6 +334,7 @@ exports.placeorder = async (req, res) => {
 exports.placeorderpost = async (req, res) => {
   try {
     const productId = req.query._id;
+    console.log(productId, "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
     const userId = req.session.user._id;
     const aggr = [
       {
@@ -472,7 +473,10 @@ exports.placeorderpost = async (req, res) => {
     console.log(order);
 
     console.log(total[0].total);
-    console.log(products[0].products);
+    console.log(
+      products[0].products[0]._id,
+      "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+    );
     console.log(products, "ddddddddddddddddddddddddddddddddd");
 
     let discAmount = 0;
@@ -565,6 +569,7 @@ exports.placeorderpost = async (req, res) => {
     //   );
 
     console.log(orderObj);
+    // console.log(product[0]._id);
     const result = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
@@ -572,22 +577,28 @@ exports.placeorderpost = async (req, res) => {
 
     req.session.insertedId = result.insertedId;
 
-   
     if (req.body.payment == "COD") {
       const removecart = await db
         .get()
         .collection(collection.CART_COLLECTION)
         .deleteOne({ user: ObjectId(userId) });
-      res.json({ codSuccess: true });
 
-      const prodlt= await db 
-      .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .deleteOne({user:ObjectId(userId)},{
-        $dec:{
-          quantity:-1
-        }
-      })
+      const prodId = products[0].products[0]._id;
+      const prodlt = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .updateOne(
+          { _id: ObjectId(prodId) },
+          {
+            $inc: {
+              quantity: -1,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        });
+      res.json({ codSuccess: true });
 
       //============================ Razorpay ================================================
     } else if (req.body.payment === "Razorpay") {
@@ -598,9 +609,21 @@ exports.placeorderpost = async (req, res) => {
           receipt: result.insertedId.toString(),
         });
         const removecart = await db
-        .get()
-        .collection(collection.CART_COLLECTION)
-        .deleteOne({ user: ObjectId(userId) });
+          .get()
+          .collection(collection.CART_COLLECTION)
+          .deleteOne({ user: ObjectId(userId) });
+
+        const prodlt = await db
+          .get()
+          .collection(collection.PRODUCT_COLLECTION)
+          .updateOne(
+            { _id: ObjectId(prodId) },
+            {
+              $inc: {
+                quantity: -1,
+              },
+            }
+          );
         res.json({
           order,
         });
@@ -658,7 +681,7 @@ exports.placeorderpost = async (req, res) => {
           for (let i = 0; i < payment.links.length; i++) {
             if (payment.links[i].rel === "approval_url") {
               console.log(payment);
-              
+
               res.json({ paypal: true, link: payment.links[i].href });
             }
           }
@@ -759,10 +782,10 @@ exports.paymentVerification = async (req, res) => {
             $set: { status: "placed" },
           }
         );
-        const removecart = await db
+      const removecart = await db
         .get()
         .collection(collection.CART_COLLECTION)
-        .deleteOne({ user: ObjectId(req.session.user._id)});
+        .deleteOne({ user: ObjectId(req.session.user._id) });
       res.json({ status: true });
     } else {
       console.log("payment failed");
@@ -794,6 +817,13 @@ exports.ordersget = async (req, res) => {
       _id: -1,
     })
     .toArray();
+
+  const data = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .find()
+    .toArray();
+  console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
   console.log(orders, "///////////////////");
 
   const products = await db
@@ -804,9 +834,14 @@ exports.ordersget = async (req, res) => {
 
   res.render("user/orders", {
     navside: true,
-    orders: orders,
+    orders: orders.products,
     products: products,
+    data: data,
   });
+  console.log(
+    orders,
+    "-----------================================================"
+  );
   console.log(products, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 };
 
@@ -964,32 +999,18 @@ exports.applycoupon = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ==============retrun-product================================
 
-exports.getreturnproduct= async(req,res)=>{
+exports.getreturnproduct = async (req, res) => {
   try {
-
-    const trackingId=req.query.track
-    const productId =req.query.productId
-    console.log(trackingId,productId);
+    const trackingId = req.query.track;
+    const productId = req.query.productId;
+    console.log(trackingId, productId);
 
     const aggr = [
       {
         $match: {
-          _id: ObjectId (trackingId),
+          _id: ObjectId(trackingId),
         },
       },
       {
@@ -1009,53 +1030,53 @@ exports.getreturnproduct= async(req,res)=>{
         },
       },
     ];
-    const subtotal=  await db 
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .aggregate(aggr)
-    .toArray()
-    console.log(subtotal,'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk');
+    const subtotal = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .aggregate(aggr)
+      .toArray();
+    console.log(subtotal, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     const sub = subtotal[0].subtotal;
-    console.log(sub,'111111111111111111111');
+    console.log(sub, "111111111111111111111");
     const total = subtotal[0].total;
     const afterCancel = total - sub;
     console.log(afterCancel);
     const afc = Math.floor(afterCancel);
     console.log(afc);
 
+    const userID = req.session.user._id;
 
-  const userID=req.session.user._id;
-   
-    const walletExit = await db 
-    .get()
-    .collection(collection.WALLET_COLLECTION)
-    .findOne({userId:ObjectId(userID)})
+    const walletExit = await db
+      .get()
+      .collection(collection.WALLET_COLLECTION)
+      .findOne({ userId: ObjectId(userID) });
     console.log(walletExit);
 
-    if( walletExit){
+    if (walletExit) {
       const totalWallet = walletExit.walletAmount + Number(total);
-      const objc={
+      const objc = {
         orderId: trackingId,
         amount: Math.ceil(total),
-      }
-   
-    await db
+        mode: "Credit",
+        type: "Return",
+        date: new Date().toDateString(),
+      };
+
+      await db
         .get()
         .collection(collection.WALLET_COLLECTION)
         .updateOne(
           { userId: ObjectId(userID) },
           {
             $set: { walletAmount: totalWallet },
-            
-              $push:{
-                "transaction":objc
-              }
-            
-           
-          }
-        )
 
-        const result = await db
+            $push: {
+              transaction: objc,
+            },
+          }
+        );
+
+      const result = await db
         .get()
         .collection(collection.ORDER_COLLECTION)
         .updateOne(
@@ -1064,24 +1085,56 @@ exports.getreturnproduct= async(req,res)=>{
             $set: { status: "Returned" },
           }
         );
-      
+
       console.log(result);
-
-
-
-      }else{
-        const obj = {
-          userId: ObjectId(req.session.user._id),
-          walletAmount: total,
-          
-        };
-        await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
-      }
-      res.redirect("back")
-      
-    
+    } else {
+      const obj = {
+        userId: ObjectId(req.session.user._id),
+        walletAmount: total,
+        date: new Date().toDateString(),
+        mode: "Credit",
+        type: "Return",
+      };
+      await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
+    }
+    res.redirect("back");
   } catch (err) {
     console.log(err);
   }
- 
-}
+};
+
+exports.gethisroy = async (req, res) => {
+  const prodId = req.query.id;
+  console.log(req.query.id);
+
+  const agg = [
+    {
+      $match: {
+        _id: ObjectId(prodId),
+      },
+    },
+    {
+      $unwind: {
+        path: "$products",
+      },
+    },
+  ];
+  const orders = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .aggregate(agg)
+    .sort({
+      _id: -1,
+    })
+
+    .toArray();
+  console.log(orders, ",,,,,.............");
+
+  const data = await db
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .find()
+    .toArray();
+
+  res.render("User/history", { navside: true, orders: orders });
+};

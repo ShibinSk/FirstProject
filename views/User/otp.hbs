@@ -25,11 +25,55 @@
               <label class="form-label" for="form2Example17">Mobile Number</label>
            
             <hr class="mt-4">
-            <button class='btn btn-primary btn-block mt-4 mb-4 customBtn'>Verify</button>
+            <button id="otpsubmit" class='btn btn-primary btn-block mt-4 mb-4 customBtn'>Verify</button>
              </form>
+             <div class="text-center mt-3">
+                    <span class="d-block mobile-text" id="countdown"></span>
+                </div>
+             <form action="/User/resend-otp" method="post">
+                <input type="text" name="mobile" value="{{this.phoneNumber}}" style="display: none;">
+                
+
+                    <button id="resend" style="background:white; border-color:white;">Resent
+                        <span class="d-block mobile-text" id="resend"></span>
+
+                    </button>
+                
+            </form>
+
           </div>
         </div>
       </div>
   </div>
 </div>
   
+<script>
+  let timerOn = true;
+function timer(remaining) {
+    var m = Math.floor(remaining / 60);
+    var s = remaining % 60;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+    document.getElementById("countdown").innerHTML = `Time left: ${m} : ${s}`;
+    remaining -= 1;
+    if (remaining >= 0 && timerOn) {
+        setTimeout(function () {
+            timer(remaining);
+        }, 1000);
+        document.getElementById("resend").innerHTML = `
+    `;
+        return;
+    }
+    if (!timerOn) {
+        return;
+    }
+    document.getElementById("resend").innerHTML = "Resend the code ! ";
+    let suButton=document.getElementById("otpsubmit")
+    suButton.disabled=true;
+    suButton.classList.add('disableD')
+//     <span class="font-weight-bold text-color cursor" onclick="timer(60)">Resend
+//     </span>;
+// }
+}
+timer(30);
+</script>

@@ -337,9 +337,9 @@ function statusChange(prodId, orderId, status) {
       orderId,
       status,
     },
-    method: "post",
+    method: "put",
     success: (response) => {
-      console.log("asdasdasd");
+      console.log(response,"asdasdasd");
       if (response.status) {
         document.getElementById(orderId + prodId).innerHTML = status;
         if (
@@ -350,6 +350,8 @@ function statusChange(prodId, orderId, status) {
           status == "canceled"
         ) {
           location.reload();
+        }else{
+          alert('Pottiiiiiiii')
         }
       }
     },

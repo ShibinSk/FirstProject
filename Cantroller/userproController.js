@@ -24,18 +24,20 @@ exports.userproget = async (req, res) => {
       .findOne({ userId: ObjectId(req.session.user._id) });
     
     const walletD = walletDetails;
-    console.log(walletD.walletAmount,'rrrrrrrrrrrrrrrrrrrrr');
+
+    
       
-console.log(req.session.user._id,'======================================');
+
     res.render("user/userPro", {
       navside: true,
       users: users,
       navside: true,
       user: req.session.user,
       address: address[0].address,
-      walletD: walletD.walletAmount
+      walletD: walletD.walletAmount,
+      walletAmount:walletDetails.transaction
     });
-    console.log(walletD.walletAmount);
+    console.log(walletDetails.transaction,'ppppppppppppppppppppppppppppp');
   } catch (err) {
     console.log(err);
   }

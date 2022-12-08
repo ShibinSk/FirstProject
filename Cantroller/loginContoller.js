@@ -161,7 +161,9 @@ exports.otploginget = (req, res) => {
 };
 
 exports.otppost= async(req,res)=>{
-  console.log(req.body);
+  console.log(req.body,'pppppppppppppppppppppppppppp');
+  const mobile= req.session.mobile=req.body;
+  console.log(req.session.mobile,'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
   console.log(process.env.TWILIO_SERVICE_SID);
 
 
@@ -197,13 +199,39 @@ exports.otppost= async(req,res)=>{
 };
 
 exports.getsubmit= async(req,res)=>{
+  console.log(req.body,'tttttttttttttttttttttttttttttttttt');
   
   const msg = req.session.message;
   const mobile = req.session.mobile;
+  console.log(mobile,'1111111111111111111111');
 
   res.render("user/otp", { navside:true, phoneNumber: mobile, message: msg, style: "style" });
   req.session.message = null;
 };
+
+
+
+
+exports.resentotp=(req,res)=>{
+  try {
+    console.log(req.session.mobile,'21333233');
+    client.verify
+    .services(process.env.TWILIO_SERVICE_SID)
+    .verifications.create({
+      to: `+91${req.session.mobile}`,
+      channel: "sms",
+    })
+    .then((data) => {})
+    .catch((err)=>{
+      console.log(err);
+    })
+
+  req.session.Phone = req.body.mobile;
+  res.redirect("/user/otp-login");
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 exports.postsubmit= async(req,res)=>{
   try {

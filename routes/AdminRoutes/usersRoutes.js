@@ -26,4 +26,4 @@ router.get('/unblock-user',usersCantroller.unblockuser)
 router.get('/orders',usersCantroller.orders)
 
 
-router.post('/order-status',usersCantroller.statuspost)
+router.put('/order-status',usersCantroller.statuspost)

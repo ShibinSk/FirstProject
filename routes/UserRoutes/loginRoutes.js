@@ -1,10 +1,11 @@
 const express=require('express');
 const router=express.Router();
+const userMiddlewere=require('../../Middleweres/userMiddlewere')
 
 
 const loginController=require('../../Cantroller/loginContoller')
 
-router.get('/login',loginController.loginget)
+router.get('/login',userMiddlewere.isLogin,loginController.loginget)
 
 router.post('/login',loginController.loginpost)
 
@@ -27,6 +28,11 @@ router.post('/otp-login',loginController.otppost)
 router.get('/otp',loginController.getsubmit)
 
 router.post('/otp',loginController.postsubmit)
+
+
+router.post('/resend-otp',loginController.resentotp)
+
+
 
 
 

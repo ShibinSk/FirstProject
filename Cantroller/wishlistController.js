@@ -110,10 +110,10 @@ exports.addwishlist = async (req, res) => {
             res.redirect("/");
           }
 
-        //   const wishdelete = await db
-        //   .get()
-        //   .collection(collection.WISHLIST_COLLECTION)
-        //   .deleteOne({user:(ObjectId(proId))})
+          const wishdelete = await db
+          .get()
+          .collection(collection.WISHLIST_COLLECTION)
+          .deleteOne({user:(ObjectId(proId))})
           res.redirect("/");
 
         } else {

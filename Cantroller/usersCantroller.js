@@ -106,6 +106,7 @@ exports.statuspost = (req, res) => {
 
   let dateStatus = new Date();
   const status = req.body.status;
+  
   const  orderId=req.body.orderId;
   const prodId=req.body.prodId;
   db.get()

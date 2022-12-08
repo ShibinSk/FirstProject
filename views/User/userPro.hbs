@@ -109,19 +109,66 @@
           </div>
           {{/each}}
 
-<div class="container" style="width: 100%;">
-  <div class="row">
-          <div class="card mb-lg-0">
-          <h1 style="color: red;">wallet</h1>
-            <div class="card-body p-0">
-              <h1>₹ : {{this.walletD}}</h1>
+          <div class="container" style="width: 100%;">
+            <div class="row">
+              <div class="card mb-lg-0">
+                <h1 style="color: red;">wallet</h1>
+                <div class="card-body p-0">
+                  <h1>₹ : {{this.walletD}}</h1>
+                </div>
+                <button type="button" style="width: 134px; margin-left: 81%;" class="btn btn-primary pl-5 pr- 5" data-toggle="modal"
+                  data-target="#exampleModalCenter">
+                  History
+                </button>
+              </div>
+
             </div>
           </div>
-
-  </div>
-</div>
 </section>
 
 
 
 </script>
+
+{{!-- modal --}}
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Id</th>
+      <th scope="col">Amount</th>
+      <th scope="col">date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each walletAmount}}
+    <tr>
+      <th scope="row">{{inc @index}}</th>
+      <td>{{this.orderId}}</td>
+      <td>{{this.amount}}</td>
+      <td>{{this.date}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
