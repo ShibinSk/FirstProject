@@ -26,7 +26,7 @@ exports.addcoupon = async (req, res) => {
       discount: Number(req.body.couponOffer) ,
       minprice:Number( req.body.minPrice),
       pricelimit: Number(req.body.priceLimit),
-      expdate:Number (date)
+      expdate:date
     
     };
     await db.get().collection(collection.COUPONS_COLLECTION).insertOne(obj);

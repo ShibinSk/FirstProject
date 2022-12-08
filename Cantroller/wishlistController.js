@@ -10,6 +10,7 @@ exports.wishlistget = async (req, res) => {
       
 
       const wishlist = await db
+      
         .get()
         .collection(collection.WISHLIST_COLLECTION)
         .aggregate([
@@ -47,7 +48,7 @@ exports.wishlistget = async (req, res) => {
 
      
         console.log(wishlist.length);
-      console.log(wishlist);
+      console.log(wishlist.length,'mmmmmmmmmmmmmmmmmmmmmmmmmmmm');
       res.render("User/wishlist", {
         navside: true,
         user: req.session.user,

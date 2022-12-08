@@ -137,7 +137,7 @@ exports.signuppost = async (req, res) => {
 
 exports.logoutget=(req,res)=>{
     req.session.destroy()
-    res.redirect('/')
+    res.redirect('/User/login')
 }
 
 exports.otploginget = (req, res) => {

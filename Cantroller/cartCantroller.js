@@ -412,6 +412,7 @@ exports.placeorderpost = async (req, res) => {
               category: "$result.category",
               price: "$result.totalAmountDiscounted",
               returned: false,
+              status:'',
               image: "$image",
             },
           },
@@ -540,7 +541,8 @@ exports.placeorderpost = async (req, res) => {
       products: products[0].products,
       status: status,
       total: total,
-      date: new Date().toDateString(),
+      date: new Date(),
+      newdate:new Date().toDateString(),
 
       returnedAmount: 0,
       cancelledAmount: 0,

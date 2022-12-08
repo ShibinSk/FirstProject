@@ -11,5 +11,7 @@ router.get('/dashbord',dashbordCantroller.dashbordget)
 // ====================== sales areport ============================================
 
 
-router.get('/sales',dashbordCantroller.getsales)
+router.get('/sales-report',dashbordCantroller.getsales)
+
+// router.get('/sales-report',dashbordCantroller.getreport)
 module.exports=router;

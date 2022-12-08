@@ -6,8 +6,9 @@
                 {{!-- <a href="/admin/sales-report-pdf"
                     class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i> Sales Report Pdf</a> --}}
-                <button class="btn btn-primary" onclick="export_data()" value="Export to excel"  id="export">Export to Excel</button>
-                <button class="btn btn-primary"  id="pdf">Export to Pdf</button>
+                <button class="btn btn-primary" onclick="export_data()" value="Export to excel" id="export">Export to
+                    Excel</button>
+                <button class="btn btn-primary" id="pdf">Export to Pdf</button>
                 {{!-- <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                         class="fas fa-download fa-sm text-white-50"></i> Sales Report excel</a> --}}
 
@@ -20,9 +21,10 @@
                     <button class="btn btn-primary" type="submit">Filter</button>
                     </form> --}}
                     <form action="/admin/sales-report" method="get" class="ma-5">
-                        <label class="ms-2 fw-bold" for="date"> Date Wise</label>
-                        <input style="width: 180px;" type="text" name="daterange" value="01/01/2022 - 12/30/2022" />
-                        <button   class=" btn btn-sm  btn-primary" type="submit">Filter Date</button>
+                        <label class="ms-2 fw-bold" for="daterang"> Date Wise</label>
+                        <input style="width: 180px;" type="date" id="from" name="from" />
+                        <input style="width: 180px;" type="date" id="to" name="to" />
+                        <button class=" btn btn-sm  btn-primary" type="submit">Filter Date</button>
                     </form>
                     <div>
                         <form action="/admin/sales-report" method="get">
@@ -67,8 +69,8 @@
                                 <td>{{this.productsName}} </td>
                                 <td>{{this.quantity}} </td>
                                 <td>₹{{this.price}}</td>
-                                {{#if this.discountpric}}
-                                <td>₹{{this.discountprice}}</td>
+                                {{#if this.discountPrice }}
+                                <td>₹{{this.discountPrice}}</td>
                                 {{else}}
                                 <td>₹ 0</td>
                                 {{/if}}
@@ -98,42 +100,48 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+{{!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<script type="text/javascript" src="/js/html2pdf.bundle.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> --}}
+
+{{!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+
+<script type="text/javascript" src="/js/html2pdf.bundle.min.js"></script> --}}
 
 
 <script>
-    $(document).ready(function () {
+
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function (start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+    });
+
+ 
+
+</script>
+<script>
+       $(document).ready(function () {
         $('#salesreport').DataTable();
     });
 
 
-    $(function () {
-        $('input[name="daterange"]').daterangepicker({
-
-            maxDate: new Date()
-        }, function (start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-        });
-
-    });
     //excel convert
 
-function export_data() {
-    let data = document.getElementById('salesreport');
-    var fp = XLSX.utils.table_to_book(data, { sheet: 'vi' });
-    XLSX.write(fp, {
-        bookType: 'xlsx',
-        type: 'base64'
-    });
-    XLSX.writeFile(fp, 'test.xlsx');
-}
+    function export_data() {
+        let data = document.getElementById('salesreport');
+        var fp = XLSX.utils.table_to_book(data, { sheet: 'vi' });
+        XLSX.write(fp, {
+            bookType: 'xlsx',
+            type: 'base64'
+        });
+        XLSX.writeFile(fp, 'test.xlsx');
+    }
 
 
     //pdf convert
@@ -148,5 +156,4 @@ function export_data() {
         };
         html2pdf(element, opt)
     }
-
 </script>

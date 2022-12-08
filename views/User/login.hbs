@@ -10,13 +10,13 @@
     <div class="box d-flex justify-content-center">
       <div class="form">
         <h2>Login</h2>
-        {{#if userBlock}}
-          <p class="error" style="color:red ;"> User Blocked Temproraly</p>
-        {{/if}}
 
          {{#if message}}
             <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
             {{/if}}
+        {{#if userBlock}}
+          <p class="error pt-5" style="color:red ;"> User Blocked Temproraly</p>
+        {{/if}}
         
         
         <div class="inputBox">
@@ -26,9 +26,9 @@
 
         </div>
 
-        {{!-- {{#if loginErr}}
-          <p class="error" style="color:red ;">Invalid Username or Password </p>
-        {{/if}} --}}
+        {{#if loginErr}}
+          <p class="error pt-" style="color:red ;">Invalid Username or Password </p>
+        {{/if}}
         
         <div class="inputBox">
           <input name="password" type="password" />

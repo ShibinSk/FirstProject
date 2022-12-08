@@ -41,6 +41,8 @@ exports.blockuser = async (req, res) => {
           },
         }
       );
+      req.session.destroy()
+    
     res.redirect("/admin/view-users");
   } catch (err) {
     console.log(err);

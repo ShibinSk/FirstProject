@@ -158,3 +158,24 @@ exports.posteditaddress = async (req, res) => {
 exports.getwallet=(req,res)=>{
   res.render('User/wallet')
 }
+
+
+
+exports.updatepro=async(req,res)=>{
+  const userId=req.session.user._id
+  console.log(userId);
+  console.log(req.body);
+
+  const user= await db 
+  .get()
+  .collection(collection.USER_COLLECTION)
+  .updateOne({_id:ObjectId(userId)},{
+    $set:{
+      Name:req.body.name,
+      Email:req.body.email,
+      Phone:req.body.mobile
+    }
+  })
+  res.redirect('/User/userPro')
+
+}

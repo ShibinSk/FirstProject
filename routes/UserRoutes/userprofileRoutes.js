@@ -15,5 +15,8 @@ router.post('/edit-address',userproController.posteditaddress)
 // =======================Wallet =================================
 
 router.get('/wallet',userproController.getwallet)
+
+
+router.post('/update-profile',userproController.updatepro)
 module.exports=router;
 
