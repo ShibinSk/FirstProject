@@ -8,17 +8,15 @@ const e = require("express");
 
 // ===========Razorpya configure==================
 var instance = new Razorpay({
-  key_id: "rzp_test_RF0nTXmxHqKSxA",
-  key_secret: "r7g6b2ScrJedg3CddhpF3v9x",
+  key_id: process.env.key_id,
+  key_secret: process.env.key_secret,
 });
 
 //==============Paypal cofigure=======================
 paypal.configure({
   mode: "sandbox",
-  client_id:
-    "ASfcPO2CxnW9RVXGxca4WmjXRD8vYgC9sijMjWaicr1wo8WesgwCJplOmLj8KsBILvWvNnRmgXQWKCgD",
-  client_secret:
-    "EDTonib9jW4tOZdb_-AJigS5gywDhAi_uJUtY5TPxErOwMu_-cNz_cjguHOGme97KDHbx2N8EHREnNKb",
+  client_id:process.env.client_id,
+  client_secret:process.env.client_secret,
 });
 
 exports.cartget = async (req, res) => {
