@@ -141,7 +141,7 @@ exports.dashbordget = async (req, res) => {
       orderrdeliverd:orderrdeliverd[0]?.total
     });
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 

@@ -56,7 +56,7 @@ exports.catagorypost= async(req,res)=>{
         }
         
     } catch (err) {
-        console.log(err);
+        res.render('error',{navside:true});
         
     }
 
@@ -75,7 +75,7 @@ exports.deletecategoryget= async(req,res)=>{
          res.redirect('/Admin/category')
         
      } catch (err) {
-        console.log(err);
+        res.render('error',{navside:true});
         
      }
 
@@ -126,7 +126,7 @@ exports.editcategorypost= async(req,res)=>{
 
         
     } catch (err) {
-        console.log(err);
+        res.render('error',{navside:true});
         
 
     }

@@ -43,7 +43,7 @@ exports.homeget = async (req, res) => {
 
     res.render("index", { admin: false, products, user, count,countwish});
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 

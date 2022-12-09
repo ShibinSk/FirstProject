@@ -128,8 +128,7 @@ exports.signuppost = async (req, res) => {
 
     res.render("User/login", { navside: true });
   } catch (err) {
-    
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -155,7 +154,7 @@ exports.otploginget = (req, res) => {
   req.session.msg=null
   console.log(req.session.msg);
  } catch (err) {
-   console.log(err);
+  res.render('error',{navside:true});
  }
 
 };
@@ -194,7 +193,7 @@ exports.otppost= async(req,res)=>{
       res.redirect("/User/otp-login");
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -229,7 +228,7 @@ exports.resentotp=(req,res)=>{
   req.session.Phone = req.body.mobile;
   res.redirect("/user/otp");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 }
 
@@ -277,7 +276,7 @@ exports.postsubmit= async(req,res)=>{
     }
     req.session.phone=null;
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 

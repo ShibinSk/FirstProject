@@ -31,7 +31,7 @@ exports.loginpost=async(req,res)=>{
     }
         
     } catch (err) {
-        console.log(err);
+        res.render('error',{navside:true});
         
     }
     

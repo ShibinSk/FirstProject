@@ -12,7 +12,7 @@ exports.getcoupon = async (req, res) => {
 
     res.render("Admin/coupon", { admin: true, coupons });
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -33,8 +33,7 @@ exports.addcoupon = async (req, res) => {
     console.log(obj);
     res.redirect("back");
   } catch (err) {
-    res.render(console.error(err));
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -51,7 +50,6 @@ exports.deletecupon = async (req, res) => {
       .deleteOne({ _id: ObjectId(prodId) });
     res.redirect("back");
   } catch (err) {
-    res.render(console.error(err));
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };

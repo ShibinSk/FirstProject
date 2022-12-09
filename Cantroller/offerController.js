@@ -173,7 +173,7 @@ console.log(pro.orginalprice,"orginal")
 
     console.log(req.body);
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -217,7 +217,7 @@ exports.deleteoffer=async(req,res)=>{
     res.redirect("back");
     
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
     
   }
   
@@ -265,6 +265,6 @@ exports.deletecategoryoffer=async(req,res)=>{
     
     res.redirect("back");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 }

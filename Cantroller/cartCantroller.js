@@ -129,7 +129,7 @@ exports.cartget = async (req, res) => {
       res.redirect("/User/login");
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -195,7 +195,7 @@ exports.addcartget = async (req, res) => {
       res.redirect("/User/login");
     }
   } catch (err) {
-    console.log(err);
+     res.render('error',{navside:true});
   }
 };
 
@@ -218,7 +218,7 @@ exports.removeget = async (req, res) => {
       );
     res.redirect("/user/cart");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -258,7 +258,7 @@ exports.quantitypost = async (req, res) => {
       res.json({ status: "update" });
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -326,7 +326,7 @@ exports.placeorder = async (req, res) => {
       address: address[0].address,
     });
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -627,7 +627,7 @@ exports.placeorderpost = async (req, res) => {
           order,
         });
       } catch (err) {
-        console.log(err);
+        res.render('error',{navside:true});
       }
 
       // ===================Paypal==========================================================
@@ -688,7 +688,7 @@ exports.placeorderpost = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -747,7 +747,7 @@ exports.paypalsuccess = async (req, res) => {
     res.redirect("/user/order-complate");
     req.session.OrderId = null;
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -791,7 +791,7 @@ exports.paymentVerification = async (req, res) => {
       res.json({ status: false });
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -920,7 +920,7 @@ exports.addaddress = async (req, res) => {
       );
     res.redirect("back");
   } catch (err) {
-    // res.render(console.error());
+    res.render('error',{navside:true});
   }
 };
 
@@ -999,7 +999,7 @@ exports.applycoupon = async (req, res) => {
       }
     }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -1256,7 +1256,7 @@ exports.getconform=async(req,res)=>{
     }
     res.redirect("back");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 

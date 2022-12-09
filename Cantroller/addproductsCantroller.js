@@ -110,7 +110,7 @@ exports.addproductspost = async (req, res) => {
     // });
     res.redirect("/Admin/view-products");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -128,7 +128,7 @@ exports.deleteget = async (req, res) => {
       .deleteOne({ _id: ObjectId(id) });
     res.redirect("/admin/view-products");
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -156,7 +156,7 @@ exports.editget = async (req, res) => {
     });
     // res.render()
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 
@@ -225,6 +225,6 @@ exports.editpost = async (req, res) => {
 
     // }
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
