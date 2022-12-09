@@ -117,7 +117,7 @@ exports.signuppost = async (req, res) => {
       Phone: req.body.Phone,
       Password: req.body.password,
       status:'active',
-      address:''
+      
     }
     userDetails.Password = await bcrypt.hash(req.body.password, 10);
     console.log(userDetails);

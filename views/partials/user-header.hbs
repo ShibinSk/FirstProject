@@ -1,121 +1,123 @@
-<div id="page">
-<nav class="colorlib-nav" role="navigation">
-  <div class="top-menu">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-7 col-md-9">
-          <div id="colorlib-logo"><a href="index.html">Shoocker</a></div>
-        </div>
-        <div class="col-sm-5 col-md-3">
-          <form action="#" class="search-wrap">
-            <div class="form-group">
-              <input type="search" class="form-control search" placeholder="Search" />
-              <button class="btn btn-primary submit-search text-center" type="submit"><i
-                  class="icon-search"></i></button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="dropdown show">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          {{#if user}}
-          {{user.Name}}
-          {{else}}
-          Account
-          {{/if }}
 
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          {{#if user}}
-          <a class="dropdown-item" href="/user/logout">LogOut</a>
-          <a class="dropdown-item" href="/user/userPro">Profile</a>
-
-          {{else}}
-          <a class="dropdown-item" href="/user/login">LogIn</a>
-          {{/if }}
-
-
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 text-left menu-1">
-          <ul>
-            <li class="active"><a href="/">Home</a></li>
-            <li class="has-dropdown">
-              <a href="/user/men">Men</a>
-
-            </li>
-            <li><a href="/user/women">Women</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            {{#if user}}
-            <li><a href="/user/orders">Orders</a></li>
-            {{/if}}
-
-
-            <li class="cart"><a href="/user/cart"><i class="icon-shopping-cart"></i>
-                Cart
-
-                <span class="badge badge-danger">{{count}}</span></li></a>
-
-
-            {{!-- <div class="dropdown show">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{#if user}}
-                {{user.Name}}
-                {{else}}
-                Account
-                {{/if }}
-
-              </a>
-
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                {{#if user}}
-                <a class="dropdown-item" href="/user/logout">LogOut</a>
-                <a class="dropdown-item" href="/user/userPro">Profile</a>
-
-                {{else}}
-                <a class="dropdown-item" href="/user/login">LogIn</a>
-                {{/if }}
-
-
+  <nav class="colorlib-nav" role="navigation">
+    <div class="top-menu">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-7 col-md-9">
+            <div id="colorlib-logo"><a href="index.html">Shoocker</a></div>
+          </div>
+          <div class="col-sm-5 col-md-3">
+            <form action="#" class="search-wrap">
+              <div class="form-group">
+                <input type="search" class="form-control search" placeholder="Search" />
+                <button class="btn btn-primary submit-search text-center" type="submit"><i
+                    class="icon-search"></i></button>
               </div>
-            </div> --}}
+            </form>
+          </div>
+        </div>
+
+
+        <div class="dropdown show text-right">
+             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{#if user}}
+              {{user.Name}}
+              {{else}}
+              Account
+              {{/if }}
+
+            </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {{#if user}}
+            <a class="dropdown-item" href="/user/logout">LogOut</a>
+            <a class="dropdown-item" href="/user/userPro">Profile</a>
+
+            {{else}}
+            <a class="dropdown-item" href="/user/login">LogIn</a>
+            {{/if }}
+
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 text-left menu-1">
+            <ul>
+              <li class="active"><a href="/">Home</a></li>
+              <li class="has-dropdown">
+                <a href="/user/men">Men</a>
+
+              </li>
+              <li><a href="/user/women">Women</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              {{#if user}}
+              <li><a href="/user/orders">Orders</a></li>
+              {{/if}}
+
+
+              <li class="cart"><a href="/user/cart"><i class="icon-shopping-cart"></i>
+                  Cart
+
+                  <span class="badge badge-danger">{{count}}</span></li></a>
+
+
+              {{!-- <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  {{#if user}}
+                  {{user.Name}}
+                  {{else}}
+                  Account
+                  {{/if }}
+
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  {{#if user}}
+                  <a class="dropdown-item" href="/user/logout">LogOut</a>
+                  <a class="dropdown-item" href="/user/userPro">Profile</a>
+
+                  {{else}}
+                  <a class="dropdown-item" href="/user/login">LogIn</a>
+                  {{/if }}
+
+
+                </div>
+              </div> --}}
 
 
 
 
-            <li class="cart"><a href="/user/wishlist"><i class="fa-regular fa-heart"></i>
-                Wishlist
-                <span class="badge badge-danger">{{countwish}}</span></li></a>
+              <li class="cart"><a href="/user/wishlist"><i class="fa-regular fa-heart"></i>
+                  Wishlist
+                  <span class="badge badge-danger">{{countwish}}</span></li></a>
 
 
 
 
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="sale">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 offset-sm-2 text-center">
-          <div class="row">
-            <div class="owl-carousel2">
-              <div class="item">
-                <div class="col">
-                  <h3><a href="#">25% off (Almost) Everything! Use Code: Summer
-                      Sale</a></h3>
+    <div class="sale">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2 text-center">
+            <div class="row">
+              <div class="owl-carousel2">
+                <div class="item">
+                  <div class="col">
+                    <h3><a href="#">25% off (Almost) Everything! Use Code: Summer
+                        Sale</a></h3>
+                  </div>
                 </div>
-              </div>
-              <div class="item">
-                <div class="col">
-                  <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                <div class="item">
+                  <div class="col">
+                    <h3><a href="#">Our biggest sale yet 50% off all summer shoes</a></h3>
+                  </div>
                 </div>
               </div>
             </div>
@@ -123,7 +125,5 @@
         </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-</div>

@@ -121,7 +121,7 @@ exports.dashbordget = async (req, res) => {
       .find({ status: "Returned" })
       .count();
 
-    console.log(orderrdeliverd[0].total);
+    console.log(orderrdeliverd[0]?.total);
     res.render("Admin/dashbord", {
       admin: true,
       usercount,
@@ -138,7 +138,7 @@ exports.dashbordget = async (req, res) => {
       orderplaced,
       orderdeliverd,
       orderReturned,
-      orderrdeliverd:orderrdeliverd[0].total
+      orderrdeliverd:orderrdeliverd[0]?.total
     });
   } catch (err) {
     console.log(err);

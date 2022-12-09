@@ -906,20 +906,21 @@ exports.addaddress = async (req, res) => {
         phone: Number(order.phone),
       },
     };
+    console.log(orderObj,'qqqqqqqqqqqqqqq');
     const aadres = await db
       .get()
       .collection(collection.USER_COLLECTION)
       .updateOne(
         { _id: ObjectId(userId) },
         {
-          $push: {
+          $push:{
             address: orderObj.deliveryDetails,
           },
         }
       );
     res.redirect("back");
   } catch (err) {
-    res.render(console.error());
+    // res.render(console.error());
   }
 };
 
