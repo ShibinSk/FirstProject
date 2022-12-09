@@ -1,58 +1,58 @@
-
-
 <body style="background-color:#181a1c; height: 100px;">
-  
-{{!-- <div class="log"> --}}
+
+  {{!-- <div class="log"> --}}
 
 
-  <form action="/User/login" id="frm2" method="post">
+    <form action="/User/login" id="frm2" method="post">
 
-    <div class="box mx-auto mt-5">
-      <div class="form">
-        <h2>Login</h2>
+      <div class="box mx-auto mt-5">
+        <div class="form">
+          <h2>Login</h2>
 
-         {{#if message}}
-            <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
-            {{/if}}
-        {{#if userBlock}}
+          {{#if message}}
+          <span class="text-danger" style="padding-left: 29%;">{{message}}</span>
+          {{/if}}
+          {{#if userBlock}}
           <p class="error pt-5" style="color:red ;"> User Blocked Temproraly</p>
-        {{/if}}
-        
-        
-        <div class="inputBox">
-          <input name="username" type="text"  />
-          <span>Username</span>
-          <i></i>
+          {{/if}}
 
-        </div>
 
-        {{#if loginErr}}
+          <div class="inputBox">
+            <input name="username" type="text" />
+            <span>Username</span>
+            <i></i>
+
+          </div>
+
+          {{#if loginErr}}
           <p class="error pt-" style="color:red ;">Invalid Username or Password </p>
-        {{/if}}
-        
-        <div class="inputBox">
-          <input name="password" type="password" />
-          <span>Password</span>
-          <i></i>
-        </div>
-{{!-- 
-        {{#if loginErr}}
+          {{/if}}
+
+          <div class="inputBox">
+            <input name="password" type="password" />
+            <span>Password</span>
+            <i></i>
+          </div>
+          {{!--
+          {{#if loginErr}}
           <p class="error" style="color:red ;">Invalid Username or Password</p>
-        {{/if}} --}}
-        
-        <div  class="links mt-4">
-          <a href="/User/otp-login">Forgot Password login with OTP ?</a>
-          <a href="/User/signup">SignUp</a>
+          {{/if}} --}}
+
+          <div class="links mt-4">
+            <a href="/User/otp-login">Forgot Password login with OTP ?</a>
+            <a href="/User/signup">SignUp</a>
+          </div>
+          <button type="submit" class="button"><span>LOGIN</span></button>
         </div>
-        <button type="submit" class="button"><span>LOGIN</span></button>
       </div>
-    </div>
-  </form>
-{{!-- </div> --}}
+    </form>
+    {{!--
+  </div> --}}
 </body>
 
 
-{{!-- <!DOCTYPE html>
+{{!--
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -320,108 +320,112 @@
 </html>
 
 <style>
-
   * {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-  color: white;
-  background: #03314b;
-}
-body {
-  background: #03314b;
-}
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    color: white;
+    background: #03314b;
+  }
 
-.bor {
-  /* width: 48%;
+  body {
+    background: #03314b;
+  }
+
+  .bor {
+    /* width: 48%;
   height: 60%;
   margin: 5% auto; */
-  /* float: right; */
-  margin-top: 105px;
-  text-align: center;
-  /* margin-left: 200px; */
-}
-
-.gif {
-  border-radius: 100%;
-  border: 2px;
-  height: 150px;
-}
-.lo {
-  font-size: 30px;
-  text-align: center;
-}
-.box {
-  text-align: center;
-  display: block;
-}
-
-.box input[type="email"],
-.box input[type="password"] {
-  border: 0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid aqua;
-  padding: 14px 10px;
-  width: 270px;
-  outline: none;
-  border-radius: 24px;
-  transition: 0.25s;
-}
-
-.box input[type="email"]:focus,
-.box input[type="password"]:focus {
-  width: 370px;
-  border-color: #06df68;
-}
-
-#log {
-  border: 0;
-  background: none;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-  border: 2px solid #06df68;
-  padding: 14px 10px;
-  width: 120px;
-  outline: none;
-  border-radius: 24px;
-  transition: 0.25s;
-}
-
-#log:hover {
-  
-  border-color: aqua;
-  color: #06df68;
-  width: 140px;
-}
-#rr{
-  background: none;
-  /* float: left; */
-  padding-top: 50px;
-  padding-left: 50px;
-  text-align: center;
-
-}
-
-#rocket {
-  animation: fly 6s infinite ease-in-out;
-}
-#shadow {
-  animation: fly 6s infinite linear;
-}
-
-@keyframes fly {
-  from {
-    transform: rotateZ(0deg);
+    /* float: right; */
+    margin-top: 105px;
+    text-align: center;
+    /* margin-left: 200px; */
   }
-  to {
-    transform: scalex(1.1);
-  }
-}
 
+  .gif {
+    border-radius: 100%;
+    border: 2px;
+    height: 150px;
+  }
+
+  .lo {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .box {
+    text-align: center;
+    display: block;
+  }
+
+  .box input[type="email"],
+  .box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid aqua;
+    padding: 14px 10px;
+    width: 270px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+
+  .box input[type="email"]:focus,
+  .box input[type="password"]:focus {
+    width: 370px;
+    border-color: #06df68;
+  }
+
+  #log {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #06df68;
+    padding: 14px 10px;
+    width: 120px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+
+  #log:hover {
+
+    border-color: aqua;
+    color: #06df68;
+    width: 140px;
+  }
+
+  #rr {
+    background: none;
+    /* float: left; */
+    padding-top: 50px;
+    padding-left: 50px;
+    text-align: center;
+
+  }
+
+  #rocket {
+    animation: fly 6s infinite ease-in-out;
+  }
+
+  #shadow {
+    animation: fly 6s infinite linear;
+  }
+
+  @keyframes fly {
+    from {
+      transform: rotateZ(0deg);
+    }
+
+    to {
+      transform: scalex(1.1);
+    }
+  }
 </style> --}}
 
 
@@ -431,8 +435,8 @@ body {
     z-index: 2;
     position: absolute;
     width: 100%;
-display: flex;
-    
+    display: flex;
+
   }
 </style>
 
@@ -444,22 +448,22 @@ display: flex;
 <script>
 
   jQuery('#frm2').validate({
-    rules:{
-      username:"required",
-      password:{
-        required:true,
-        minlength:3
+    rules: {
+      username: "required",
+      password: {
+        required: true,
+        minlength: 3
       }
-      
-    },messages:{
-      username:"Please enter your name",
-      password:{
+
+    }, messages: {
+      username: "Please enter your name",
+      password: {
         required: "Please enter your password",
         minlength: "Password must be 3 char long"
 
       }
 
-    },submitHandler: function (form) {
+    }, submitHandler: function (form) {
       form.submit();
     }
 
