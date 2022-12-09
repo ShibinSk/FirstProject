@@ -30,12 +30,13 @@ exports.catagoryget= async(req,res)=>{
 exports.catagorypost= async(req,res)=>{
   
     try {
-           
+          const cat= req.body.Category.toUpperCase();
+          console.log(cat,'uuuuuuuuuuuuuuuuuuuuuuuuu');
         const catagory= await db
         .get()
         .collection(collection.CATEGORY_COLLECTION)
-        .findOne({category:req.body.Category})
-        if(catagory==null){
+        .findOne({cat})
+        if(cat==null){
             const category={
            
                 category:req.body.Category

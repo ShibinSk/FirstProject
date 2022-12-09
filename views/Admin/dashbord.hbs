@@ -15,8 +15,9 @@
 <h2 id="placed" hidden>{{orderplaced}}</h2>
 <h2 id="deliverd" hidden>{{orderdeliverd}}</h2>
 <h1 id="Returned" hidden>{{orderReturned}}</h1>
+<h1 id="devli" hidden>{{orderrdeliverd}}</h1>
 
-
+{{orderrdeliverd}}
   <div class="row" style="padding-top: 70px;">
     <div class="col-xl-3 col-lg-6">
       <div class="card l-bg-cherry">
@@ -100,7 +101,7 @@
           <div class="row align-items-center mb-2 d-flex">
             <div class="col-8">
               <h2 class="d-flex align-items-center mb-0">
-                ₹{{total.[0].totalAmount}}
+                ₹{{orderrdeliverd}}
               </h2>
             </div>
             {{!-- <div class="col-4 text-right">
@@ -210,6 +211,7 @@
   const statusdeliverd=document.getElementById('deliverd').innerText;
   const statusplaces=document.getElementById('placed').innerText;
   const statusreturned=document.getElementById('Returned').innerText
+  const delivered=document.getElementById('devli').innerText;
   
   
  

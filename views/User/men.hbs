@@ -111,8 +111,16 @@
 								<a href="/User/product-details?id={{this._id}}"><img src="/product-images/{{image.[0]}}"
 										alt="Product" class="img-responsive" /></a>
 							</div>
-							<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
+							{{#gt this.productOffer  this.categoryOffer}}
+						<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
+							
+						{{this.productOffer}}% off</div>
+						{{else}}
+						<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
+							
 						{{this.categoryOffer}}% off</div>
+						{{/gt}}
+						
 							<div class="wsk-cp-text">
 								<a href="">
 									<div class="category">

@@ -225,10 +225,12 @@ exports.removeget = async (req, res) => {
 };
 
 exports.quantitypost = async (req, res) => {
-  console.log(req.body, "wwwwwwwwwwwwwwwwwwwwwwwwww");
+  console.log(req.body, "");
   const cart = req.body.cart;
   const product = req.body.product;
   const count = parseInt(req.body.count);
+  req.session.count=count;
+  console.log(req.session.count,'wwwwwwwwwwwwwwwwwwwww');
 
   try {
     if (req.body.count == -1 && req.body.quantity == 1) {
@@ -254,7 +256,6 @@ exports.quantitypost = async (req, res) => {
             $inc: { "products.$.quantity": count },
           }
         );
-
       req.status = true;
       res.json({ status: "update" });
     }

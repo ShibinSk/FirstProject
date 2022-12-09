@@ -108,9 +108,16 @@
 					{{!-- <div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
 						{{this.categoryOffer}}% off</div> --}}
 					<div class="wsk-cp-text">
-						
+						{{#gt this.productOffer  this.categoryOffer}}
 						<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
+							
 						{{this.productOffer}}% off</div>
+						{{else}}
+						<div class="bg-danger rounded text-white position-absolute start-0 top-0 m-1 py-1 px-2">
+							
+						{{this.categoryOffer}}% off</div>
+						{{/gt}}
+						
 						
 
 						<a href="/user/place-order">
