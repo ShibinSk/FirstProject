@@ -17,9 +17,17 @@ exports.menget= async(req,res)=>{
         res.render('User/men',{user:req.session.user,men})
         
     } catch (err) {
-        res.render(console.error())
+        
     }
    
     
     
+}
+
+exports.aboutget=(req,res)=>{
+    res.render('User/about')
+}
+
+exports.contactget=(req,res)=>{
+    res.render('User/contact')
 }

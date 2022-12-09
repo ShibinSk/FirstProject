@@ -6,4 +6,8 @@ const  menRouter=require('../../Cantroller/menController')
 
 router.get('/men',userMiddlewere.isLogout,menRouter.menget);
 
+router.get('/about',userMiddlewere.isLogout,menRouter.aboutget)
+
+router.get('/contact',userMiddlewere.isLogout,menRouter.contactget) 
+
 module.exports=router;

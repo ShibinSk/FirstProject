@@ -3,6 +3,7 @@ const collection = require("../config/collection");
 const ObjectId = require("mongodb").ObjectId;
 exports.homeget = async (req, res) => {
   try {
+    let countwish
     let user = req.session.user;
     console.log(user);
     
@@ -22,15 +23,16 @@ exports.homeget = async (req, res) => {
 
       
       
-      // const wishlistcount=await db
-      // .get()
-      // .collection(collection.WISHLIST_COLLECTION)
-      // .findOne({user:ObjectId(userId)})
+      const wishlistcount=await db
+      .get()
+      .collection(collection.WISHLIST_COLLECTION)
+      .findOne({user:ObjectId(userId)})
 
+    
 
-      // if( wishlistcount){
-      //   countwish= wishlistcount.products.length
-      // }
+      if( wishlistcount){
+        countwish= wishlistcount.products.length
+      }
     }
 
     const products = await db
@@ -39,7 +41,7 @@ exports.homeget = async (req, res) => {
       .find()
       .toArray();
 
-    res.render("index", { admin: false, products, user, count});
+    res.render("index", { admin: false, products, user, count,countwish});
   } catch (err) {
     console.log(err);
   }

@@ -18,9 +18,9 @@ exports.loginget = (req, res) => {
    } else {
     if(req.session.userBlock) {
       req.session.userBlock = false
-      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: true});
+      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: true, footersid:true});
     } else {
-      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: false });
+      res.render("User/login", { navside: true,"loginErr":req.session.loginErr , userBlock: false,footersid:true });
     }
     req.session.loginErr=false
    }
@@ -87,7 +87,7 @@ exports.signinget = (req, res) => {
     res.redirect('/signup')
     
   } else {
-    res.render("User/signup", { navside: true,message:msg });
+    res.render("User/signup", { navside: true,message:msg ,footersid:true});
     req.session.err=null
     
   }

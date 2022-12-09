@@ -57,7 +57,11 @@
 	{{>user-header}}
 	{{/if}}
 	{{{body}}}
+	{{#if user}}
 	{{>user-footer}}
+	{{else if footersid}}
+
+	{{/if}}
 
 
 
