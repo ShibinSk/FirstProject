@@ -842,17 +842,11 @@ exports.ordersget = async (req, res) => {
       products: products,
       data: data,
     });
-    // console.log(
-    //   orders,
-    //   "-----------================================================"
-    // );
-    // console.log(products, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-  
-
+   
 
   } catch (err) {
-    console.log(err);
-    res.render('error',{navside:true,err});
+    console.log(err,err.message);
+    res.render('error',{navside:true,err:err.message});
     
   }
 };
