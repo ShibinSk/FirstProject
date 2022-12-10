@@ -833,7 +833,7 @@ exports.ordersget = async (req, res) => {
       .find()
       .toArray();
 
-    res.render("user/orders", {
+    res.render("User/orders", {
       navside: true,
       orders: orders.products,
       products: products,
@@ -841,7 +841,7 @@ exports.ordersget = async (req, res) => {
     });
   } catch (err) {
     console.log(err, err.message);
-    res.render("error", { navside: true, err: err.message });
+    // res.render("error", { navside: true, err: err.message });
   }
 };
 
