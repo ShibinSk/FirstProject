@@ -800,53 +800,63 @@ exports.ordercomplate = (req, res) => {
 };
 
 exports.ordersget = async (req, res) => {
-  const agg = [
-    {
-      $unwind: {
-        path: "$products",
+  try {
+    const agg = [
+      {
+        $unwind: {
+          path: "$products",
+        },
       },
-    },
-  ];
+    ];
+  
+    const orders = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .aggregate(agg)
+      .sort({
+        _id: -1,
+      })
+      .toArray();
+  
+    const data = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .find()
+      .sort({
+        _id: -1,
+      })
+      
+      .toArray();
+    console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
+    console.log(orders, "///////////////////");
+  
+    const products = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .find()
+      .toArray();
+  
+    res.render("user/orders", {
+      navside: true,
+      orders: orders.products,
+      products: products,
+      data: data,
+    });
+    console.log(
+      orders,
+      "-----------================================================"
+    );
+    console.log(products, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+  
 
-  const orders = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .aggregate(agg)
-    .sort({
-      _id: -1,
-    })
-    .toArray();
 
-  const data = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .find()
-    .sort({
-      _id: -1,
-    })
+  } catch (err) {
+    res.render('error',{navside:true});
     
-    .toArray();
-  console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
-  console.log(orders, "///////////////////");
-
-  const products = await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .find()
-    .toArray();
-
-  res.render("user/orders", {
-    navside: true,
-    orders: orders.products,
-    products: products,
-    data: data,
-  });
-  console.log(
-    orders,
-    "-----------================================================"
-  );
-  console.log(products, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+  }
 };
+
+ 
 
 //========================================== PicUp Address===================
 // exports.picupAddress = async (req, res) => {
@@ -1121,7 +1131,8 @@ exports.getreturnproduct = async (req, res) => {
 };
 
 exports.gethisroy = async (req, res) => {
-  const prodId = req.query.id;
+  try {
+    const prodId = req.query.id;
   console.log(req.query.id);
 
   const agg = [
@@ -1154,7 +1165,14 @@ exports.gethisroy = async (req, res) => {
     .toArray();
 
   res.render("User/history", { navside: true, orders: orders });
+
+    
+  } catch (err) {
+    res.render('error',{navside:true});
+    
+  }
 };
+  
 
 
 exports.getconform=async(req,res)=>{

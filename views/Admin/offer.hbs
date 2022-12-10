@@ -61,9 +61,9 @@
                         <th scope="col" class="text-center">Action</th>
                     </tr>
                 </thead>
+                        {{#each discategory}}
                 <tbody>
                     <tr>
-                        {{#each discategory}}
                         <td class="text-center">{{inc @index}}</td>
                         <td class="text-center">{{this.category}}</td>
                         <td class="text-center">{{this.categoryOffer}}</td>
@@ -71,8 +71,8 @@
                            <a href="/Admin/delete-category-offfer/{{this._id}}"> <button type="button" style="border:0;"><i class="fa-solid fa-trash"
                                     style="color: red; font-size:20px;"></i></button></a>
                     </tr>
-                    {{/each}}
                 </tbody>
+                    {{/each}}
             </table>
         </div>
     </div>

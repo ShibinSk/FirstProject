@@ -24,49 +24,57 @@ exports.getoffer = async (req, res) => {
             // discountprice:1,
             // productOffer:1,
             // categoryOffer:1
-
-
-
           },
-        }, 
+        },
       ])
       .toArray();
-      const disproduct = await db
+    const disproduct = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .aggregate([{
-        $match:{
-          productOffer:{$gt:1}
-        }
-      },{
-        $project:{
-          _id:1,
-          product:1,
-          productOffer:1,
-        }
-      }])
-      .toArray()
-      console.log(disproduct,'111111111111111111111111111111111');
+      .aggregate([
+        {
+          $match: {
+            productOffer: { $gt: 1 },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            product: 1,
+            productOffer: 1,
+          },
+        },
+      ])
+      .toArray();
+    console.log(disproduct, "111111111111111111111111111111111");
 
-      const discategory = await db
+    const discategory = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .aggregate([{
-        $match:{
-          categoryOffer:{$gt:0}
-        }
-      },{
-        $project:{
-          _id:1,
-          category:1,
-          categoryOffer:1,
-        }
-      }])
-      .toArray()
-      console.log(discategory,'lllllllll');
-      
+      .aggregate([
+        {
+          $match: {
+            categoryOffer: { $gt: 0 },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            category: 1,
+            categoryOffer: 1,
+          },
+        },
+      ])
+      .toArray();
+    console.log(discategory, "lllllllll");
 
-    res.render("Admin/offer", { admin: true, category, products,disproduct,discategory});
+    res.render("Admin/offer", {
+      admin: true,
+      category,
+      products,
+      disproduct,
+      discategory,
+    });
   } catch (err) {}
 };
 
@@ -117,7 +125,7 @@ exports.addoffer = async (req, res) => {
             prod.orginalprice - (prod.orginalprice * prod.productOffer) / 100;
           prod.discountprice = Math.ceil(disc);
         }
-        
+
         return await db
           .get()
           .collection(collection.PRODUCT_COLLECTION)
@@ -142,24 +150,23 @@ exports.addoffer = async (req, res) => {
       const pro = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
-        .findOne({ _id: ObjectId(id) })
-       
+        .findOne({ _id: ObjectId(id) });
 
       console.log(pro, "///////////////////");
       let price;
-console.log(pro.productOffer,"productOffer")
-console.log(pro.orginalprice,"orginal")
+      console.log(pro.productOffer, "productOffer");
+      console.log(pro.orginalprice, "orginal");
       if (pro.productOffer > pro.categoryOffer) {
-          console.log(pro.orginalprice,pro.productOffer);
-          price = pro.orginalprice - (pro.orginalprice * pro.productOffer) / 100;
-          
-          console.log(price,'88888888888888888888');
-        } else {
-          console.log(pro.orginalprice,pro.productOffer);
+        console.log(pro.orginalprice, pro.productOffer);
+        price = pro.orginalprice - (pro.orginalprice * pro.productOffer) / 100;
+
+        console.log(price, "88888888888888888888");
+      } else {
+        console.log(pro.orginalprice, pro.productOffer);
         price = pro.orginalprice - (pro.orginalprice * pro.categoryOffer) / 100;
       }
       const disprice = Math.ceil(price);
-      console.log(disprice,'11111111111111111111111');
+      console.log(disprice, "11111111111111111111111");
       await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
@@ -173,98 +180,95 @@ console.log(pro.orginalprice,"orginal")
 
     console.log(req.body);
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
-
-
 // ==============delete prodduct offer===========================
-exports.deleteoffer=async(req,res)=>{
+exports.deleteoffer = async (req, res) => {
   try {
-
-    const id = req.params.id   
+    const id = req.params.id;
 
     await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .updateOne({_id:ObjectId(id)},{
-      $set:{
-        productOffer:0
-      }
-    })
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: {
+            productOffer: 0,
+          },
+        }
+      );
 
-    const product  = await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .findOne({_id:ObjectId(id)})
+    const product = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .findOne({ _id: ObjectId(id) });
     console.log(product);
 
-    const amount= Math.ceil(
-      product.orginalprice-(product.orginalprice * product.productOffer) /100
-
+    const amount = Math.ceil(
+      product.orginalprice - (product.orginalprice * product.productOffer) / 100
     );
     await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .updateOne({_id:ObjectId(id)},{
-      $set:{ discountprice:amount
-
-      }
-    })
-
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: { discountprice: amount },
+        }
+      );
 
     res.redirect("back");
-    
   } catch (err) {
-    res.render('error',{navside:true});
-    
+    res.render("error", { navside: true });
   }
-  
-}
-
+};
 
 // ===================delete category offer =============================
 
-
-exports.deletecategoryoffer=async(req,res)=>{
+exports.deletecategoryoffer = async (req, res) => {
   try {
     console.log(req.params.id);
-    const id= req.params.id
+    const id = req.params.id;
 
-    const result = await db 
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .updateOne({_id:ObjectId(id)},{
-      $set:{categoryOffer:0}
-    })
-    
-    console.log(result,'jjjjjjjjjjjjjjjjjjj');
+    const result = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: { categoryOffer: 0 },
+        }
+      );
+
+    console.log(result, "jjjjjjjjjjjjjjjjjjj");
 
     const product = await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .findOne({_id:ObjectId(id)})
-    console.log(product,'777777777777777777');
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .findOne({ _id: ObjectId(id) });
+    console.log(product, "777777777777777777");
 
-    const amount= Math.ceil(
-      product.orginalprice-(product.orginalprice*product.productOffer) /100
-
-    )
+    const amount = Math.ceil(
+      product.orginalprice - (product.orginalprice * product.productOffer) / 100
+    );
 
     await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .updateOne({_id:ObjectId(id)},{
-      $set:{
-        discountprice:amount
+      .get()
+      .collection(collection.PRODUCT_COLLECTION)
+      .updateOne(
+        { _id: ObjectId(id) },
+        {
+          $set: {
+            discountprice: amount,
+          },
+        }
+      );
 
-      }
-    })
-
-    
     res.redirect("back");
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
-}
+};
