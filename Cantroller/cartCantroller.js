@@ -743,7 +743,7 @@ exports.paypalsuccess = async (req, res) => {
         }
       }
     );
-    res.redirect("/user/order-complate");
+    res.redirect("/User/order-complate");
     req.session.OrderId = null;
   } catch (err) {
     res.render("error", { navside: true });
@@ -823,7 +823,8 @@ exports.ordersget = async (req, res) => {
       .find()
       .sort({
         _id: -1,
-      }).toArray();
+      })
+      .toArray();
     // console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
     // console.log(orders, "///////////////////");
 
