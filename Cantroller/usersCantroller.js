@@ -99,7 +99,7 @@ exports.orders = async (req, res) => {
   console.log(products, "sdfgh");
   console.log(orders, "adasfad");
 
-  res.render("admin/orders", { navside: true, orders: orders, products });
+  res.render("Admin/orders", { navside: true, orders: orders, products });
 };
 
 exports.statuspost = (req, res) => {
