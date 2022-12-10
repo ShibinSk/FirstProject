@@ -17,9 +17,9 @@ exports.viewproductsget = async (req, res) => {
       .toArray();
 
     res.render("Admin/view-products", { admin: true, products });
-    console.log(products, "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+    
   } catch (err) {
-    console.log(err);
+    res.render('error',{navside:true});
   }
 };
 

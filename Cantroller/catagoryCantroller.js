@@ -20,10 +20,13 @@ exports.catagorypost = async (req, res) => {
   try {
     const cat = req.body;
     console.log(cat);
+    const categorychecke=req.body.Category
     const catagory = await db
-      .get()
-      .collection(collection.CATEGORY_COLLECTION)
-      .findOne({ category: req.body.Category });
+    .get()
+    .collection(collection.CATEGORY_COLLECTION)
+    .find({ category:{$regex:/categorychecke/i}});
+    console.log(catagory,'pppppp');
+    console.log(categorychecke,'wwwwwwww');
     if (catagory == null) {
       const category = {
         category: req.body.Category,
