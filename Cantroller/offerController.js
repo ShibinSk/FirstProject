@@ -98,7 +98,7 @@ exports.addoffer = async (req, res) => {
           }
         );
 
-        const prod = await db
+      const prod = await db
         .get()
         .collection(collection.CATEGORY_COLLECTION)
         .updateMany(
@@ -221,8 +221,8 @@ exports.deleteoffer = async (req, res) => {
 
     const amount = Math.ceil(
       product.orginalprice - (product.orginalprice * product.productOffer) / 100
-      );
-      console.log(amount,'qqqqqqqqqqqqqqqqqqq')
+    );
+    console.log(amount, "qqqqqqqqqqqqqqqqqqq");
     await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
@@ -243,57 +243,73 @@ exports.deleteoffer = async (req, res) => {
 
 exports.deletecategoryoffer = async (req, res) => {
   try {
-    
-    
-    const cat = req.params.category
+    const cat = req.params.category;
+    //console.log();
     const resultl = await db
-    .get()
-    .collection(collection.PRODUCT_COLLECTION)
-    .updateMany(
-      {category:cat},
-      {
-        $set: {categoryOffer: 0 },
-      }
-    );
-
-    const result = await db
       .get()
-      .collection(collection.CATEGORY_COLLECTION)
-      .updateMany(  
+      .collection(collection.PRODUCT_COLLECTION)
+      .updateMany(
         { category: cat },
         {
           $set: { categoryOffer: 0 },
         }
       );
 
+    const result = await db
+      .get()
+      .collection(collection.CATEGORY_COLLECTION)
+      .updateMany(
+        { category: cat },
+        {
+          $set: { categoryOffer: 0 },
+        }
+      );
 
     console.log(result, "jjjjjjjjjjjjjjjjjjj");
 
-    
     const product = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .find({category: cat }).toArray()
-      console.log(product, "777777777777777777");
+      .find({ category: cat })
+      .toArray();
+    console.log(product, "777777777777777777");
 
-    
-      const amount = Math.ceil(
-        product.orginalprice - (product.orginalprice * product.productOffer) / 100
-        );
-    console.log(amount,'aaaaaaaaaaaaaaaaaaaammmmmmmmmmmmm');
+    const updateProduct = await product.map(async (prod) => {
+      // console.log(prod);
+      let disc;
+      if (prod.categoryOffer > prod.productOffer) {
+       
+       
+        disc =
+          prod.orginalprice - (prod.orginalprice * prod.categoryOffer) / 100;
+        console.log(disc);
+        prod.discountprice = Math.ceil(disc);
+        console.log(disc, "ooooooooooooooooooooooooooooooooooo");
+      } else {
+        disc =
+          prod.orginalprice - (prod.orginalprice * prod.productOffer) / 100;
+        prod.discountprice = Math.ceil(disc);
+      }
 
-    await db
-      .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .updateOne(
-        { category: cat  },
-        {
-          $set: {
-            discountprice: amount,
-          },
-        }
-      ).toArray()
-      res.redirect("back");
+      return await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTION)
+        .updateOne({ _id: ObjectId(prod._id) }, { $set: prod });
+    });
+
+    // await db
+    //   .get()
+    //   .collection(collection.PRODUCT_COLLECTION)
+    //   .updateOne(
+    //     { category: cat },
+    //     {
+    //       $set: {
+    //         discountprice: amount,
+    //       },
+    //     }
+    //   )
+    //   .toArray();
+    res.redirect("back");
   } catch (err) {
     res.render("error", { navside: true });
   }
