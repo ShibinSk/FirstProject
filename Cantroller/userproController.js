@@ -34,8 +34,8 @@ exports.userproget = async (req, res) => {
       navside: true,
       user: req.session.user,
       address: address[0].address,
-      walletD: walletD.walletAmount,
-      walletAmount:walletDetails.transaction
+      walletD: walletD?.walletAmount,
+      walletAmount:walletDetails?.transaction
     });
     console.log(walletDetails.transaction,'ppppppppppppppppppppppppppppp');
   } catch (err) {

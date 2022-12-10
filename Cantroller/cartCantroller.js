@@ -316,7 +316,7 @@ exports.placeorder = async (req, res) => {
     const address = await db
       .get()
       .collection(collection.USER_COLLECTION)
-      .find()
+      .find({_id:ObjectId(req.session.user._id)})
       .toArray();
 
     res.render("User/place-order", {
@@ -533,7 +533,7 @@ exports.placeorderpost = async (req, res) => {
     const obj = new ObjectId();
 
     const orderObj = {
-      userId: ObjectId(order.userId),
+      userId: ObjectId(req.session.user._id),
       deliveryDetails: addressDetails[0].address,
       payment: order.payment,
       products: products[0].products,
@@ -820,7 +820,7 @@ exports.ordersget = async (req, res) => {
     const data = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
-      .find()
+      .find({userId:ObjectId(req.session.user._id)})
       .sort({
         _id: -1,
       })
@@ -831,7 +831,7 @@ exports.ordersget = async (req, res) => {
     const products = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .find()
+      .find({userId:ObjectId(req.session.user._id)})
       .toArray();
 
     res.render("User/orders", {
