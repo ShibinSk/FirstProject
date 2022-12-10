@@ -795,7 +795,7 @@ exports.paymentVerification = async (req, res) => {
 };
 
 exports.ordercomplate = (req, res) => {
-  res.render("user/order-complate", { navside: true });
+  res.render("User/order-complate", { navside: true });
 };
 
 exports.ordersget = async (req, res) => {
@@ -841,7 +841,7 @@ exports.ordersget = async (req, res) => {
     });
   } catch (err) {
     console.log(err, err.message);
-    // res.render("error", { navside: true, err: err.message });
+    res.render("error", { navside: true, err: err.message });
   }
 };
 
