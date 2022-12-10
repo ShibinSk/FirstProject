@@ -12,6 +12,6 @@ router.post('/add-offer',offerController.addoffer)
 // ===================delete offer==================================================
 
 router.get('/delete-product-offer/:id',offerController.deleteoffer)
-router.get('/delete-category-offfer/:id',offerController.deletecategoryoffer)
+router.get('/delete-category-offfer/:category',offerController.deletecategoryoffer)
 
 module.exports=router; 

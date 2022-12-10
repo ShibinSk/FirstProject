@@ -50,7 +50,7 @@ exports.getoffer = async (req, res) => {
 
     const discategory = await db
       .get()
-      .collection(collection.PRODUCT_COLLECTION)
+      .collection(collection.CATEGORY_COLLECTION)
       .aggregate([
         {
           $match: {
@@ -66,7 +66,7 @@ exports.getoffer = async (req, res) => {
         },
       ])
       .toArray();
-    console.log(discategory, "lllllllll");
+    console.log(discategory.category, "lllllllll");
 
     res.render("Admin/offer", {
       admin: true,
@@ -89,6 +89,18 @@ exports.addoffer = async (req, res) => {
       const pro = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
+        .updateMany(
+          { category: id },
+          {
+            $set: {
+              categoryOffer: disc,
+            },
+          }
+        );
+
+        const prod = await db
+        .get()
+        .collection(collection.CATEGORY_COLLECTION)
         .updateMany(
           { category: id },
           {
@@ -209,7 +221,8 @@ exports.deleteoffer = async (req, res) => {
 
     const amount = Math.ceil(
       product.orginalprice - (product.orginalprice * product.productOffer) / 100
-    );
+      );
+      console.log(amount,'qqqqqqqqqqqqqqqqqqq')
     await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
@@ -230,44 +243,57 @@ exports.deleteoffer = async (req, res) => {
 
 exports.deletecategoryoffer = async (req, res) => {
   try {
-    console.log(req.params.id);
-    const id = req.params.id;
+    
+    
+    const cat = req.params.category
+    const resultl = await db
+    .get()
+    .collection(collection.PRODUCT_COLLECTION)
+    .updateMany(
+      {category:cat},
+      {
+        $set: {categoryOffer: 0 },
+      }
+    );
 
     const result = await db
       .get()
-      .collection(collection.PRODUCT_COLLECTION)
-      .updateOne(
-        { _id: ObjectId(id) },
+      .collection(collection.CATEGORY_COLLECTION)
+      .updateMany(  
+        { category: cat },
         {
           $set: { categoryOffer: 0 },
         }
       );
 
+
     console.log(result, "jjjjjjjjjjjjjjjjjjj");
 
+    
     const product = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
-      .findOne({ _id: ObjectId(id) });
-    console.log(product, "777777777777777777");
+      .find({category: cat }).toArray()
+      console.log(product, "777777777777777777");
 
-    const amount = Math.ceil(
-      product.orginalprice - (product.orginalprice * product.productOffer) / 100
-    );
+    
+      const amount = Math.ceil(
+        product.orginalprice - (product.orginalprice * product.productOffer) / 100
+        );
+    console.log(amount,'aaaaaaaaaaaaaaaaaaaammmmmmmmmmmmm');
 
     await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
       .updateOne(
-        { _id: ObjectId(id) },
+        { category: cat  },
         {
           $set: {
             discountprice: amount,
           },
         }
-      );
-
-    res.redirect("back");
+      ).toArray()
+      res.redirect("back");
   } catch (err) {
     res.render("error", { navside: true });
   }
