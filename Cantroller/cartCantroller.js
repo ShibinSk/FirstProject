@@ -15,8 +15,8 @@ var instance = new Razorpay({
 //==============Paypal cofigure=======================
 paypal.configure({
   mode: "sandbox",
-  client_id:process.env.client_id,
-  client_secret:process.env.client_secret,
+  client_id: process.env.client_id,
+  client_secret: process.env.client_secret,
 });
 
 exports.cartget = async (req, res) => {
@@ -129,7 +129,7 @@ exports.cartget = async (req, res) => {
       res.redirect("/User/login");
     }
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -195,7 +195,7 @@ exports.addcartget = async (req, res) => {
       res.redirect("/User/login");
     }
   } catch (err) {
-     res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -218,7 +218,7 @@ exports.removeget = async (req, res) => {
       );
     res.redirect("/user/cart");
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -227,8 +227,8 @@ exports.quantitypost = async (req, res) => {
   const cart = req.body.cart;
   const product = req.body.product;
   const count = parseInt(req.body.count);
-  req.session.count=count;
-  console.log(req.session.count,'wwwwwwwwwwwwwwwwwwwww');
+  req.session.count = count;
+  console.log(req.session.count, "wwwwwwwwwwwwwwwwwwwww");
 
   try {
     if (req.body.count == -1 && req.body.quantity == 1) {
@@ -258,7 +258,7 @@ exports.quantitypost = async (req, res) => {
       res.json({ status: "update" });
     }
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -326,7 +326,7 @@ exports.placeorder = async (req, res) => {
       address: address[0].address,
     });
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -411,7 +411,7 @@ exports.placeorderpost = async (req, res) => {
               category: "$result.category",
               price: "$result.totalAmountDiscounted",
               returned: false,
-              status:'',
+              status: "",
               image: "$image",
             },
           },
@@ -472,7 +472,6 @@ exports.placeorderpost = async (req, res) => {
     const order = req.body;
     console.log(order);
 
-   
     console.log(products, "ddddddddddddddddddddddddddddddddd");
 
     let discAmount = 0;
@@ -541,7 +540,7 @@ exports.placeorderpost = async (req, res) => {
       status: status,
       total: total,
       date: new Date(),
-      newdate:new Date().toDateString(),
+      newdate: new Date().toDateString(),
 
       returnedAmount: 0,
       cancelledAmount: 0,
@@ -581,7 +580,7 @@ exports.placeorderpost = async (req, res) => {
         .deleteOne({ user: ObjectId(userId) });
 
       const prodId = products[0].products[0]._id;
-      console.log(prodId,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      console.log(prodId, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
       const prodlt = await db
         .get()
         .collection(collection.PRODUCT_COLLECTION)
@@ -627,7 +626,7 @@ exports.placeorderpost = async (req, res) => {
           order,
         });
       } catch (err) {
-        res.render('error',{navside:true});
+        res.render("error", { navside: true });
       }
 
       // ===================Paypal==========================================================
@@ -688,7 +687,7 @@ exports.placeorderpost = async (req, res) => {
       });
     }
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -747,7 +746,7 @@ exports.paypalsuccess = async (req, res) => {
     res.redirect("/user/order-complate");
     req.session.OrderId = null;
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -791,7 +790,7 @@ exports.paymentVerification = async (req, res) => {
       res.json({ status: false });
     }
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -808,7 +807,7 @@ exports.ordersget = async (req, res) => {
         },
       },
     ];
-  
+
     const orders = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
@@ -817,41 +816,34 @@ exports.ordersget = async (req, res) => {
         _id: -1,
       })
       .toArray();
-  
+
     const data = await db
       .get()
       .collection(collection.ORDER_COLLECTION)
       .find()
       .sort({
         _id: -1,
-      })
-      
-      .toArray();
-    console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
-    console.log(orders, "///////////////////");
-  
+      }).toArray();
+    // console.log(data, "eeeeeeeeeeeeeeeeeeeeeeeee");
+    // console.log(orders, "///////////////////");
+
     const products = await db
       .get()
       .collection(collection.PRODUCT_COLLECTION)
       .find()
       .toArray();
-  
+
     res.render("user/orders", {
       navside: true,
       orders: orders.products,
       products: products,
       data: data,
     });
-   
-
   } catch (err) {
-    console.log(err,err.message);
-    res.render('error',{navside:true,err:err.message});
-    
+    console.log(err, err.message);
+    res.render("error", { navside: true, err: err.message });
   }
 };
-
- 
 
 //========================================== PicUp Address===================
 // exports.picupAddress = async (req, res) => {
@@ -911,21 +903,21 @@ exports.addaddress = async (req, res) => {
         phone: Number(order.phone),
       },
     };
-    console.log(orderObj,'qqqqqqqqqqqqqqq');
+    console.log(orderObj, "qqqqqqqqqqqqqqq");
     const aadres = await db
       .get()
       .collection(collection.USER_COLLECTION)
       .updateOne(
         { _id: ObjectId(userId) },
         {
-          $push:{
+          $push: {
             address: orderObj.deliveryDetails,
           },
         }
       );
     res.redirect("back");
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -1004,7 +996,7 @@ exports.applycoupon = async (req, res) => {
       }
     }
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
 
@@ -1015,163 +1007,157 @@ exports.getreturnproduct = async (req, res) => {
   const productId = req.query.productId;
 
   const result = await db
-  .get()
-  .collection(collection.ORDER_COLLECTION)
-  .updateOne(
-    { _id: ObjectId(trackingId) },
-    {
-      $set: { status: "Return-pending" },
-    }
-  );
+    .get()
+    .collection(collection.ORDER_COLLECTION)
+    .updateOne(
+      { _id: ObjectId(trackingId) },
+      {
+        $set: { status: "Return-pending" },
+      }
+    );
   res.redirect("back");
-//   try {
-//     const trackingId = req.query.track;
-//     const productId = req.query.productId;
-//     console.log(trackingId, productId);
+  //   try {
+  //     const trackingId = req.query.track;
+  //     const productId = req.query.productId;
+  //     console.log(trackingId, productId);
 
-//     const aggr = [
-//       {
-//         $match: {
-//           _id: ObjectId(trackingId),
-//         },
-//       },
-//       {
-//         $unwind: {
-//           path: "$products",
-//         },
-//       },
-//       {
-//         $match: {
-//           "products._id": ObjectId(productId),
-//         },
-//       },
-//       {
-//         $project: {
-//           subtotal: "$totalAmountDiscounted",
-//           total: "$totalAmountOriginal",
-//         },
-//       },
-//     ];
-//     const subtotal = await db
-//       .get()
-//       .collection(collection.ORDER_COLLECTION)
-//       .aggregate(aggr)
-//       .toArray();
-//     console.log(subtotal, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-//     const sub = subtotal[0].subtotal;
-//     console.log(sub, "111111111111111111111");
-//     const total = subtotal[0].total;
-//     const afterCancel = total - sub;
-//     console.log(afterCancel);
-//     const afc = Math.floor(afterCancel);
-//     console.log(afc);
+  //     const aggr = [
+  //       {
+  //         $match: {
+  //           _id: ObjectId(trackingId),
+  //         },
+  //       },
+  //       {
+  //         $unwind: {
+  //           path: "$products",
+  //         },
+  //       },
+  //       {
+  //         $match: {
+  //           "products._id": ObjectId(productId),
+  //         },
+  //       },
+  //       {
+  //         $project: {
+  //           subtotal: "$totalAmountDiscounted",
+  //           total: "$totalAmountOriginal",
+  //         },
+  //       },
+  //     ];
+  //     const subtotal = await db
+  //       .get()
+  //       .collection(collection.ORDER_COLLECTION)
+  //       .aggregate(aggr)
+  //       .toArray();
+  //     console.log(subtotal, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  //     const sub = subtotal[0].subtotal;
+  //     console.log(sub, "111111111111111111111");
+  //     const total = subtotal[0].total;
+  //     const afterCancel = total - sub;
+  //     console.log(afterCancel);
+  //     const afc = Math.floor(afterCancel);
+  //     console.log(afc);
 
-//     const userID = req.session.user._id;
+  //     const userID = req.session.user._id;
 
-//     const walletExit = await db
-//       .get()
-//       .collection(collection.WALLET_COLLECTION)
-//       .findOne({ userId: ObjectId(userID) });
-//     console.log(walletExit);
+  //     const walletExit = await db
+  //       .get()
+  //       .collection(collection.WALLET_COLLECTION)
+  //       .findOne({ userId: ObjectId(userID) });
+  //     console.log(walletExit);
 
-//     if (walletExit) {
-//       const totalWallet = walletExit.walletAmount + Number(total);
-//       const objc = {
-//         orderId: trackingId,
-//         amount: Math.ceil(total),
-//         mode: "Credit",
-//         type: "Return",
-//         date: new Date().toDateString(),
-//       };
+  //     if (walletExit) {
+  //       const totalWallet = walletExit.walletAmount + Number(total);
+  //       const objc = {
+  //         orderId: trackingId,
+  //         amount: Math.ceil(total),
+  //         mode: "Credit",
+  //         type: "Return",
+  //         date: new Date().toDateString(),
+  //       };
 
-//       await db
-//         .get()
-//         .collection(collection.WALLET_COLLECTION)
-//         .updateOne(
-//           { userId: ObjectId(userID) },
-//           {
-//             $set: { walletAmount: totalWallet },
+  //       await db
+  //         .get()
+  //         .collection(collection.WALLET_COLLECTION)
+  //         .updateOne(
+  //           { userId: ObjectId(userID) },
+  //           {
+  //             $set: { walletAmount: totalWallet },
 
-//             $push: {
-//               transaction: objc,
-//             },
-//           }
-//         );
+  //             $push: {
+  //               transaction: objc,
+  //             },
+  //           }
+  //         );
 
-//       const result = await db
-//         .get()
-//         .collection(collection.ORDER_COLLECTION)
-//         .updateOne(
-//           { _id: ObjectId(trackingId) },
-//           {
-//             $set: { status: "Return-pending" },
-//           }
-//         );
+  //       const result = await db
+  //         .get()
+  //         .collection(collection.ORDER_COLLECTION)
+  //         .updateOne(
+  //           { _id: ObjectId(trackingId) },
+  //           {
+  //             $set: { status: "Return-pending" },
+  //           }
+  //         );
 
-//       console.log(result);
-//     } else {
-//       const obj = {
-//         userId: ObjectId(req.session.user._id),
-//         walletAmount: total,
-//         date: new Date().toDateString(),
-//         mode: "Credit",
-//         type: "Return",
-//       };
-//       await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
-//     }
-//     res.redirect("back");
-//   } catch (err) {
-//     console.log(err);
-//   }
+  //       console.log(result);
+  //     } else {
+  //       const obj = {
+  //         userId: ObjectId(req.session.user._id),
+  //         walletAmount: total,
+  //         date: new Date().toDateString(),
+  //         mode: "Credit",
+  //         type: "Return",
+  //       };
+  //       await db.get().collection(collection.WALLET_COLLECTION).insertOne(obj);
+  //     }
+  //     res.redirect("back");
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
 };
 
 exports.gethisroy = async (req, res) => {
   try {
     const prodId = req.query.id;
-  console.log(req.query.id);
+    console.log(req.query.id);
 
-  const agg = [
-    {
-      $match: {
-        _id: ObjectId(prodId),
+    const agg = [
+      {
+        $match: {
+          _id: ObjectId(prodId),
+        },
       },
-    },
-    {
-      $unwind: {
-        path: "$products",
+      {
+        $unwind: {
+          path: "$products",
+        },
       },
-    },
-  ];
-  const orders = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .aggregate(agg)
-    .sort({
-      _id: -1,
-    })
+    ];
+    const orders = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .aggregate(agg)
+      .sort({
+        _id: -1,
+      })
 
-    .toArray();
-  console.log(orders, ",,,,,.............");
+      .toArray();
+    console.log(orders, ",,,,,.............");
 
-  const data = await db
-    .get()
-    .collection(collection.ORDER_COLLECTION)
-    .find()
-    .toArray();
+    const data = await db
+      .get()
+      .collection(collection.ORDER_COLLECTION)
+      .find()
+      .toArray();
 
-  res.render("User/history", { navside: true, orders: orders });
-
-    
+    res.render("User/history", { navside: true, orders: orders });
   } catch (err) {
-    res.render('error',{navside:true});
-    
+    res.render("error", { navside: true });
   }
 };
-  
 
-
-exports.getconform=async(req,res)=>{
-
+exports.getconform = async (req, res) => {
   try {
     const trackingId = req.query.track;
     const productId = req.query.productId;
@@ -1269,7 +1255,6 @@ exports.getconform=async(req,res)=>{
     }
     res.redirect("back");
   } catch (err) {
-    res.render('error',{navside:true});
+    res.render("error", { navside: true });
   }
 };
-
