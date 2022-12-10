@@ -16,7 +16,7 @@ exports.usersget = async (req, res) => {
       .find()
       .toArray();
 
-    res.render("admin/view-users", { admin: true, users });
+    res.render("Admin/view-users", { admin: true, users });
   } catch (err) {
     console.log(err);
   }

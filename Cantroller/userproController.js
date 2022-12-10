@@ -28,7 +28,7 @@ exports.userproget = async (req, res) => {
     
       
 
-    res.render("user/userPro", {
+    res.render("User/userPro", {
       navside: true,
       users: users,
       navside: true,

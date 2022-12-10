@@ -25,9 +25,9 @@ exports.menget= async(req,res)=>{
 }
 
 exports.aboutget=(req,res)=>{
-    res.render('User/about')
+    res.render('User/about',{user:req.session.user})
 }
 
 exports.contactget=(req,res)=>{
-    res.render('User/contact')
+    res.render('User/contact',{user:req.session.user})
 }
