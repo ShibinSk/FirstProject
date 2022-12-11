@@ -60,7 +60,7 @@ router.get('/success',userMiddlewere.isLogout,cartCantroller.paypalsuccess)
 router.post('/addNewaddress',userMiddlewere.isLogout,cartCantroller.addaddress)
 
 
-// router.post('/orderStatusChange',cartCantroller.statuspost)
+
 
 // ==========coupon apply =================================
 
