@@ -56,7 +56,7 @@
                                 <th>Product </th>
                                 <th>Quantity</th>
                                 <th>Price</th>
-                                <th>Discounts</th>
+                                {{!-- <th>Discounts</th> --}}
                                 {{!-- <th>Revenue</th> --}}
                             </tr>
                         </thead>
@@ -69,11 +69,11 @@
                                 <td>{{this.productsName}} </td>
                                 <td>{{this.quantity}} </td>
                                 <td>₹{{this.price}}</td>
-                                {{#if this.discountPrice }}
+                                {{!-- {{#if this.discountPrice }}
                                 <td>₹{{this.discountPrice}}</td>
                                 {{else}}
                                 <td>₹ 0</td>
-                                {{/if}}
+                                {{/if}} --}}
                                 
                             </tr>
                             {{/each}}

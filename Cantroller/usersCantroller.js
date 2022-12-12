@@ -41,8 +41,8 @@ exports.blockuser = async (req, res) => {
           },
         }
       );
-      req.session.destroy()
-    
+    req.session.destroy();
+
     res.redirect("/admin/view-users");
   } catch (err) {
     console.log(err);
@@ -99,7 +99,12 @@ exports.orders = async (req, res) => {
   console.log(products, "sdfgh");
   console.log(orders, "adasfad");
 
-  res.render("Admin/orders", { navside: true, orders: orders, products });
+  res.render("Admin/orders", {
+    admin: true,
+    navside: true,
+    orders: orders,
+    products,
+  });
 };
 
 exports.statuspost = (req, res) => {
@@ -108,14 +113,14 @@ exports.statuspost = (req, res) => {
 
   let dateStatus = new Date();
   const status = req.body.status;
-  
-  const  orderId=req.body.orderId;
-  const prodId=req.body.prodId;
+
+  const orderId = req.body.orderId;
+  const prodId = req.body.prodId;
   db.get()
     .collection(collection.ORDER_COLLECTION)
     .updateOne(
       { _id: ObjectId(orderId), "products._id": ObjectId(prodId) },
-      { $set: { "status": status, statusUpdateDate: dateStatus } }
+      { $set: { status: status, statusUpdateDate: dateStatus } }
     )
     .then((response) => {
       console.log(response);
