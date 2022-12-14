@@ -204,7 +204,7 @@ exports.getsubmit= async(req,res)=>{
   const mobile = req.session.mobile;
   console.log(mobile,'1111111111111111111111');
 
-  res.render("user/otp", { navside:true, phoneNumber: mobile, message: msg, style: "style" });
+  res.render("User/otp", { navside:true, phoneNumber: mobile, message: msg, style: "style" });
   req.session.message = null;
 };
 
@@ -224,9 +224,9 @@ exports.resentotp=(req,res)=>{
     .catch((err)=>{
       console.log(err);
     })
+    res.redirect("/User/otp");
 
-  req.session.Phone = req.body.mobile;
-  res.redirect("/User/otp");
+  // req.session.Phone = req.body.mobile;
   } catch (err) {
     res.render('error',{navside:true});
   }
