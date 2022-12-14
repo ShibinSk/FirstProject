@@ -226,7 +226,7 @@ exports.resentotp=(req,res)=>{
     })
 
   req.session.Phone = req.body.mobile;
-  res.redirect("/user/otp");
+  res.redirect("/User/otp");
   } catch (err) {
     res.render('error',{navside:true});
   }
