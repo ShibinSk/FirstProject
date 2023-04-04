@@ -156,7 +156,7 @@ exports.addoffer = async (req, res) => {
           {
             $set: {
               productOffer: disc,
-            },
+            }, 
           }
         );
       const pro = await db
