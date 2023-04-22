@@ -16,6 +16,7 @@ const multer=require('multer')
 
 
 
+
 const indexRouter = require('./routes/UserRoutes/homeRoutes');
 const menRouter =require('./routes/UserRoutes/menRoutes')
 const adminRoutes=require('./routes/AdminRoutes/adminRoutes')
